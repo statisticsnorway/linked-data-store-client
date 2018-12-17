@@ -1,0 +1,47 @@
+{
+  "name": "linked-data-store-client",
+  "version": "0.1.0",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/statisticsnorway/linked-data-store-client"
+  },
+  "dependencies": {
+    "dc-react-components-library": "https://github.com/statisticsnorway/dc-react-components-library.git",
+    "moment": "^2.23.0",
+    "react": "^16.6.3",
+    "react-datepicker": "^1.6.0",
+    "react-dom": "^16.6.3",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "2.1.1",
+    "react-table": "^6.8.6",
+    "semantic-ui-css": "^2.4.0",
+    "semantic-ui-react": "^0.84.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "devDependencies": {
+    "@babel/cli": "^7.2.0",
+    "@babel/core": "^7.2.0",
+    "@babel/plugin-proposal-class-properties": "^7.2.1",
+    "@babel/plugin-syntax-jsx": "^7.2.0",
+    "@babel/preset-env": "^7.2.0",
+    "@babel/preset-react": "^7.0.0",
+    "enzyme": "^3.8.0",
+    "enzyme-adapter-react-16": "^1.7.1",
+    "react-test-renderer": "^16.6.3"
+  }
+}
