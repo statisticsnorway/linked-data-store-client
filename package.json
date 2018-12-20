@@ -7,7 +7,7 @@
     "url": "https://github.com/statisticsnorway/linked-data-store-client"
   },
   "dependencies": {
-    "dc-react-components-library": "https://github.com/statisticsnorway/dc-react-components-library.git",
+    "dc-react-components-library": "https://github.com/statisticsnorway/dc-react-components-library.git#add-generic-producer",
     "moment": "^2.23.0",
     "react": "^16.6.3",
     "react-datepicker": "^1.6.0",

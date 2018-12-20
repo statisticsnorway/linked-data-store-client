@@ -20,10 +20,10 @@ if (process.env.REACT_APP_LDS === undefined) {
 }
 
 const properties = {
-  name: 'LDS',
-  producer: '', // A producer is required to browse objects
+  name: 'Default',
+  producer: 'Default',
   endpoint: endpoint,
-  route: '/lds/',
+  route: '/default/',
   languageCode: 'en',
   specialFeatures: true,
   user: 'Test user'

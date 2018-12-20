@@ -2,12 +2,15 @@
 A React application to browse the object-model stored in [LDS](https://github.com/statisticsnorway/linked-data-store-documentation).
 
 ### How it works
-This application is fairly small and its purpose is to browse objects stored in LDS through forms and tables. It imports
+This application is fairly small and its only function is to import and use 
 [dc-react-components-library](https://github.com/statisticsnorway/dc-react-components-library) and then add some small 
-features like the ability to directly import objects into **LDS** via file-uploads and download data-objects as JSON-files.
+features like the ability to directly import objects into **LDS** via file-uploads and the ability to download 
+data-objects as JSON-files.
 
-**dc-react-components-library** builds forms and tables from JSONSchemas exposed by **LDS** through producers, witch must be
-provided in order for this application to work.
+**dc-react-components-library** builds forms and tables from JSONSchemas exposed by **LDS**. This library needs a producer 
+to be able to decode the structure of the stored objects, handle and show them correctly in the UI. Currently a default 
+producer for simple object structures is supported and already loaded in. Producers are located in the dc-react-components-library 
+code but might find their way to a separate repository later.
 
 ### Test it yourself
 The first time you clone the repository, remember to run `yarn install`
