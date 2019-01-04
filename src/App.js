@@ -20,11 +20,11 @@ class App extends Component {
   }
 
   componentDidMount () {
-    const {producer, endpoint, languageCode} = this.props
+    const {producer, endpoint, languageCode, specialFeatures, route} = this.props
     const updatedUrl = endpoint + 'data?schema=embed'
 
     if (producer !== '') {
-      SchemaHandler(updatedUrl, producer, endpoint).then(schemas => {
+      SchemaHandler(updatedUrl, producer, endpoint, specialFeatures, route).then(schemas => {
         this.setState({
           schemas: schemas,
           ready: true
@@ -85,7 +85,7 @@ class App extends Component {
           </Dropdown>
           <Menu.Item as={Link} to='/import' content={UI.IMPORT[languageCode]} />
           <Menu.Menu position='right'>
-            <Dropdown item text={UI.LANGUAGE[languageCode]}>
+            <Dropdown item text={UI.LANGUAGE[languageCode] + ' (' + UI.LANGUAGE_CHOICE[languageCode] + ')'}>
               <Dropdown.Menu>
                 {Object.keys(LANGUAGES).map(language => {
                   return (

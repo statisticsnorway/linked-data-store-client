@@ -73,6 +73,10 @@ export const UI = {
     en: 'Language',
     nb: 'Språk'
   },
+  LANGUAGE_CHOICE: {
+    en: 'English',
+    nb: 'Norsk'
+  },
   NORWEGIAN: {
     en: 'Norwegian',
     nb: 'Norsk'
