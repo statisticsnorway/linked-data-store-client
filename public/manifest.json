@@ -1,6 +1,6 @@
 {
-  "short_name": "LDS Client",
-  "name": "A client to browse simple objects stored in Linked Data Store",
+  "short_name": "Linked Data Store Client",
+  "name": "A client to interact with data stored in Linked Data Store",
   "icons": [
     {
       "src": "favicon.ico",

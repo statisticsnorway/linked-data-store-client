@@ -1,8 +1,11 @@
 # dependencies
 /node_modules
 
-# intellij
-.idea
+# testing
+/coverage
 
-# build
+# production
 /build
+
+# misc
+/.idea

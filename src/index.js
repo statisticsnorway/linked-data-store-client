@@ -1,37 +1,15 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
-
-import App from './App'
 import 'semantic-ui-css/semantic.min.css'
 import 'react-table/react-table.css'
 import 'react-datepicker/dist/react-datepicker.css'
 
-let endpoint
-
-if (process.env.REACT_APP_LDS === undefined) {
-  endpoint = 'http://localhost:9090/'
-} else {
-  endpoint = process.env.REACT_APP_LDS
-
-  if (!endpoint.endsWith('/')) {
-    endpoint = process.env.REACT_APP_LDS + '/'
-  }
-}
-
-const properties = {
-  name: 'Default',
-  producer: 'Default',
-  endpoint: endpoint,
-  route: '/default/',
-  languageCode: 'en',
-  specialFeatures: true,
-  user: 'Test user'
-}
+import App from './App'
 
 ReactDOM.render(
   <BrowserRouter>
-    <App {...properties} />
+    <App />
   </BrowserRouter>,
   document.getElementById('root')
 )
