@@ -15,8 +15,11 @@ class ImportView extends Component {
           <Segment basic textAlign='center'>
             <Header as='h1' content={UI.IMPORT[languageCode]} />
             <Divider hidden />
-            <Button size='massive' color='teal' icon='upload' content={UI.UPLOAD[languageCode]} onClick={handleClick}
-                    loading={progress !== total} disabled={ready && progress === total} style={{margin: '0'}} />
+            <Button size='massive' color='teal' animated onClick={handleClick} loading={progress !== total}
+                    disabled={ready && progress === total} style={{margin: '0'}}>
+              <Button.Content visible>{UI.UPLOAD[languageCode]}</Button.Content>
+              <Button.Content hidden><Icon fitted name='upload' /></Button.Content>
+            </Button>
             <input ref={fileUploader} style={{display: 'none'}} type='file' multiple accept='application/json'
                    onChange={handleUpload} />
             <Divider hidden />

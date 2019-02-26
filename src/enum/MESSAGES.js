@@ -15,17 +15,21 @@ export const MESSAGES = {
     en: 'Click to fetch options again',
     nb: 'Klikk for å hente valgmulighetene på nytt'
   },
-  FILTER_BY_NAME: {
-    en: 'Filter table by name',
-    nb: 'Filtrere tabellen etter navn'
+  LOCATION: {
+    en: 'The URL for the LDS that the client should interact with',
+    nb: 'URL mot LDS som klienten ønsker interaksjon med'
   },
   MULTIPLE_CHOICES: {
     en: 'This input supports multiple choices (click a label to view the object)',
     nb: 'Her kan du velge flere valg (klikk på merkelappen for å se objektet'
   },
+  NAMESPACE: {
+    en: 'URI namespace prefix for LDS',
+    nb: 'URI "namespace" prefiks for LDS'
+  },
   NEW_VALUES: {
-    en: 'Edited values are not loaded until you hit the refresh button',
-    nb: 'Endrede verdier lastes når du trykker på oppfrisk knappen'
+    en: 'Edited values are not loaded until you hit the "Apply" button',
+    nb: 'Endrede verdier lastes når du trykker på "Angi"-knappen'
   },
   NO_RESULT: {
     en: 'No results found',
@@ -38,6 +42,10 @@ export const MESSAGES = {
   NOTHING_FOUND: {
     en: 'Found nothing...',
     nb: 'Fant ingenting...'
+  },
+  PRODUCER: {
+    en: 'Which structure on JSONSchemas the klient should adhere by',
+    nb: 'Hvilken struktur på JSONSchemas klienten skal forholde seg til'
   },
   REMOVE_ITEM: {
     en: 'Click to remove this item',
@@ -54,6 +62,10 @@ export const MESSAGES = {
   SURE: {
     en: 'Are you sure?',
     nb: 'Er du sikker?'
+  },
+  USER: {
+    en: 'The username used when saving/editing objects',
+    nb: 'Brukernavnet som blir brukt når man lagrer/editerer objekter'
   },
   VIEW_VALUE: {
     en: 'Click to view selected object',

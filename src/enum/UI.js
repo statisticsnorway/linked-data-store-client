@@ -1,4 +1,8 @@
 export const UI = {
+  APPLY: {
+    en: 'Apply',
+    nb: 'Angi'
+  },
   CANCEL: {
     en: 'Cancel',
     nb: 'Avbryt'
@@ -13,7 +17,7 @@ export const UI = {
   },
   DATE_FORMAT: {
     en: 'MM/dd/yyyy',
-    nb: 'dd/MM/yyyy'
+    nb: 'd.M.yyyy'
   },
   DELETE: {
     en: 'Delete',
@@ -35,10 +39,6 @@ export const UI = {
     en: 'English',
     nb: 'Engelsk'
   },
-  EXPLORE: {
-    en: 'Explore',
-    nb: 'Utforsk'
-  },
   HEADER: {
     en: 'LDS Client',
     nb: 'LDS Klient'
@@ -46,14 +46,6 @@ export const UI = {
   IMPORT: {
     en: 'Import',
     nb: 'Importér'
-  },
-  IMPORTING: {
-    en: 'Importing objects...',
-    nb: 'Importerer objekter...'
-  },
-  IMPORTING_DONE: {
-    en: 'Done importing objects',
-    nb: 'Ferdig med importering'
   },
   IMPORTING_SUCCESS: {
     en: 'Successful imports',
@@ -66,6 +58,10 @@ export const UI = {
   LANGUAGE_CHOICE: {
     en: 'English',
     nb: 'Norsk'
+  },
+  LOCALE: {
+    en: 'en-GB',
+    nb: 'nb-NO'
   },
   LOCATION: {
     en: 'Location',
@@ -82,10 +78,6 @@ export const UI = {
   PRODUCER: {
     en: 'Producer',
     nb: '"Producer"'
-  },
-  REFRESH: {
-    en: 'Refresh',
-    nb: 'Oppfrisk'
   },
   SAVE: {
     en: 'Save',

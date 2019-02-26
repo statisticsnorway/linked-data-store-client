@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Container, Divider, Form, Grid, Header, Icon, Message, Segment } from 'semantic-ui-react'
+import { Button, Container, Divider, Form, Grid, Header, Icon, Message, Popup, Segment } from 'semantic-ui-react'
 
 import { MESSAGES, UI } from '../../enum'
 
@@ -21,20 +21,42 @@ class Settings extends Component {
             {error && <Message negative icon='warning' header='Error' content={error} />}
             <Divider hidden />
             <Form size='large'>
-              <Form.Input label={UI.LOCATION[languageCode]} placeholder={UI.LOCATION[languageCode]} name='url'
-                          value={lds.url} onChange={changeSettings} />
-              <Form.Input label={UI.NAMESPACE[languageCode]} placeholder={UI.NAMESPACE[languageCode]} name='namespace'
-                          value={lds.namespace} onChange={changeSettings} />
-              <Form.Select label={UI.PRODUCER[languageCode]} placeholder={UI.PRODUCER[languageCode]} name='producer'
-                           value={lds.producer} onChange={changeSettings} options={producers} />
-              <Form.Input label={UI.USER[languageCode]} placeholder={UI.USER[languageCode]} name='user'
-                          value={lds.user} onChange={changeSettings} />
+              <Popup flowing size='large' position='left center' trigger={
+                <Form.Input label={UI.LOCATION[languageCode]} placeholder={UI.LOCATION[languageCode]} name='url'
+                            value={lds.url} onChange={changeSettings} />
+              }>
+                <Icon color='blue' name='info circle' />
+                {MESSAGES.LOCATION[languageCode]}
+              </Popup>
+              <Popup flowing size='large' position='left center' trigger={
+                <Form.Input label={UI.NAMESPACE[languageCode]} placeholder={UI.NAMESPACE[languageCode]} name='namespace'
+                            value={lds.namespace} onChange={changeSettings} />
+              }>
+                <Icon color='blue' name='info circle' />
+                {MESSAGES.NAMESPACE[languageCode]}
+              </Popup>
+              <Popup flowing size='large' position='left center' trigger={
+                <Form.Select label={UI.PRODUCER[languageCode]} placeholder={UI.PRODUCER[languageCode]} name='producer'
+                             value={lds.producer} onChange={changeSettings} options={producers} />
+              }>
+                <Icon color='blue' name='info circle' />
+                {MESSAGES.PRODUCER[languageCode]}
+              </Popup>
+              <Popup flowing size='large' position='left center' trigger={
+                <Form.Input label={UI.USER[languageCode]} placeholder={UI.USER[languageCode]} name='user'
+                            value={lds.user} onChange={changeSettings} />
+              }>
+                <Icon color='blue' name='info circle' />
+                {MESSAGES.USER[languageCode]}
+              </Popup>
             </Form>
             <Container textAlign='center' style={{margin: '2em'}}>
               {!fresh && <div><Icon color='orange' name='info circle' />{MESSAGES.NEW_VALUES[languageCode]}</div>}
               <Divider hidden />
-              <Button size='massive' color='teal' icon='refresh' content={UI.REFRESH[languageCode]}
-                      onClick={refreshSettings} />
+              <Button size='massive' color='teal' animated onClick={refreshSettings}>
+                <Button.Content visible>{UI.APPLY[languageCode]}</Button.Content>
+                <Button.Content hidden><Icon fitted name='sync' /></Button.Content>
+              </Button>
             </Container>
           </Segment>
         </Grid.Column>

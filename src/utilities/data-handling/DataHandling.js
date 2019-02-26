@@ -1,6 +1,8 @@
 import React from 'react'
 import { Icon, List } from 'semantic-ui-react'
 
+import { UI } from '../../enum'
+
 export const createDefaultData = (properties, uiSchema) => {
   const data = {}
 
@@ -17,7 +19,7 @@ export const createDefaultData = (properties, uiSchema) => {
   return data
 }
 
-export const convertDataToView = (data, producer, uiSchema) => {
+export const convertDataToView = (data, languageCode, producer, uiSchema) => {
   if (data === '') {
     return '-'
   } else {
@@ -27,7 +29,7 @@ export const convertDataToView = (data, producer, uiSchema) => {
           return fixBoolean(data)
 
         case 'date':
-          return fixDate(data)
+          return fixDate(data, languageCode)
 
         case 'dropdown':
           return fixDropdown(data)
@@ -41,7 +43,7 @@ export const convertDataToView = (data, producer, uiSchema) => {
     } else {
       switch (uiSchema.type) {
         case 'date-time':
-          return convertDate(data)
+          return convertDate(data, languageCode)
 
         default:
           return data
@@ -50,28 +52,28 @@ export const convertDataToView = (data, producer, uiSchema) => {
   }
 }
 
-const convertDate = (data) => {
+const convertDate = (data, languageCode) => {
   if (data !== '') {
     const date = new Date(data)
 
-    return date.toLocaleDateString('nb-NO')
+    return date.toLocaleDateString(UI.LOCALE[languageCode])
   } else {
-    return ''
+    return data
   }
 }
 
 const fixBoolean = (data) =>
   <Icon fitted size='large' name={data ? 'check square outline' : 'square outline'} color={data ? 'green' : 'red'} />
 
-const fixDate = (data) => {
+const fixDate = (data, languageCode) => {
   if (Array.isArray(data)) {
     return (
       <List>
-        {data.map((item, index) => <List.Item key={index} content={convertDate(item)} />)}
+        {data.map((item, index) => <List.Item key={index} content={convertDate(item, languageCode)} />)}
       </List>
     )
   } else {
-    return convertDate(data)
+    return convertDate(data, languageCode)
   }
 }
 

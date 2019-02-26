@@ -12,7 +12,7 @@
     "react-datepicker": "^2.1.0",
     "react-dom": "^16.7.0",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "^2.1.5",
+    "react-scripts": "2.1.5",
     "react-table": "^6.9.2",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.85.0",
@@ -21,7 +21,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --verbose=false",
     "coverage": "react-scripts test --coverage",
     "eject": "react-scripts eject"
   },
@@ -36,7 +36,6 @@
   ],
   "devDependencies": {
     "babel-preset-react-app": "7.0.0",
-    "enzyme": "^3.8.0",
-    "enzyme-adapter-react-16": "^1.8.0"
+    "react-testing-library": "^5.9.0"
   }
 }

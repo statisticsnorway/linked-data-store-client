@@ -55,7 +55,7 @@ class DomainSingleEdit extends Component {
                         <Icon color='teal' name={uiSchema.autofilled[property].icon} />
                       </List.Header>
                       <List.Description>
-                        {convertDataToView(data[property], lds.producer, uiSchema.autofilled[property])}
+                        {convertDataToView(data[property], languageCode, lds.producer, uiSchema.autofilled[property])}
                       </List.Description>
                     </List.Content>
                   </List.Item>

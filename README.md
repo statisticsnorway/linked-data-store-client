@@ -18,4 +18,5 @@ Run `REACT_APP_LDS="LDS_url_here" yarn start` and navigate to `http://localhost:
 ### Run tests
 `yarn test` runs all tests and `yarn coverage` calculates (rather unreliably) test coverage
 
-[Jest](https://jestjs.io/en/) (through *react-test-renderer*) and [Enzyme](https://airbnb.io/enzyme/) is used for testing
+[Jest](https://jestjs.io/docs/en/tutorial-react) and 
+[react-testing-library](https://github.com/kentcdodds/react-testing-library) is used for testing

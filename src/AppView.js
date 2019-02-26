@@ -37,7 +37,7 @@ class AppView extends Component {
             </Dropdown>
           </Menu.Menu>
         </Menu>
-        <Route path='/settings' exact render={() => <Settings {...settings} />} />
+        <Route path='/(settings|)' exact render={() => <Settings {...settings} />} />
         {fresh && ready && !error &&
         <div>
           <Route path='/import' exact render={() => <Import languageCode={languageCode} lds={lds} />} />

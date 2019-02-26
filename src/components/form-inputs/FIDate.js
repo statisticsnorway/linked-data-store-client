@@ -15,7 +15,7 @@ class FIDate extends Component {
     handleChange(null, {name: uiSchema.name, value: value.filter((item, index) => index !== indexToRemove)})
   }
 
-  mergeShallowChange = (date) => {
+  mergeShallowChange = (index, date) => {
     const {handleChange, uiSchema} = this.props
 
     handleChange(null, {name: uiSchema.name, value: date})
