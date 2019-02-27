@@ -39,7 +39,7 @@ class DomainSingleView extends Component {
             )}
           </Grid>
           <Divider hidden />
-          <Button floated='right' color='orange' animated as={Link} to={`/${domain.route}/${data.id}/edit`}>
+          <Button floated='right' color='orange' animated as={Link} to={`${domain.route}/${data.id}/edit`}>
             <Button.Content visible>{UI.EDIT[languageCode]}</Button.Content>
             <Button.Content hidden><Icon fitted name='edit outline' /></Button.Content>
           </Button>

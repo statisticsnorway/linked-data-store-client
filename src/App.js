@@ -32,7 +32,7 @@ class App extends Component {
       const domains = response.map(path => ({
         name: extractDomainFromString(path),
         path: path,
-        route: `${lds.producer}/${extractDomainFromString(path)}`
+        route: `/${lds.producer}/${extractDomainFromString(path)}`
       }))
 
       this.setState({

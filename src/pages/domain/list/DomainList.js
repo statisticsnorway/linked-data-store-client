@@ -45,7 +45,7 @@ class DomainList extends Component {
     producers[producer].tableHeaders.map(header => ({
       accessor: header,
       Cell: props => header === 'id' ?
-        <Link to={`/${domain.route}/${props.original.id}/view`}>
+        <Link to={`${domain.route}/${props.original.id}/view`}>
           {props.value}
         </Link>
         :
@@ -76,7 +76,7 @@ class DomainList extends Component {
           <Header as='h1' icon={{name: 'table', color: 'teal'}} content={displayName} />
           <DomainListTable columns={columns} languageCode={languageCode} data={data} />
           <Divider hidden />
-          <Link to={`/${domain.route}/new/edit`}>
+          <Link to={`${domain.route}/new/edit`}>
             <Button animated color='teal' floated='right' disabled={!!error || !ready}>
               <Button.Content visible>
                 {`${UI.CREATE_NEW[languageCode]} ${displayName}`}

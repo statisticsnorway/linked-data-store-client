@@ -1,48 +1,80 @@
 import React from 'react'
-import { cleanup, render, wait } from 'react-testing-library'
+import 'jest-dom/extend-expect'
 import { MemoryRouter } from 'react-router-dom'
+import { cleanup, fireEvent, render, wait } from 'react-testing-library'
 
 import App from '../App'
 import { getData } from '../utilities/fetch/Fetch'
+import { UI } from '../enum'
 
 jest.mock('../utilities/fetch/Fetch', () => ({getData: jest.fn()}))
 
-afterEach(cleanup)
+afterEach(() => {
+  getData.mockReset()
+  cleanup()
+})
 
-const goodResponse = ['/ns/Agent?schema']
-const badResponse = 'Error'
 const setup = () => {
-  const {container, debug} = render(
+  const {container, getByTestId, getByText, queryAllByText} = render(
     <MemoryRouter>
       <App />
     </MemoryRouter>
   )
 
-  return {container, debug}
+  return {container, getByTestId, getByText, queryAllByText}
 }
 
-test('App renders correctly with succesful response from fetch', async () => {
-  getData.mockImplementation(() => Promise.resolve(goodResponse))
+describe('Testing App with good response', () => {
+  beforeEach(() => {
+    getData.mockImplementation(() => Promise.resolve(['/ns/Agent?schema']))
+  })
 
-  const {container} = setup()
+  test('App renders correctly when response good from LDS', async () => {
+    const {getByTestId, queryAllByText} = setup()
 
-  await wait(() => {
-    const greenIcon = container.querySelector('i.green.circle.icon')
-    const agent = container.querySelector('a.item[href="/gsim/Agent"]')
+    await wait(() => {
+      expect(getByTestId('health')).toHaveClass('green')
+      expect(queryAllByText('Agent')).toHaveLength(1)
+    })
 
-    expect(greenIcon).not.toBeNull()
-    expect(agent).not.toBeNull()
+    expect(getData).toHaveBeenCalledTimes(1)
+    expect(getData).toHaveBeenCalledWith('http://localhost:9090/ns?schema')
+  })
+
+  test('Changing language works correctly', async () => {
+    const {getByText, queryAllByText} = setup()
+
+    await wait(() => {
+      expect(queryAllByText(`${UI.LANGUAGE.nb} (${UI.LANGUAGE_CHOICE.nb})`)).toHaveLength(1)
+      fireEvent.click(getByText(`${UI.ENGLISH.nb}`))
+      expect(queryAllByText(`${UI.LANGUAGE.en} (${UI.LANGUAGE_CHOICE.en})`)).toHaveLength(1)
+    })
+  })
+
+  test('All navigation works', async () => {
+    const {container, getByText, queryAllByText} = setup()
+
+    await wait(() => {
+      fireEvent.click(container.querySelector('a[href="/settings"]'))
+      expect(queryAllByText(`${UI.SETTINGS_HEADER.nb}`)).toHaveLength(1)
+      fireEvent.click(getByText(`${UI.IMPORT.nb}`))
+      expect(queryAllByText(`${UI.UPLOAD.nb}`)).toHaveLength(1)
+      fireEvent.click(getByText(`${UI.HEADER.nb}`))
+      expect(queryAllByText(`${UI.SETTINGS_HEADER.nb}`)).toHaveLength(1)
+    })
   })
 })
 
-test('App renders correctly with unsuccesful response from fetch', async () => {
-  getData.mockImplementation(() => Promise.reject(badResponse))
+test('App renders correctly when bad response from LDS', async () => {
+  getData.mockImplementation(() => Promise.reject('Error'))
 
-  const {container} = setup()
+  const {getByTestId, queryAllByText} = setup()
 
   await wait(() => {
-    const redIcon = container.querySelector('i.red.circle.icon')
-
-    expect(redIcon).not.toBeNull()
+    expect(getByTestId('health')).toHaveClass('red')
+    expect(queryAllByText('Error')).toHaveLength(2)
   })
+
+  expect(getData).toHaveBeenCalledTimes(1)
+  expect(getData).toHaveBeenCalledWith('http://localhost:9090/ns?schema')
 })

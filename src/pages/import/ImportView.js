@@ -21,7 +21,7 @@ class ImportView extends Component {
               <Button.Content hidden><Icon fitted name='upload' /></Button.Content>
             </Button>
             <input ref={fileUploader} style={{display: 'none'}} type='file' multiple accept='application/json'
-                   onChange={handleUpload} />
+                   onChange={handleUpload} data-testid='fileUploader' />
             <Divider hidden />
             {ready && progress === total &&
             <div>

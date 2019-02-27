@@ -14,13 +14,15 @@ class AppView extends Component {
       <div>
         <Menu borderless color='blue' size='huge'>
           <Menu.Item header as={Link} to='/' content={UI.HEADER[languageCode]} />
-          <Menu.Item
-            icon={{name: ready ? 'circle' : 'spinner', color: error === false ? 'green' : 'red', loading: !ready}}
+          <Menu.Item icon={{
+            name: ready ? 'circle' : 'spinner', color: error === false ? 'green' : 'red',
+            loading: !ready, 'data-testid': 'health'
+          }}
           />
           <Dropdown item scrolling disabled={error !== false} text={UI.DOMAINS[languageCode]}>
             <Dropdown.Menu>
               {fresh && ready && !error && domains.map(domain =>
-                <Dropdown.Item key={domain.name} as={Link} to={`/${domain.route}`} content={domain.name} />
+                <Dropdown.Item key={domain.name} as={Link} to={`${domain.route}`} content={domain.name} />
               )}
             </Dropdown.Menu>
           </Dropdown>
@@ -42,13 +44,13 @@ class AppView extends Component {
         <div>
           <Route path='/import' exact render={() => <Import languageCode={languageCode} lds={lds} />} />
           {domains.map(domain =>
-            <Route key={`${domain.name}Single`} exact path={`/${domain.route}/:id/:view`} render={({location, match}) =>
+            <Route key={`${domain.name}Single`} exact path={`${domain.route}/:id/:view`} render={({location, match}) =>
               <DomainSingle domain={domain} languageCode={languageCode} lds={lds} location={location}
                             params={match.params} />
             } />
           )}
           {domains.map(domain =>
-            <Route key={`${domain.name}List`} exact path={`/${domain.route}`} render={() =>
+            <Route key={`${domain.name}List`} exact path={`${domain.route}`} render={() =>
               <DomainList domain={domain} languageCode={languageCode} lds={lds} />
             } />
           )}

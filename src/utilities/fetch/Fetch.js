@@ -67,7 +67,7 @@ export const deleteData = (url, data, timeout = 3000) => {
       if (response.ok) {
         response.json().then(json => resolve(json))
       } else {
-        response.text().then(text => reject(text))
+        response.text().then(text => reject(`${text} (${url})`))
       }
     }).catch(error => reject(`${error} (${url})`)
     ).finally(() => clearTimeout(timer))

@@ -57,7 +57,7 @@ class SaveData extends Component {
     const {domain, fresh, languageCode} = this.props
 
     if (redirect) {
-      return <Redirect exact push to={{pathname: `/${domain.route}/${redirectId}/view`, state: {wasSaved: true}}} />
+      return <Redirect exact push to={{pathname: `${domain.route}/${redirectId}/view`, state: {wasSaved: true}}} />
     } else {
       return (
         <Popup header={ERRORS.NOT_SAVED[languageCode]} content={<Message negative icon='warning' content={error} />}
