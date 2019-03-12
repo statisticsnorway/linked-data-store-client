@@ -12,7 +12,7 @@
     "react-datepicker": "^2.1.0",
     "react-dom": "^16.7.0",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "2.1.5",
+    "react-scripts": "^2.1.5",
     "react-table": "^6.9.2",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.85.0",
@@ -35,7 +35,6 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "babel-preset-react-app": "7.0.0",
     "jest-dom": "^3.1.2",
     "react-testing-library": "^6.0.0"
   }

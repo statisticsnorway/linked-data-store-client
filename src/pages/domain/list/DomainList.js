@@ -5,7 +5,7 @@ import { Button, Divider, Header, Icon, Message, Segment } from 'semantic-ui-rea
 import DomainListTable from './DomainListTable'
 import { extractStringFromObject, producers } from '../../../producers/Producers'
 import { getData } from '../../../utilities'
-import { UI } from '../../../enum'
+import { ERRORS, UI } from '../../../enum'
 
 class DomainList extends Component {
   state = {
@@ -71,6 +71,7 @@ class DomainList extends Component {
 
     return (
       <Segment basic loading={!ready}>
+        {ready && error && <Message negative icon='warning' header={ERRORS.ERROR[languageCode]} content={error} />}
         {ready && !error &&
         <div>
           <Header as='h1' icon={{name: 'table', color: 'teal'}} content={displayName} />
@@ -88,7 +89,6 @@ class DomainList extends Component {
           </Link>
         </div>
         }
-        {ready && error && <Message negative icon='warning' header='Error' content={error} />}
       </Segment>
     )
   }

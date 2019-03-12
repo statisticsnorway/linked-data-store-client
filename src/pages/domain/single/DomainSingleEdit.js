@@ -3,7 +3,7 @@ import { Divider, Form, Grid, Header, Icon, Label, List, Message, Popup, Segment
 
 import { DeleteData, DownloadJSON, FormField, SaveData } from '../../../components'
 import { convertDataToView } from '../../../utilities'
-import { MESSAGES } from '../../../enum'
+import { ERRORS, MESSAGES } from '../../../enum'
 
 class DomainSingleEdit extends Component {
   render () {
@@ -12,6 +12,7 @@ class DomainSingleEdit extends Component {
 
     return (
       <Segment basic loading={!ready}>
+        {ready && error && <Message negative icon='warning' header={ERRORS.ERROR[languageCode]} content={error} />}
         {ready && !error &&
         <div>
           <Header as='h1' dividing icon={{name: 'edit outline', color: fresh ? 'teal' : 'orange'}}

@@ -48,6 +48,8 @@ describe('Testing App with good response', () => {
       expect(queryAllByText(`${UI.LANGUAGE.nb} (${UI.LANGUAGE_CHOICE.nb})`)).toHaveLength(1)
       fireEvent.click(getByText(`${UI.ENGLISH.nb}`))
       expect(queryAllByText(`${UI.LANGUAGE.en} (${UI.LANGUAGE_CHOICE.en})`)).toHaveLength(1)
+      fireEvent.click(getByText(`${UI.NORWEGIAN.en}`))
+      expect(queryAllByText(`${UI.LANGUAGE.nb} (${UI.LANGUAGE_CHOICE.nb})`)).toHaveLength(1)
     })
   })
 
@@ -72,7 +74,7 @@ test('App renders correctly when bad response from LDS', async () => {
 
   await wait(() => {
     expect(getByTestId('health')).toHaveClass('red')
-    expect(queryAllByText('Error')).toHaveLength(2)
+    expect(queryAllByText('Error')).toHaveLength(1)
   })
 
   expect(getData).toHaveBeenCalledTimes(1)

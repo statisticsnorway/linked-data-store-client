@@ -46,9 +46,8 @@ class FIMultiInput extends Component {
     const handler = uiSchema.input.value.handler
     const clonedValue = JSON.parse(JSON.stringify(value))
 
-    clonedValue[indexToRemoveFrom][handler] = value[indexToRemoveFrom][handler].filter((value, index) =>
-      index !== indexToRemove
-    )
+    clonedValue[indexToRemoveFrom][handler] = value[indexToRemoveFrom][handler]
+      .filter((value, index) => index !== indexToRemove)
 
     handleChange(null, {name: uiSchema.input.name, value: clonedValue})
   }

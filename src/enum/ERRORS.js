@@ -7,6 +7,10 @@ export const ERRORS = {
     en: 'Required input cannot have any empty values',
     nb: 'Feltet kan ikke inneholde tomme verdier'
   },
+  ERROR: {
+    en: 'Error',
+    nb: 'Problem'
+  },
   INVALID_FORMAT: {
     en: 'Invalid file format',
     nb: 'Ugyldig filformat'

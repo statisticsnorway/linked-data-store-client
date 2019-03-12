@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Button, Container, Divider, Form, Grid, Header, Icon, Message, Popup, Segment } from 'semantic-ui-react'
 
-import { MESSAGES, UI } from '../../enum'
+import { ERRORS, MESSAGES, UI } from '../../enum'
 
 const producers = [
   {key: 'default', text: 'Default', value: 'default'},
@@ -18,7 +18,7 @@ class Settings extends Component {
         <Grid.Column mobile={16} tablet={8} computer={4}>
           <Segment basic>
             <Header as='h1' icon={{name: 'cog', color: 'teal'}} content={UI.SETTINGS_HEADER[languageCode]} />
-            {error && <Message negative icon='warning' header='Error' content={error} />}
+            {error && <Message negative icon='warning' header={ERRORS.ERROR[languageCode]} content={error} />}
             <Divider hidden />
             <Form size='large'>
               <Popup flowing size='large' position='left center' trigger={

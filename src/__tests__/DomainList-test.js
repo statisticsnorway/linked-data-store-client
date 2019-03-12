@@ -74,7 +74,7 @@ test('DomainList renders correctly when bad response from LDS', async () => {
   const {queryAllByText} = setup()
 
   await wait(() => {
-    expect(queryAllByText('Error')).toHaveLength(2)
+    expect(queryAllByText('Error')).toHaveLength(1)
   })
 
   expect(getData).toHaveBeenCalledTimes(1)

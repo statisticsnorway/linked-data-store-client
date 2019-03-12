@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import DomainSingleEdit from './DomainSingleEdit'
 import DomainSingleView from './DomainSingleView'
 import { createDefaultData, createUiSchema, getData } from '../../../utilities'
+import { MESSAGES } from '../../../enum'
 
 class DomainSingle extends Component {
   state = {
@@ -25,7 +26,7 @@ class DomainSingle extends Component {
   }
 
   load = () => {
-    const {domain, lds, params} = this.props
+    const {domain, languageCode, lds, params} = this.props
 
     getData(`${lds.url}${domain.path}`).then(schema => {
       const uiSchema = createUiSchema(schema.definitions, lds, domain.name)
@@ -41,13 +42,20 @@ class DomainSingle extends Component {
         })
       } else {
         getData(`${lds.url}/${lds.namespace}/${domain.name}/${params.id}`).then(data => {
-          this.setState({
-            data: {...defaultData, ...data},
-            error: false,
-            schema: schema.definitions[domain.name],
-            ready: true,
-            uiSchema: uiSchema
-          })
+          if (Array.isArray(data) && data.length < 1) {
+            this.setState({
+              error: MESSAGES.NOTHING_FOUND[languageCode],
+              ready: true
+            })
+          } else {
+            this.setState({
+              data: {...defaultData, ...data},
+              error: false,
+              schema: schema.definitions[domain.name],
+              ready: true,
+              uiSchema: uiSchema
+            })
+          }
         }).catch(error => {
           this.setState({
             error: error,

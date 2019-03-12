@@ -4,7 +4,7 @@ import { Button, Divider, Grid, Header, Icon, Message, Segment } from 'semantic-
 
 import { extractStringFromObject } from '../../../producers/Producers'
 import { convertDataToView } from '../../../utilities'
-import { MESSAGES, UI } from '../../../enum'
+import { ERRORS, MESSAGES, UI } from '../../../enum'
 
 class DomainSingleView extends Component {
   render () {
@@ -12,6 +12,7 @@ class DomainSingleView extends Component {
 
     return (
       <Segment basic loading={!ready}>
+        {ready && error && <Message negative icon='warning' header={ERRORS.ERROR[languageCode]} content={error} />}
         {ready && !error &&
         <div>
           <Header as='h1' dividing icon={{name: 'file alternate outline', color: 'teal'}}
@@ -46,7 +47,6 @@ class DomainSingleView extends Component {
           </Button>
         </div>
         }
-        {ready && error && <Message negative icon='warning' header='Error' content={error} />}
       </Segment>
     )
   }

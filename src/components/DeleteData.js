@@ -7,6 +7,7 @@ import { ERRORS, MESSAGES, UI } from '../enum'
 class DeleteData extends Component {
   state = {
     deleted: false,
+    disabled: this.props.id === '',
     loading: false,
     message: false,
     showConfirm: false
@@ -31,6 +32,7 @@ class DeleteData extends Component {
       deleteData(url).then(() => {
         this.setState({
           deleted: true,
+          disabled: true,
           loading: false,
           message: MESSAGES.WAS_DELETED[languageCode]
         })
@@ -44,26 +46,23 @@ class DeleteData extends Component {
   }
 
   render () {
-    const {deleted, loading, message, showConfirm} = this.state
-    const {id, languageCode} = this.props
+    const {deleted, disabled, loading, message, showConfirm} = this.state
+    const {languageCode} = this.props
 
-    return (
-      <Popup open={message !== false} position='top left' wide='very'
-             content={<Message positive={deleted} negative={!deleted} icon={deleted ? 'check' : 'warning'}
-                               content={message} />}
-             trigger={
-               <div>
-                 <Button floated='left' negative animated loading={loading} disabled={id === ''}
-                                   onClick={this.showConfirm}>
-                   <Button.Content visible>{UI.DELETE[languageCode]}</Button.Content>
-                   <Button.Content hidden><Icon fitted name='trash alternate outline' /></Button.Content>
-                 </Button>
-                 <Confirm open={showConfirm} onCancel={this.hideConfirm} onConfirm={this.deleteData} content=''
-                          header={MESSAGES.SURE[languageCode]} cancelButton={UI.CANCEL[languageCode]}
-                          confirmButton={UI.CONFIRM[languageCode]} />
-               </div>}>
-      </Popup>
-    )
+    return <Popup open={message !== false} position='top left' wide='very'
+                  content={<Message positive={deleted} negative={!deleted} icon={deleted ? 'check' : 'warning'}
+                                    content={message} />}
+                  trigger={
+                    <div>
+                      <Button floated='left' negative animated loading={loading} disabled={disabled}
+                              onClick={this.showConfirm}>
+                        <Button.Content visible>{UI.DELETE[languageCode]}</Button.Content>
+                        <Button.Content hidden><Icon fitted name='trash alternate outline' /></Button.Content>
+                      </Button>
+                      <Confirm open={showConfirm} onCancel={this.hideConfirm} onConfirm={this.deleteData} content=''
+                               header={MESSAGES.SURE[languageCode]} cancelButton={UI.CANCEL[languageCode]}
+                               confirmButton={UI.CONFIRM[languageCode]} />
+                    </div>} />
   }
 }
 
