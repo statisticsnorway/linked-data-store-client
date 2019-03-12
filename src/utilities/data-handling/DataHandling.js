@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { Icon, List } from 'semantic-ui-react'
 
 import { UI } from '../../enum'
@@ -32,7 +33,7 @@ export const convertDataToView = (data, languageCode, producer, uiSchema) => {
           return fixDate(data, languageCode)
 
         case 'dropdown':
-          return fixDropdown(data)
+          return fixDropdown(data, producer)
 
         case 'multiInput':
           return fixMultiInput(data, uiSchema)
@@ -77,15 +78,26 @@ const fixDate = (data, languageCode) => {
   }
 }
 
-const fixDropdown = (data) => {
+const fixDropdown = (data, producer) => {
   if (Array.isArray(data)) {
     return (
       <List>
-        {data.map((item, index) => <List.Item key={index} style={{lineHeight: '1.4285em'}} content={item} />)}
+        {data.map(item => {
+          if (item.startsWith('/')) {
+            return <List.Item key={item} style={{lineHeight: '1.4285em'}} as={Link} to={`/${producer}${item}/view`}
+                              content={item} />
+          } else {
+            return <List.Item key={item} style={{lineHeight: '1.4285em'}} content={item} />
+          }
+        })}
       </List>
     )
   } else {
-    return data
+    if (data.startsWith('/')) {
+      return <Link to={`/${producer}${data}/view`}>{data}</Link>
+    } else {
+      return data
+    }
   }
 }
 
