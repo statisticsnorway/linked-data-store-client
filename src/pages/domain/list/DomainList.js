@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom'
 import { Button, Divider, Header, Icon, Message, Segment } from 'semantic-ui-react'
 
 import DomainListTable from './DomainListTable'
-import { producers } from '../../../producers/Producers'
-import { extractStringFromObject, getData } from '../../../utilities'
+import { extractStringFromObject, producers } from '../../../producers/Producers'
+import { getData } from '../../../utilities'
 import { UI } from '../../../enum'
 
 class DomainList extends Component {

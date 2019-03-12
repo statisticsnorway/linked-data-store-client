@@ -13,7 +13,7 @@ class App extends Component {
     fresh: true,
     languageCode: 'nb',
     lds: {
-      namespace: 'ns',
+      namespace: 'data',
       producer: 'gsim',
       url: process.env.REACT_APP_LDS === undefined ? 'http://localhost:9090' : process.env.REACT_APP_LDS,
       user: 'Test user'

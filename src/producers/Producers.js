@@ -105,3 +105,19 @@ export const updateAutofillData = (data, property, producer, user) => {
       return data
   }
 }
+
+export const extractStringFromObject = (object, producer, languageCode) => {
+  if (typeof object === 'object' && object !== null) {
+    switch (producer) {
+      case 'gsim':
+        const nameObject = object.find(object => object.languageCode === languageCode)
+
+        return `${nameObject === undefined ? object[0].languageText : nameObject.languageText}`
+
+      default:
+        return object.toString()
+    }
+  } else {
+    return object
+  }
+}

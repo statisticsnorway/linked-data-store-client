@@ -1,12 +1,25 @@
 import React, { Component } from 'react'
 import { Link, Route } from 'react-router-dom'
-import { Divider, Dropdown, Menu } from 'semantic-ui-react'
+import { Divider, Dropdown, Input, Menu } from 'semantic-ui-react'
 
 import { DomainList, DomainSingle, Import, Settings } from './pages'
 import { LANGUAGES, UI } from './enum'
 
 class AppView extends Component {
+  state = {
+    search: ''
+  }
+
+  clearSearch = () => {
+    this.setState({search: ''})
+  }
+
+  handleSearch = (event, data) => {
+    this.setState({search: data.value})
+  }
+
   render () {
+    const {search} = this.state
     const {error, fresh, languageCode, lds} = this.props
     const {changeLanguage, domains, ready, ...settings} = this.props
 
@@ -21,9 +34,13 @@ class AppView extends Component {
           />
           <Dropdown item scrolling disabled={error !== false} text={UI.DOMAINS[languageCode]}>
             <Dropdown.Menu>
-              {fresh && ready && !error && domains.map(domain =>
-                <Dropdown.Item key={domain.name} as={Link} to={`${domain.route}`} content={domain.name} />
-              )}
+              <Input icon='search' iconPosition='left' placeholder={UI.SEARCH[languageCode]} value={search}
+                     onChange={this.handleSearch} onClick={event => event.stopPropagation()} />
+              <Dropdown.Divider />
+              {fresh && ready && !error && domains.filter(domain => domain.name.startsWith(search))
+                .map(domain => <Dropdown.Item key={domain.name} as={Link} to={`${domain.route}`}
+                                              content={domain.name} onClick={this.clearSearch} />)
+              }
             </Dropdown.Menu>
           </Dropdown>
           <Menu.Item as={Link} to='/import' disabled={error !== false} content={UI.IMPORT[languageCode]} />

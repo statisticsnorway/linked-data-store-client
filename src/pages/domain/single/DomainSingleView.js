@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { Button, Divider, Grid, Header, Icon, Message, Segment } from 'semantic-ui-react'
 
-import { convertDataToView, extractStringFromObject } from '../../../utilities'
+import { extractStringFromObject } from '../../../producers/Producers'
+import { convertDataToView } from '../../../utilities'
 import { MESSAGES, UI } from '../../../enum'
 
 class DomainSingleView extends Component {

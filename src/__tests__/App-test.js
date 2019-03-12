@@ -26,7 +26,7 @@ const setup = () => {
 
 describe('Testing App with good response', () => {
   beforeEach(() => {
-    getData.mockImplementation(() => Promise.resolve(['/ns/Agent?schema']))
+    getData.mockImplementation(() => Promise.resolve(['/data/Agent?schema']))
   })
 
   test('App renders correctly when response good from LDS', async () => {
@@ -38,7 +38,7 @@ describe('Testing App with good response', () => {
     })
 
     expect(getData).toHaveBeenCalledTimes(1)
-    expect(getData).toHaveBeenCalledWith('http://localhost:9090/ns?schema')
+    expect(getData).toHaveBeenCalledWith('http://localhost:9090/data?schema')
   })
 
   test('Changing language works correctly', async () => {
@@ -76,5 +76,5 @@ test('App renders correctly when bad response from LDS', async () => {
   })
 
   expect(getData).toHaveBeenCalledTimes(1)
-  expect(getData).toHaveBeenCalledWith('http://localhost:9090/ns?schema')
+  expect(getData).toHaveBeenCalledWith('http://localhost:9090/data?schema')
 })

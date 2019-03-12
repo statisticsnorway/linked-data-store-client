@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 
 import FIDropdownView from './FIDropdownView'
-import { extractStringFromObject, getData } from '../../utilities'
+import { extractStringFromObject } from '../../producers/Producers'
+import { getData } from '../../utilities'
 import { ERRORS } from '../../enum'
 
 class FIDropdown extends Component {

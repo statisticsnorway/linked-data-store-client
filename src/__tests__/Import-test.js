@@ -20,7 +20,7 @@ const setup = () => {
   const props = {
     languageCode: 'nb',
     lds: {
-      namespace: 'ns',
+      namespace: 'data',
       producer: 'gsim',
       url: 'http://localhost:9090',
       user: 'Test user'
