@@ -1,3 +1,6 @@
+const credentials = process.env.NODE_ENV === 'production' ? 'include' : 'same-origin'
+const headers = {'Content-Type': 'application/json; charset=utf-8'}
+
 export const getData = (url, timeout = 3000) => {
   return new Promise((resolve, reject) => {
     const controller = new AbortController()
@@ -9,8 +12,9 @@ export const getData = (url, timeout = 3000) => {
 
     fetch(url, {
       signal: controller.signal,
+      credentials: credentials,
       method: 'GET',
-      headers: {'Content-Type': 'application/json; charset=utf-8'}
+      headers: headers
     }).then(response => {
       if (response.ok) {
         response.json().then(json => resolve(json))
@@ -36,9 +40,10 @@ export const putData = (url, data, timeout = 3000) => {
 
     fetch(url, {
       signal: controller.signal,
+      credentials: credentials,
       method: 'PUT',
       body: JSON.stringify(data),
-      headers: {'Content-Type': 'application/json; charset=utf-8'}
+      headers: headers
     }).then(response => {
       if (response.ok) {
         resolve()
@@ -61,8 +66,9 @@ export const deleteData = (url, data, timeout = 3000) => {
 
     fetch(url, {
       signal: controller.signal,
+      credentials: credentials,
       method: 'DELETE',
-      headers: {'Content-Type': 'application/json; charset=utf-8'}
+      headers: headers
     }).then(response => {
       if (response.ok) {
         response.json().then(json => resolve(json))
