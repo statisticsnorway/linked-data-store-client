@@ -21,12 +21,12 @@ const setup = () => {
   const props = {
     domain: {
       name: 'Agent',
-      path: '/data/Agent?schema',
+      path: '/ns/Agent?schema',
       route: '/gsim/Agent'
     },
     languageCode: 'nb',
     lds: {
-      namespace: 'data',
+      namespace: 'ns',
       producer: 'gsim',
       url: 'http://localhost:9090',
       user: 'Test user'
@@ -63,8 +63,8 @@ describe('Testing DomainList with good response', () => {
     })
 
     expect(getData).toHaveBeenCalledTimes(2)
-    expect(getData).toHaveBeenNthCalledWith(1, 'http://localhost:9090/data/Agent?schema')
-    expect(getData).toHaveBeenNthCalledWith(2, 'http://localhost:9090/data/Agent')
+    expect(getData).toHaveBeenNthCalledWith(1, 'http://localhost:9090/ns/Agent?schema')
+    expect(getData).toHaveBeenNthCalledWith(2, 'http://localhost:9090/ns/Agent')
   })
 })
 
@@ -78,5 +78,5 @@ test('DomainList renders correctly when bad response from LDS', async () => {
   })
 
   expect(getData).toHaveBeenCalledTimes(1)
-  expect(getData).toHaveBeenCalledWith('http://localhost:9090/data/Agent?schema')
+  expect(getData).toHaveBeenCalledWith('http://localhost:9090/ns/Agent?schema')
 })

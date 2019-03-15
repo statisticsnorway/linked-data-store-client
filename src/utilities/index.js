@@ -1,5 +1,13 @@
 export {
-  extractDomainFromString, extractDomainFromFilename, extractReferenceFromString, truncateString
+  extractDomainFromEndpoint,
+  extractDomainFromString,
+  extractDomainFromFilename,
+  extractReferenceFromString,
+  extractTypeFromEndpoint,
+  lowerCaseFirst,
+  upperCaseFirst,
+  stringToColor,
+  truncateString
 } from './common/StringHandling'
 export { convertDataToView, createDefaultData } from './data-handling/DataHandling'
 export { validateAndClean } from './data-handling/DataValidation'

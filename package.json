@@ -7,8 +7,10 @@
     "url": "https://github.com/statisticsnorway/linked-data-store-client"
   },
   "dependencies": {
+    "chart.js": "^2.7.3",
     "date-fns": "^2.0.0-alpha.27",
     "react": "^16.7.0",
+    "react-chartjs-2": "^2.7.4",
     "react-datepicker": "^2.1.0",
     "react-dom": "^16.7.0",
     "react-router-dom": "^4.3.1",

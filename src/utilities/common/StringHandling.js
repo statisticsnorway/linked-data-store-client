@@ -1,8 +1,16 @@
+export const extractDomainFromEndpoint = (endpoint) => {
+  if (typeof endpoint === 'string') {
+    return endpoint.substring(endpoint.lastIndexOf('/') + 1)
+  } else {
+    return endpoint
+  }
+}
+
 export const extractDomainFromString = (string) => {
   if (typeof string === 'string') {
     return string.substring(0, string.lastIndexOf('?')).substring(string.lastIndexOf('/') + 1)
   } else {
-    return string.toString()
+    return string
   }
 }
 
@@ -24,7 +32,7 @@ export const extractDomainFromFilename = (filename) => {
 
     return domain
   } else {
-    return filename.toString()
+    return filename
   }
 }
 
@@ -32,14 +40,59 @@ export const extractReferenceFromString = (string) => {
   if (typeof string === 'string') {
     return string.replace('#/definitions/', '')
   } else {
-    return string.toString()
+    return string
   }
 }
 
-export function truncateString (string, length = 32) {
+export const extractTypeFromEndpoint = (endpoint) => {
+  if (typeof endpoint === 'string') {
+    return endpoint.slice(1, endpoint.lastIndexOf('/'))
+  } else {
+    return endpoint
+  }
+}
+
+export const lowerCaseFirst = (string) => {
+  if (typeof string === 'string') {
+    return string.charAt(0).toLowerCase() + string.slice(1)
+  } else {
+    return string
+  }
+}
+
+export const upperCaseFirst = (string) => {
+  if (typeof string === 'string') {
+    return string.charAt(0).toUpperCase() + string.slice(1)
+  } else {
+    return string
+  }
+}
+
+export const stringToColor = (string) => {
+  if (typeof string === 'string') {
+    let hash = 0
+
+    for (let i = 0; i < string.length; i++) {
+      hash = string.charCodeAt(i) + ((hash << 5) - hash)
+    }
+
+    let color = '#'
+
+    for (let i = 0; i < 3; i++) {
+      let value = (hash >> (i * 8)) & 0xFF
+      color += ('00' + value.toString(16)).substr(-2)
+    }
+
+    return color
+  } else {
+    return '#000000'
+  }
+}
+
+export const truncateString = (string, length = 32) => {
   if (typeof string === 'string' && string.length > length) {
     return string.substring(0, (length - 2)) + '...'
   } else {
-    return string.toString()
+    return string
   }
 }

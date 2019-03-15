@@ -39,6 +39,10 @@ export const UI = {
     en: 'English',
     nb: 'Engelsk'
   },
+  EXPLORE: {
+    en: 'Explore',
+    nb: 'Utforsk'
+  },
   HEADER: {
     en: 'LDS Client',
     nb: 'LDS Klient'
@@ -50,6 +54,10 @@ export const UI = {
   IMPORTING_SUCCESS: {
     en: 'Successful imports',
     nb: 'Feilfrie importer'
+  },
+  INSTANCE_COUNT: {
+    en: 'Instance count',
+    nb: 'Antall instanser'
   },
   LANGUAGE: {
     en: 'Language',
@@ -64,8 +72,8 @@ export const UI = {
     nb: 'nb-NO'
   },
   LOCATION: {
-    en: 'Location',
-    nb: 'Lokasjon'
+    en: 'LDS location',
+    nb: 'LDS lokasjon'
   },
   NAMESPACE: {
     en: 'Namespace',
@@ -91,9 +99,17 @@ export const UI = {
     en: 'Settings',
     nb: 'Instillinger'
   },
+  SHOW_ALL: {
+    en: 'Show all',
+    nb: 'Vis alle'
+  },
   TODAY: {
     en: 'Today',
     nb: 'I dag'
+  },
+  UNUSED_COUNT: {
+    en: 'Unused count',
+    nb: 'Antall ubrukte'
   },
   UPLOAD: {
     en: 'Select files',

@@ -9,7 +9,6 @@ class ImportView extends Component {
     const {handleClick, handleUpload, reset} = this.props
 
     return (
-
       <Grid centered>
         <Grid.Column mobile={16} tablet={16} computer={8}>
           <Segment basic textAlign='center'>

@@ -7,15 +7,17 @@ import { extractDomainFromString, getData } from './utilities'
 
 registerLocale('nb', nb)
 
+const ldsEndpoint = process.env.NODE_ENV === 'production' ? 'https://lds.staging.ssbmod.net' : 'http://localhost:9090'
+
 class App extends Component {
   state = {
     error: false,
     fresh: true,
     languageCode: localStorage.hasOwnProperty('languageCode') ? localStorage.getItem('languageCode') : 'nb',
     lds: {
-      namespace: localStorage.hasOwnProperty('namespace') ? localStorage.getItem('namespace') : 'data',
+      namespace: localStorage.hasOwnProperty('namespace') ? localStorage.getItem('namespace') : 'ns',
       producer: localStorage.hasOwnProperty('producer') ? localStorage.getItem('producer') : 'gsim',
-      url: localStorage.hasOwnProperty('url') ? localStorage.getItem('url') : 'http://localhost:9090',
+      url: localStorage.hasOwnProperty('url') ? localStorage.getItem('url') : ldsEndpoint,
       user: localStorage.hasOwnProperty('user') ? localStorage.getItem('user') : 'Test user'
     },
     ready: false

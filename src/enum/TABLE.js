@@ -1,4 +1,8 @@
 export const TABLE = {
+  EXPLORE_HEADERS: {
+    en: ['Domain', 'Count', 'Unused', 'Connected to'],
+    nb: ['Domene', 'Antall', 'Ubrukt', 'Koblet mot']
+  },
   LOADING: {
     en: 'Loading',
     nb: 'Laster'
