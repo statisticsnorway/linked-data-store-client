@@ -1,0 +1,67 @@
+{
+  "lastUpdatedBy": "Test user",
+  "agentType": "INDIVIDUAL",
+  "isExternal": false,
+  "administrativeStatus": "OPEN",
+  "description": [
+    {
+      "languageText": "An agents spesifically designed for testing",
+      "languageCode": "en"
+    }
+  ],
+  "validFrom": "2019-02-27T12:38:00.709Z",
+  "version": "1.0.0",
+  "versionValidFrom": "2019-02-27T12:38:00.709Z",
+  "versionRationale": [
+    {
+      "languageText": "A good version",
+      "languageCode": "en"
+    }
+  ],
+  "lastUpdatedDate": "2019-02-27T12:38:00.709Z",
+  "agentDetails": [
+    {
+      "agentDetailType": "CONTACT_EMAIL",
+      "values": [
+        "agent@test.no",
+        "agent@test.com"
+      ]
+    },
+    {
+      "agentDetailType": "CONTACT_MOBILE",
+      "values": [
+        "99887766"
+      ]
+    },
+    {
+      "agentDetailType": "CONTACT_PHONE",
+      "values": [
+        "11223344"
+      ]
+    }
+  ],
+  "createdDate": "2019-02-27T12:38:00.709Z",
+  "createdBy": "Test user",
+  "name": [
+    {
+      "languageText": "Test Agent",
+      "languageCode": "en"
+    }
+  ],
+  "validUntil": "2020-02-27T12:38:00.709Z",
+  "id": "903c45b1-7f69-4ee4-b6f3-d95aba633297",
+  "administrativeDetails": [
+    {
+      "values": [
+        "English"
+      ],
+      "administrativeDetailType": "DEFAULTLANGUAGE"
+    },
+    {
+      "values": [
+        "009"
+      ],
+      "administrativeDetailType": "ALIAS"
+    }
+  ]
+}
