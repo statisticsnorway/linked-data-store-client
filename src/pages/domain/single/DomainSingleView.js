@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { Button, Divider, Grid, Header, Icon, Message, Segment } from 'semantic-ui-react'
+import { Button, Divider, Grid, Header, Icon, Message, Popup, Segment } from 'semantic-ui-react'
 
 import { extractStringFromObject } from '../../../producers/Producers'
 import { convertDataToView } from '../../../utilities'
@@ -29,7 +29,10 @@ class DomainSingleView extends Component {
                   {Object.keys(uiSchema[grouping]).map(property =>
                     <Grid.Row key={property} style={{paddingTop: '0'}}>
                       <Grid.Column textAlign='right' width={5}>
-                        <b>{uiSchema[grouping][property].displayName}</b>
+                        <Popup basic flowing trigger={<b>{uiSchema[grouping][property].displayName}</b>}>
+                          <Icon color='blue' name='info circle' />
+                          {uiSchema[grouping][property].description}
+                        </Popup>
                       </Grid.Column>
                       <Grid.Column width={11}>
                         {convertDataToView(data[property], languageCode, lds.producer, uiSchema[grouping][property])}

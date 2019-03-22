@@ -12,7 +12,10 @@ class FIDropdownView extends Component {
     return (
       <Form.Field required={uiSchema.input.required} error={!!error}>
         <label>
-          {`${uiSchema.displayName} `}
+          <Popup basic flowing trigger={<span>{`${uiSchema.displayName} `}</span>}>
+            <Icon color='blue' name='info circle' />
+            {uiSchema.description}
+          </Popup>
           {uiSchema.input.multiple &&
           <Popup basic flowing trigger={<Icon name='clone outline' color='teal' />}>
             <Icon color='blue' name='info circle' />

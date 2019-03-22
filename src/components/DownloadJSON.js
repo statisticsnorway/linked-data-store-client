@@ -8,6 +8,7 @@ import { UI } from '../enum'
 class DownloadJSON extends Component {
   downloadJSON = () => {
     const {data, languageCode, lds, setErrors, uiSchema} = this.props
+    // TODO: For GSIM object with administrativeStatus set to DRAFT this validateAndClean might want to be skipped
     const returned = validateAndClean(data, ['unique', 'common'], languageCode, uiSchema)
 
     if (Object.keys(returned.errors).length > 0) {

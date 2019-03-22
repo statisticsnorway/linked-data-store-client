@@ -15,7 +15,10 @@ class FIDateView extends Component {
     return (
       <Form.Field required={uiSchema.input.required} error={!!error}>
         <label>
-          {`${uiSchema.displayName} `}
+          <Popup basic flowing trigger={<span>{`${uiSchema.displayName} `}</span>}>
+            <Icon color='blue' name='info circle' />
+            {uiSchema.description}
+          </Popup>
           {uiSchema.input.multiple &&
           <Popup basic flowing trigger={<Icon link name='copy outline' color='green' onClick={addItem} />}>
             <Icon color='blue' name='info circle' />

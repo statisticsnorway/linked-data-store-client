@@ -51,10 +51,16 @@ class DomainSingleEdit extends Component {
                 {Object.keys(uiSchema.autofilled).map(property =>
                   <List.Item key={property}>
                     <List.Content>
-                      <List.Header>
-                        {`${uiSchema.autofilled[property].displayName} `}
-                        <Icon color='teal' name={uiSchema.autofilled[property].icon} />
-                      </List.Header>
+                      <Popup basic flowing
+                             trigger={
+                               <List.Header>
+                                 {`${uiSchema.autofilled[property].displayName} `}
+                                 <Icon color='teal' name={uiSchema.autofilled[property].icon} />
+                               </List.Header>
+                             }>
+                        <Icon color='blue' name='info circle' />
+                        {uiSchema.autofilled[property].description}
+                      </Popup>
                       <List.Description>
                         {convertDataToView(data[property], languageCode, lds.producer, uiSchema.autofilled[property])}
                       </List.Description>

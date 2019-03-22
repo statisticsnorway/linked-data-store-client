@@ -72,8 +72,6 @@ export const validateAndClean = (dataObject, groupings, languageCode, uiSchema) 
               }
           }
         }
-      } else {
-        // Don't think this is ever the case so far
       }
     })
   })

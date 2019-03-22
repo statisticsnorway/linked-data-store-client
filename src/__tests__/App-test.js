@@ -9,6 +9,13 @@ import { UI } from '../enum'
 
 jest.mock('../utilities/fetch/Fetch', () => ({getData: jest.fn()}))
 
+// Removes HTMLCanvasElement errors in console while running tests - https://github.com/jerairrest/react-chartjs-2/issues/155
+jest.mock('react-chartjs-2', () => ({
+  Bar: () => null,
+  Doughnut: () => null,
+  Pie: () => null
+}))
+
 afterEach(() => {
   getData.mockReset()
   cleanup()
@@ -64,7 +71,8 @@ test('All navigation works', async () => {
     expect(queryAllByText(`${UI.UPLOAD.nb}`)).toHaveLength(1)
     fireEvent.click(getByText(`${UI.HEADER.nb}`))
     expect(queryAllByText(`${UI.SETTINGS_HEADER.nb}`)).toHaveLength(1)
-    // Unable to mock HTMLCanvas (chartjs-2) at the moment, so cannot test Explore
+    fireEvent.click(getByText(`${UI.EXPLORE.nb}`))
+    expect(queryAllByText(`${UI.SETTINGS_HEADER.nb}`)).toHaveLength(0)
   })
 })
 
