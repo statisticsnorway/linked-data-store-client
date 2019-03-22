@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Divider, Form, Icon, List, Popup } from 'semantic-ui-react'
+import { Divider, Form, Icon, Input, List, Popup, TextArea } from 'semantic-ui-react'
 
 import { truncateString } from '../../utilities'
 import { MESSAGES } from '../../enum'
@@ -57,8 +57,8 @@ class FIMultiInputView extends Component {
                           {MESSAGES.REMOVE_VALUE[languageCode]}
                         </Popup>
                         <List.Content>
-                          <Form.Input placeholder={truncateString(value.displayName, 17)} value={innerValue}
-                                      onChange={mergeDeepChange.bind(this, index, innerIndex)} />
+                          <Input placeholder={truncateString(value.displayName, 17)} value={innerValue}
+                                 onChange={mergeDeepChange.bind(this, index, innerIndex)} />
                         </List.Content>
                       </List.Item>
                     )}
@@ -66,9 +66,9 @@ class FIMultiInputView extends Component {
                 </Form.Field>
                 }
                 {!value.multiple &&
-                <Form.TextArea rows={2} placeholder={truncateString(value.displayName, 17)} width={10}
-                               value={item[value.handler]}
-                               onChange={mergeShallowChange.bind(this, index, value.handler, option.handler)} />
+                <TextArea rows={2} placeholder={truncateString(value.displayName, 17)} width={10}
+                          value={item[value.handler]}
+                          onChange={mergeShallowChange.bind(this, index, value.handler, option.handler)} />
                 }
                 <Popup basic flowing
                        trigger={<Icon link name='delete' color='red' fitted onClick={removeItem.bind(this, index)}

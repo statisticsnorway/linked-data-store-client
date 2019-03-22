@@ -1,4 +1,8 @@
 export const ERRORS = {
+  EMPTY_CHOICE: {
+    en: 'Required input must have a selected choice',
+    nb: 'Feltet må ha en valgt verdi'
+  },
   EMPTY_VALUE: {
     en: 'Required input cannot cannot be empty',
     nb: 'Feltet kan ikke være tomt'

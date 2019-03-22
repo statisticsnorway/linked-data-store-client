@@ -15,9 +15,16 @@ class DomainSingleView extends Component {
         {ready && error && <Message negative icon='warning' header={ERRORS.ERROR[languageCode]} content={error} />}
         {ready && !error &&
         <div>
-          <Header as='h1' dividing icon={{name: 'file alternate outline', color: 'teal'}}
-                  content={extractStringFromObject(data.name, lds.producer, languageCode)}
-                  subheader={extractStringFromObject(data.description, lds.producer, languageCode)} />
+          <Header as='h1' dividing>
+            <Icon name='file alternate outline' color='teal' />
+            <Header.Content>
+              {`${extractStringFromObject(data.name, lds.producer, languageCode)} `}
+              <i style={{fontWeight: 400}}>({domain.name})</i>
+              <Header.Subheader>
+                {extractStringFromObject(data.description, lds.producer, languageCode)}
+              </Header.Subheader>
+            </Header.Content>
+          </Header>
           {location.state && location.state.wasSaved &&
           <Message positive icon='check' content={`${MESSAGES.WAS_SAVED[languageCode]}`} />
           }

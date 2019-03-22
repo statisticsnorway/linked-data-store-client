@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Form, Icon, Popup } from 'semantic-ui-react'
+import { Form, Icon, Popup, Select } from 'semantic-ui-react'
 
 import { truncateString } from '../../utilities'
 import { ERRORS, MESSAGES } from '../../enum'
@@ -41,11 +41,11 @@ class FIDropdownView extends Component {
           {problem && <span style={{color: '#db2828'}}>{`${ERRORS.NOT_FETCH[languageCode]}`}</span>}
           {warning !== false && <span style={{color: '#ffd700'}}>{warning}</span>}
         </label>
-        <Form.Select name={uiSchema.name} multiple={uiSchema.input.multiple} loading={loading} clearable
-                     placeholder={truncateString(uiSchema.displayName)} options={options} value={value}
-                     onChange={handleChange} search={options.length > 8}
-                     noResultsMessage={[MESSAGES.NO_RESULT[languageCode]]} onLabelClick={handleLabelClick}
-                     icon={options.length > 8 ? {name: 'search'} : {name: 'dropdown'}} />
+        <Select name={uiSchema.name} multiple={uiSchema.input.multiple} loading={loading} clearable
+                placeholder={truncateString(uiSchema.displayName)} options={options} value={value}
+                onChange={handleChange} search={options.length > 8}
+                noResultsMessage={[MESSAGES.NO_RESULT[languageCode]]} onLabelClick={handleLabelClick}
+                icon={options.length > 8 ? {name: 'search'} : {name: 'dropdown'}} />
       </Form.Field>
     )
   }

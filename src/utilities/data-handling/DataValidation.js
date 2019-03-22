@@ -62,7 +62,13 @@ export const validateAndClean = (dataObject, groupings, languageCode, uiSchema) 
                   }
                 }
               } else {
-                // Don't think this is ever the case so far
+                // TODO: Don't think this is ever the case so far, but beware of it
+              }
+              break
+
+            case 'radio':
+              if (data[property] === '') {
+                required ? errors[property] = ERRORS.EMPTY_CHOICE[languageCode] : delete data[property]
               }
               break
 
