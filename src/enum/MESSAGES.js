@@ -15,6 +15,10 @@ export const MESSAGES = {
     en: 'Click to fetch options again',
     nb: 'Klikk for å hente valgmulighetene på nytt'
   },
+  GSIM_DRAFT: {
+    en: 'is set to DRAFT. This means that you can store the object without having to fill required fields.',
+    nb: 'er satt til DRAFT. Dette medfører at du kan lagre objektet uten å måtte fylle obligatoriske felter.'
+  },
   LOCATION: {
     en: 'The URL for the LDS that the client should interact with',
     nb: 'URL mot LDS som klienten ønsker interaksjon med'

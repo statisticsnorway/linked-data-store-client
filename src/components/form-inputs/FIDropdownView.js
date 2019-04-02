@@ -38,8 +38,8 @@ class FIDropdownView extends Component {
             {MESSAGES.VIEW_VALUE[languageCode]}
           </Popup>
           }
-          {problem && <span style={{color: '#db2828'}}>{`${ERRORS.NOT_FETCH[languageCode]}`}</span>}
-          {warning !== false && <span style={{color: '#ffd700'}}>{warning}</span>}
+          {problem && <span style={{color: ERRORS.ERROR_COLOR}}>{`${ERRORS.NOT_FETCH[languageCode]}`}</span>}
+          {warning !== false && <span style={{color: ERRORS.WARNING_COLOR}}>{warning}</span>}
         </label>
         <Select name={uiSchema.name} multiple={uiSchema.input.multiple} loading={loading} clearable
                 placeholder={truncateString(uiSchema.displayName)} options={options} value={value}

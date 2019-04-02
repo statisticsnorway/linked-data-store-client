@@ -1,4 +1,5 @@
 export const ERRORS = {
+  ERROR_COLOR: '#db2828',
   EMPTY_CHOICE: {
     en: 'Required input must have a selected choice',
     nb: 'Feltet må ha en valgt verdi'
@@ -43,6 +44,7 @@ export const ERRORS = {
     en: 'Processing the file failed',
     nb: 'Prosessering av filen feilet'
   },
+  WARNING_COLOR: '#f2711c',
   WRONG_TYPE: {
     en: 'Value from input is not of correct type, how did that happen?',
     nb: 'Verdien fra feltet er ikke av korrekt type, hvordan skjedde det?'

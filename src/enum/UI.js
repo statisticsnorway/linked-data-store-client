@@ -118,5 +118,9 @@ export const UI = {
   USER: {
     en: 'Username',
     nb: 'Brukernavn'
+  },
+  WARNING: {
+    en: 'Warning',
+    nb: 'Advarsel'
   }
 }
