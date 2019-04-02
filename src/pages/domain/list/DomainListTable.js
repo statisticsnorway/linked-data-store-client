@@ -4,6 +4,12 @@ import ReactTable from 'react-table'
 import { MESSAGES, TABLE } from '../../../enum'
 
 class DomainListTable extends Component {
+  filterMethod = (filter, row) => {
+    const id = filter.pivotId || filter.id
+
+    return row[id] !== undefined ? String(row[id].toLowerCase()).includes(filter.value.toLowerCase()) : true
+  }
+
   render () {
     const {columns, data, languageCode} = this.props
 
@@ -12,6 +18,7 @@ class DomainListTable extends Component {
         className='-highlight'
         sortable
         filterable
+        defaultFilterMethod={this.filterMethod}
         resizable={false}
         data={data}
         columns={columns}
