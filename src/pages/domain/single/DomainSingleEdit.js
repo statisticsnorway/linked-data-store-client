@@ -3,7 +3,7 @@ import { Divider, Form, Grid, Header, Icon, Label, List, Message, Popup, Segment
 
 import { DeleteData, DownloadJSON, FormField, SaveData } from '../../../components'
 import { convertDataToView } from '../../../utilities'
-import { ERRORS, MESSAGES } from '../../../enum'
+import { ERRORS, MESSAGES, UI } from '../../../enum'
 
 class DomainSingleEdit extends Component {
   render () {
@@ -17,6 +17,11 @@ class DomainSingleEdit extends Component {
         <div>
           <Header as='h1' dividing icon={{name: 'edit outline', color: fresh ? 'teal' : 'orange'}}
                   content={schema.displayName} subheader={schema.description} />
+          {lds.producer === 'gsim' && data.administrativeStatus === 'DRAFT' &&
+          <Message warning icon='warning' header={UI.WARNING[languageCode]}
+                   content={`${uiSchema.common.administrativeStatus.displayName} ${MESSAGES.GSIM_DRAFT[languageCode]}`}
+          />
+          }
           {Object.keys(errors).length > 0 && <Message error content={
             <List>
               {Object.keys(errors).map(error =>
@@ -51,10 +56,16 @@ class DomainSingleEdit extends Component {
                 {Object.keys(uiSchema.autofilled).map(property =>
                   <List.Item key={property}>
                     <List.Content>
-                      <List.Header>
-                        {`${uiSchema.autofilled[property].displayName} `}
-                        <Icon color='teal' name={uiSchema.autofilled[property].icon} />
-                      </List.Header>
+                      <Popup basic flowing
+                             trigger={
+                               <List.Header>
+                                 {`${uiSchema.autofilled[property].displayName} `}
+                                 <Icon color='teal' name={uiSchema.autofilled[property].icon} />
+                               </List.Header>
+                             }>
+                        <Icon color='blue' name='info circle' />
+                        {uiSchema.autofilled[property].description}
+                      </Popup>
                       <List.Description>
                         {convertDataToView(data[property], languageCode, lds.producer, uiSchema.autofilled[property])}
                       </List.Description>

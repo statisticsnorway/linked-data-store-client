@@ -29,7 +29,8 @@ class AppMenu extends Component {
           loading: !ready, 'data-testid': 'health'
         }}
         />
-        <Dropdown item scrolling disabled={error !== false} text={UI.DOMAINS[languageCode]}>
+        <Dropdown item scrolling disabled={!ready || error !== false}
+                  text={`${UI.DOMAINS[languageCode]} (${ready && !error ? domains.length : '...'})`}>
           <Dropdown.Menu>
             <Input icon='search' iconPosition='left' placeholder={UI.SEARCH[languageCode]} value={search}
                    onChange={this.handleSearch} onClick={event => event.stopPropagation()} />
@@ -41,8 +42,8 @@ class AppMenu extends Component {
             }
           </Dropdown.Menu>
         </Dropdown>
-        <Menu.Item as={Link} to='/import' disabled={error !== false} content={UI.IMPORT[languageCode]} />
-        <Menu.Item as={Link} to='/explore' disabled={error !== false} content={UI.EXPLORE[languageCode]} />
+        <Menu.Item as={Link} to='/import' disabled={!ready || error !== false} content={UI.IMPORT[languageCode]} />
+        <Menu.Item as={Link} to='/explore' disabled={!ready || error !== false} content={UI.EXPLORE[languageCode]} />
         <Menu.Menu position='right'>
           <Menu.Item as={Link} to='/settings' icon={{name: 'setting', color: 'teal'}} />
           <Dropdown item text={`${UI.LANGUAGE[languageCode]} (${UI.LANGUAGE_CHOICE[languageCode]})`}>

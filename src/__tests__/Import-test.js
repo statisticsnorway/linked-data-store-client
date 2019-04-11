@@ -27,13 +27,13 @@ const setup = () => {
     }
   }
 
-  const {container, debug, getByTestId, getByText, queryAllByText} = render(
+  const {getByTestId, getByText, queryAllByText} = render(
     <MemoryRouter>
       <Import {...props} />
     </MemoryRouter>
   )
 
-  return {container, debug, getByTestId, getByText, queryAllByText}
+  return {getByTestId, getByText, queryAllByText}
 }
 
 test('Import renders correctly when response from LDS', async () => {

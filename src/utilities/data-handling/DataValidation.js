@@ -1,6 +1,6 @@
 import { ERRORS } from '../../enum'
 
-export const validateAndClean = (dataObject, groupings, languageCode, uiSchema) => {
+export const validateAndClean = (dataObject, draft = false, groupings, languageCode, uiSchema) => {
   const data = JSON.parse(JSON.stringify(dataObject))
   const errors = {}
 
@@ -11,7 +11,7 @@ export const validateAndClean = (dataObject, groupings, languageCode, uiSchema) 
 
         if (uiSchemaProp.hasOwnProperty('input')) {
           const multiple = uiSchemaProp.input.multiple
-          const required = uiSchemaProp.input.required
+          const required = draft ? false : uiSchemaProp.input.required // There is an ongoing discussion on how to solve this at the moment. This should maybe only apply to dropdowns with required (if DRAFT and empty and required, generage mock link so LDS accepts storage is one potential workaround).
           const type = uiSchemaProp.input.type
 
           switch (type) {
@@ -62,7 +62,13 @@ export const validateAndClean = (dataObject, groupings, languageCode, uiSchema) 
                   }
                 }
               } else {
-                // Don't think this is ever the case so far
+                // TODO: Don't think this is ever the case so far, but beware of it
+              }
+              break
+
+            case 'radio':
+              if (data[property] === '') {
+                required ? errors[property] = ERRORS.EMPTY_CHOICE[languageCode] : delete data[property]
               }
               break
 
@@ -72,8 +78,6 @@ export const validateAndClean = (dataObject, groupings, languageCode, uiSchema) 
               }
           }
         }
-      } else {
-        // Don't think this is ever the case so far
       }
     })
   })

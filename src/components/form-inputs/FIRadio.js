@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Form, Radio } from 'semantic-ui-react'
+import { Form, Icon, Popup, Radio } from 'semantic-ui-react'
 
 class FIRadio extends Component {
   render () {
@@ -7,7 +7,10 @@ class FIRadio extends Component {
 
     return (
       <Form.Field required={uiSchema.input.required} error={!!error}>
-        <label>{uiSchema.displayName}</label>
+        <Popup basic flowing trigger={<label>{uiSchema.displayName}</label>}>
+          <Icon color='blue' name='info circle' />
+          {uiSchema.description}
+        </Popup>
         <Form.Group>
           {uiSchema.input.options.map(option =>
             <Form.Field key={option.text} control={Radio} name={uiSchema.name} label={option.text} value={option.value}

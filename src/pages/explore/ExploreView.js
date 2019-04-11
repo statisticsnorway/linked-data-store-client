@@ -80,7 +80,8 @@ class ExploreView extends Component {
           <Header as='h1' content={UI.EXPLORE[languageCode]} dividing />
           <Grid columns='equal'>
             <Grid.Column>
-              <Checkbox checked={showEmpty} label={UI.SHOW_ALL[languageCode]} onChange={this.toggleShowEmpty} toggle />
+              <Checkbox checked={showEmpty} label={UI.SHOW_ALL[languageCode]} onChange={this.toggleShowEmpty} toggle
+                        data-testid='exploreShowAll' />
               <Table celled collapsing compact='very'>
                 <Table.Header>
                   <Table.Row>

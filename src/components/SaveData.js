@@ -16,7 +16,10 @@ class SaveData extends Component {
   saveData = () => {
     this.setState({loading: true}, () => {
       const {data, domain, languageCode, lds, setErrors, uiSchema} = this.props
-      const returned = validateAndClean(data, ['unique', 'common'], languageCode, uiSchema)
+
+      // TODO: For GSIM objects with administrativeStatus set to DRAFT this validateAndClean might want to be skipped
+      // const draft = lds.producer === 'gsim' ? data.administrativeStatus === 'DRAFT' : false
+      const returned = validateAndClean(data, false, ['unique', 'common'], languageCode, uiSchema)
 
       if (Object.keys(returned.errors).length > 0) {
         this.setState({loading: false})

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { Button, Divider, Grid, Header, Icon, Message, Segment } from 'semantic-ui-react'
+import { Button, Divider, Grid, Header, Icon, Message, Popup, Segment } from 'semantic-ui-react'
 
 import { extractStringFromObject } from '../../../producers/Producers'
 import { convertDataToView } from '../../../utilities'
@@ -15,9 +15,16 @@ class DomainSingleView extends Component {
         {ready && error && <Message negative icon='warning' header={ERRORS.ERROR[languageCode]} content={error} />}
         {ready && !error &&
         <div>
-          <Header as='h1' dividing icon={{name: 'file alternate outline', color: 'teal'}}
-                  content={extractStringFromObject(data.name, lds.producer, languageCode)}
-                  subheader={extractStringFromObject(data.description, lds.producer, languageCode)} />
+          <Header as='h1' dividing>
+            <Icon name='file alternate outline' color='teal' />
+            <Header.Content>
+              {`${extractStringFromObject(data.name, lds.producer, languageCode)} `}
+              <i style={{fontWeight: 400}}>({domain.name})</i>
+              <Header.Subheader>
+                {extractStringFromObject(data.description, lds.producer, languageCode)}
+              </Header.Subheader>
+            </Header.Content>
+          </Header>
           {location.state && location.state.wasSaved &&
           <Message positive icon='check' content={`${MESSAGES.WAS_SAVED[languageCode]}`} />
           }
@@ -29,7 +36,10 @@ class DomainSingleView extends Component {
                   {Object.keys(uiSchema[grouping]).map(property =>
                     <Grid.Row key={property} style={{paddingTop: '0'}}>
                       <Grid.Column textAlign='right' width={5}>
-                        <b>{uiSchema[grouping][property].displayName}</b>
+                        <Popup basic flowing trigger={<b>{uiSchema[grouping][property].displayName}</b>}>
+                          <Icon color='blue' name='info circle' />
+                          {uiSchema[grouping][property].description}
+                        </Popup>
                       </Grid.Column>
                       <Grid.Column width={11}>
                         {convertDataToView(data[property], languageCode, lds.producer, uiSchema[grouping][property])}

@@ -42,30 +42,26 @@ const setup = () => {
   return {container, queryAllByText}
 }
 
-describe('Testing DomainList with good response', () => {
-  beforeEach(() => {
-    getData
-      .mockImplementationOnce(() => Promise.resolve(AgentSchema))
-      .mockImplementationOnce(() => Promise.resolve(AgentData))
+test('DomainList renders correctly when good response from LDS', async () => {
+  getData
+    .mockImplementationOnce(() => Promise.resolve(AgentSchema))
+    .mockImplementationOnce(() => Promise.resolve(AgentData))
+
+  const {container, queryAllByText} = setup()
+
+  await wait(() => {
+    const link = container.querySelector('a[href="/gsim/Agent/903c45b1-7f69-4ee4-b6f3-d95aba633297/view"]')
+
+    expect(queryAllByText(`${UI.CREATE_NEW.nb} Agent`)).toHaveLength(1)
+    expect(queryAllByText('Test Agent')).toHaveLength(1)
+    expect(queryAllByText('An agents spesifically designed for testing')).toHaveLength(1)
+    expect(link).toBeVisible()
+    expect(link).toHaveTextContent(/^903c45b1-7f69-4ee4-b6f3-d95aba633297$/)
   })
 
-  test('DomainList renders correctly when good response from LDS', async () => {
-    const {container, queryAllByText} = setup()
-
-    await wait(() => {
-      const link = container.querySelector('a[href="/gsim/Agent/903c45b1-7f69-4ee4-b6f3-d95aba633297/view"]')
-
-      expect(queryAllByText(`${UI.CREATE_NEW.nb} Agent`)).toHaveLength(1)
-      expect(queryAllByText('Test Agent')).toHaveLength(1)
-      expect(queryAllByText('An agents spesifically designed for testing')).toHaveLength(1)
-      expect(link).toBeVisible()
-      expect(link).toHaveTextContent(/^903c45b1-7f69-4ee4-b6f3-d95aba633297$/)
-    })
-
-    expect(getData).toHaveBeenCalledTimes(2)
-    expect(getData).toHaveBeenNthCalledWith(1, 'http://localhost:9090/ns/Agent?schema')
-    expect(getData).toHaveBeenNthCalledWith(2, 'http://localhost:9090/ns/Agent')
-  })
+  expect(getData).toHaveBeenCalledTimes(2)
+  expect(getData).toHaveBeenNthCalledWith(1, 'http://localhost:9090/ns/Agent?schema')
+  expect(getData).toHaveBeenNthCalledWith(2, 'http://localhost:9090/ns/Agent')
 })
 
 test('DomainList renders correctly when bad response from LDS', async () => {
