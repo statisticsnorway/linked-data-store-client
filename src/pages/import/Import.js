@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 
 import ImportView from './ImportView'
 import { extractDomainFromFilename, putData } from '../../utilities'
+import { LanguageContext } from '../../utilities/context/LanguageContext'
 import { ERRORS } from '../../enum'
 
 class Import extends Component {
@@ -20,7 +21,6 @@ class Import extends Component {
   }
 
   handleUpload = (event) => {
-    const {languageCode} = this.props
     const files = event.target.files
 
     this.setState({
@@ -33,7 +33,7 @@ class Import extends Component {
             progress: prevState.progress + 1,
             responses: [...prevState.responses, {
               name: files[file].name,
-              text: ERRORS.INVALID_FORMAT[languageCode]
+              text: ERRORS.INVALID_FORMAT[this.context.value]
             }]
           }))
         } else {
@@ -44,8 +44,6 @@ class Import extends Component {
   }
 
   handleFile = (file) => {
-    const {languageCode} = this.props
-
     let fileReader = new FileReader()
 
     fileReader.readAsText(file)
@@ -66,7 +64,7 @@ class Import extends Component {
           progress: prevState.progress + 1,
           responses: [...prevState.responses, {
             name: file.name,
-            text: `${ERRORS.PROCESSING_FAILED[languageCode]} (${error.toString()})`
+            text: `${ERRORS.PROCESSING_FAILED[this.context.value]} (${error.toString()})`
           }]
         }))
       }
@@ -74,7 +72,7 @@ class Import extends Component {
   }
 
   handleImport = (data, domain, filename) => {
-    const {lds} = this.props
+    const { lds } = this.props
     const url = `${lds.url}/${lds.namespace}/${domain}/${data.id}`
 
     putData(url, data).then(() => {
@@ -102,11 +100,11 @@ class Import extends Component {
   }
 
   render () {
-    const {languageCode} = this.props
-
-    return <ImportView {...this.state} languageCode={languageCode} fileUploader={this.fileUploader}
-                       handleUpload={this.handleUpload} handleClick={this.handleClick} reset={this.reset} />
+    return <ImportView {...this.state} fileUploader={this.fileUploader} handleUpload={this.handleUpload}
+                       handleClick={this.handleClick} reset={this.reset} />
   }
 }
+
+Import.contextType = LanguageContext
 
 export default Import

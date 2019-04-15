@@ -3,6 +3,7 @@ import 'jest-dom/extend-expect'
 import { MemoryRouter } from 'react-router-dom'
 import { cleanup, render, wait } from 'react-testing-library'
 
+import { LanguageContext } from '../utilities/context/LanguageContext'
 import DomainList from '../pages/domain/list/DomainList'
 import { getData } from '../utilities/fetch/Fetch'
 import { UI } from '../enum'
@@ -10,7 +11,7 @@ import { UI } from '../enum'
 import AgentSchema from './test-data/AgentSchema'
 import AgentData from './test-data/AgentData'
 
-jest.mock('../utilities/fetch/Fetch', () => ({getData: jest.fn()}))
+jest.mock('../utilities/fetch/Fetch', () => ({ getData: jest.fn() }))
 
 afterEach(() => {
   getData.mockReset()
@@ -24,7 +25,6 @@ const setup = () => {
       path: '/ns/Agent?schema',
       route: '/gsim/Agent'
     },
-    languageCode: 'nb',
     lds: {
       namespace: 'ns',
       producer: 'gsim',
@@ -33,13 +33,15 @@ const setup = () => {
     }
   }
 
-  const {container, queryAllByText} = render(
+  const { container, queryAllByText } = render(
     <MemoryRouter>
-      <DomainList {...props} />
+      <LanguageContext.Provider value={{ value: 'nb' }}>
+        <DomainList {...props} />
+      </LanguageContext.Provider>
     </MemoryRouter>
   )
 
-  return {container, queryAllByText}
+  return { container, queryAllByText }
 }
 
 test('DomainList renders correctly when good response from LDS', async () => {
@@ -47,7 +49,7 @@ test('DomainList renders correctly when good response from LDS', async () => {
     .mockImplementationOnce(() => Promise.resolve(AgentSchema))
     .mockImplementationOnce(() => Promise.resolve(AgentData))
 
-  const {container, queryAllByText} = setup()
+  const { container, queryAllByText } = setup()
 
   await wait(() => {
     const link = container.querySelector('a[href="/gsim/Agent/903c45b1-7f69-4ee4-b6f3-d95aba633297/view"]')
@@ -67,7 +69,7 @@ test('DomainList renders correctly when good response from LDS', async () => {
 test('DomainList renders correctly when bad response from LDS', async () => {
   getData.mockImplementation(() => Promise.reject('Error'))
 
-  const {queryAllByText} = setup()
+  const { queryAllByText } = setup()
 
   await wait(() => {
     expect(queryAllByText('Error')).toHaveLength(1)

@@ -25,7 +25,7 @@ class Explore extends Component {
 
   // TODO: This is a nasty bit of code...
   componentDidMount () {
-    const {domains, lds} = this.props
+    const { domains, lds } = this.props
 
     getData(`${lds.url}/${lds.namespace}?schema=embed`).then(schemas => {
       Promise.all(
@@ -203,9 +203,9 @@ class Explore extends Component {
   }
 
   render () {
-    const {languageCode, lds} = this.props
+    const { lds } = this.props
 
-    return <ExploreView {...this.state} languageCode={languageCode} producer={lds.producer} />
+    return <ExploreView {...this.state} producer={lds.producer} />
   }
 }
 

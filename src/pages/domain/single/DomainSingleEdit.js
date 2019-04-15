@@ -2,24 +2,27 @@ import React, { Component } from 'react'
 import { Divider, Form, Grid, Header, Icon, Label, List, Message, Popup, Segment } from 'semantic-ui-react'
 
 import { DeleteData, DownloadJSON, FormField, SaveData } from '../../../components'
+import { LanguageContext } from '../../../utilities/context/LanguageContext'
 import { convertDataToView } from '../../../utilities'
 import { ERRORS, MESSAGES, UI } from '../../../enum'
 
 class DomainSingleEdit extends Component {
   render () {
-    const {data, domain, error, errors, fresh, languageCode, lds, ready, schema, uiSchema} = this.props
-    const {handleChange, setErrors} = this.props
+    const { data, domain, error, errors, fresh, lds, ready, schema, uiSchema } = this.props
+    const { handleChange, setErrors } = this.props
+
+    let language = this.context.value
 
     return (
       <Segment basic loading={!ready}>
-        {ready && error && <Message negative icon='warning' header={ERRORS.ERROR[languageCode]} content={error} />}
+        {ready && error && <Message negative icon='warning' header={ERRORS.ERROR[language]} content={error} />}
         {ready && !error &&
         <div>
-          <Header as='h1' dividing icon={{name: 'edit outline', color: fresh ? 'teal' : 'orange'}}
+          <Header as='h1' dividing icon={{ name: 'edit outline', color: fresh ? 'teal' : 'orange' }}
                   content={schema.displayName} subheader={schema.description} />
           {lds.producer === 'gsim' && data.administrativeStatus === 'DRAFT' &&
-          <Message warning icon='warning' header={UI.WARNING[languageCode]}
-                   content={`${uiSchema.common.administrativeStatus.displayName} ${MESSAGES.GSIM_DRAFT[languageCode]}`}
+          <Message warning icon='warning' header={UI.WARNING[language]}
+                   content={`${uiSchema.common.administrativeStatus.displayName} ${MESSAGES.GSIM_DRAFT[language]}`}
           />
           }
           {Object.keys(errors).length > 0 && <Message error content={
@@ -39,8 +42,8 @@ class DomainSingleEdit extends Component {
               <Grid.Column key={column} width={6}>
                 <Form>
                   {Object.keys(uiSchema[column]).map(property =>
-                    <FormField key={property} languageCode={languageCode} uiSchema={uiSchema[column][property]}
-                               lds={lds} value={data[property]} handleChange={handleChange} error={errors[property]} />
+                    <FormField key={property} uiSchema={uiSchema[column][property]} lds={lds} value={data[property]}
+                               handleChange={handleChange} error={errors[property]} />
                   )}
                 </Form>
               </Grid.Column>
@@ -48,9 +51,10 @@ class DomainSingleEdit extends Component {
             <Grid.Column width={4}>
               <Popup flowing hideOnScroll position='left center'
                      trigger={<Label attached='top right' color={fresh ? 'green' : 'orange'} circular size='big'
-                                     icon={{fitted: true, name: fresh ? 'save' : 'edit'}} style={{right: '0.5em'}} />}>
+                                     icon={{ fitted: true, name: fresh ? 'save' : 'edit' }}
+                                     style={{ right: '0.5em' }} />}>
                 <Icon color='blue' name='info circle' />
-                {fresh ? MESSAGES.NOT_EDITED[languageCode] : MESSAGES.EDITED[languageCode]}
+                {fresh ? MESSAGES.NOT_EDITED[language] : MESSAGES.EDITED[language]}
               </Popup>
               <List relaxed>
                 {Object.keys(uiSchema.autofilled).map(property =>
@@ -67,7 +71,7 @@ class DomainSingleEdit extends Component {
                         {uiSchema.autofilled[property].description}
                       </Popup>
                       <List.Description>
-                        {convertDataToView(data[property], languageCode, lds.producer, uiSchema.autofilled[property])}
+                        {convertDataToView(data[property], language, lds.producer, uiSchema.autofilled[property])}
                       </List.Description>
                     </List.Content>
                   </List.Item>
@@ -76,15 +80,16 @@ class DomainSingleEdit extends Component {
             </Grid.Column>
           </Grid>
           <Divider hidden />
-          <DeleteData domain={domain} languageCode={languageCode} lds={lds} id={data.id} uiSchema={uiSchema} />
-          <DownloadJSON data={data} languageCode={languageCode} lds={lds} setErrors={setErrors} uiSchema={uiSchema} />
-          <SaveData data={data} domain={domain} fresh={fresh} languageCode={languageCode} lds={lds}
-                    setErrors={setErrors} uiSchema={uiSchema} />
+          <DeleteData domain={domain} lds={lds} id={data.id} uiSchema={uiSchema} />
+          <DownloadJSON data={data} lds={lds} setErrors={setErrors} uiSchema={uiSchema} />
+          <SaveData data={data} domain={domain} fresh={fresh} lds={lds} setErrors={setErrors} uiSchema={uiSchema} />
         </div>
         }
       </Segment>
     )
   }
 }
+
+DomainSingleEdit.contextType = LanguageContext
 
 export default DomainSingleEdit

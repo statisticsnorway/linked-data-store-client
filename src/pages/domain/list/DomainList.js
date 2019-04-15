@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { Button, Divider, Header, Icon, Message, Segment } from 'semantic-ui-react'
 
 import DomainListTable from './DomainListTable'
+import { LanguageContext } from '../../../utilities/context/LanguageContext'
 import { extractStringFromObject, producers } from '../../../producers/Producers'
 import { getData } from '../../../utilities'
 import { ERRORS, UI } from '../../../enum'
@@ -14,15 +15,17 @@ class DomainList extends Component {
   }
 
   componentDidMount () {
-    const {domain, languageCode, lds} = this.props
+    const { domain, lds } = this.props
     const schemaUrl = `${lds.url}${domain.path}`
     const dataUrl = `${lds.url}/${lds.namespace}/${domain.name}`
+
+    let language = this.context.value
 
     getData(schemaUrl).then(schema =>
       getData(dataUrl).then(data =>
         this.setState({
           columns: this.mapColumns(domain, lds.producer, schema.definitions[domain.name].properties),
-          data: this.mapData(Array.isArray(data) ? data : [data], languageCode, lds.producer),
+          data: this.mapData(Array.isArray(data) ? data : [data], language, lds.producer),
           displayName: schema.definitions[domain.name].displayName,
           error: false,
           ready: true
@@ -51,36 +54,38 @@ class DomainList extends Component {
         :
         `${props.value}`,
       Header: properties[header] ? properties[header].displayName : '',
-      headerStyle: {fontWeight: '700'}
+      headerStyle: { fontWeight: '700' }
     }))
 
-  mapData = (data, languageCode, producer) =>
+  mapData = (data, language, producer) =>
     data.map(item => {
       const dataEntry = {}
 
       producers[producer].tableHeaders.forEach(header => {
-        dataEntry[header] = item[header] ? extractStringFromObject(item[header], producer, languageCode) : ''
+        dataEntry[header] = item[header] ? extractStringFromObject(item[header], producer, language) : ''
       })
 
       return dataEntry
     })
 
   render () {
-    const {columns, data, displayName, error, ready} = this.state
-    const {domain, languageCode} = this.props
+    const { columns, data, displayName, error, ready } = this.state
+    const { domain } = this.props
+
+    let language = this.context.value
 
     return (
       <Segment basic loading={!ready}>
-        {ready && error && <Message negative icon='warning' header={ERRORS.ERROR[languageCode]} content={error} />}
+        {ready && error && <Message negative icon='warning' header={ERRORS.ERROR[language]} content={error} />}
         {ready && !error &&
         <div>
-          <Header as='h1' icon={{name: 'table', color: 'teal'}} content={displayName} />
-          <DomainListTable columns={columns} languageCode={languageCode} data={data} />
+          <Header as='h1' icon={{ name: 'table', color: 'teal' }} content={displayName} />
+          <DomainListTable columns={columns} data={data} />
           <Divider hidden />
           <Link to={`${domain.route}/new/edit`}>
             <Button animated color='teal' floated='right' disabled={!!error || !ready}>
               <Button.Content visible>
-                {`${UI.CREATE_NEW[languageCode]} ${displayName}`}
+                {`${UI.CREATE_NEW[language]} ${displayName}`}
               </Button.Content>
               <Button.Content hidden>
                 <Icon fitted name='pencil alternate' />
@@ -93,5 +98,7 @@ class DomainList extends Component {
     )
   }
 }
+
+DomainList.contextType = LanguageContext
 
 export default DomainList

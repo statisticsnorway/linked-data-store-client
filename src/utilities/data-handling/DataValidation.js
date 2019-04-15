@@ -1,6 +1,6 @@
 import { ERRORS } from '../../enum'
 
-export const validateAndClean = (dataObject, draft = false, groupings, languageCode, uiSchema) => {
+export const validateAndClean = (dataObject, draft = false, groupings, language, uiSchema) => {
   const data = JSON.parse(JSON.stringify(dataObject))
   const errors = {}
 
@@ -17,7 +17,7 @@ export const validateAndClean = (dataObject, draft = false, groupings, languageC
           switch (type) {
             case 'boolean':
               if (typeof data[property] !== 'boolean') {
-                errors[property] = ERRORS.WRONG_TYPE[languageCode]
+                errors[property] = ERRORS.WRONG_TYPE[language]
               }
               break
 
@@ -29,11 +29,11 @@ export const validateAndClean = (dataObject, draft = false, groupings, languageC
                 data[property] = data[property].filter(value => value !== noValue)
 
                 if (data[property].length === 0) {
-                  required ? errors[property] = ERRORS.EMPTY_VALUES[languageCode] : delete data[property]
+                  required ? errors[property] = ERRORS.EMPTY_VALUES[language] : delete data[property]
                 }
               } else {
                 if (data[property] === noValue) {
-                  required ? errors[property] = ERRORS.EMPTY_VALUE[languageCode] : delete data[property]
+                  required ? errors[property] = ERRORS.EMPTY_VALUE[language] : delete data[property]
                 }
               }
               break
@@ -50,7 +50,7 @@ export const validateAndClean = (dataObject, draft = false, groupings, languageC
                   )
 
                   if (data[property].length === 0) {
-                    required ? errors[property] = ERRORS.EMPTY_VALUES[languageCode] : delete data[property]
+                    required ? errors[property] = ERRORS.EMPTY_VALUES[language] : delete data[property]
                   }
                 } else {
                   data[property] = data[property].filter(value =>
@@ -58,7 +58,7 @@ export const validateAndClean = (dataObject, draft = false, groupings, languageC
                   )
 
                   if (data[property].length === 0) {
-                    required ? errors[property] = ERRORS.EMPTY_VALUES[languageCode] : delete data[property]
+                    required ? errors[property] = ERRORS.EMPTY_VALUES[language] : delete data[property]
                   }
                 }
               } else {
@@ -68,13 +68,13 @@ export const validateAndClean = (dataObject, draft = false, groupings, languageC
 
             case 'radio':
               if (data[property] === '') {
-                required ? errors[property] = ERRORS.EMPTY_CHOICE[languageCode] : delete data[property]
+                required ? errors[property] = ERRORS.EMPTY_CHOICE[language] : delete data[property]
               }
               break
 
             default:
               if (data[property] === '') {
-                required ? errors[property] = ERRORS.EMPTY_VALUE[languageCode] : delete data[property]
+                required ? errors[property] = ERRORS.EMPTY_VALUE[language] : delete data[property]
               }
           }
         }
@@ -82,5 +82,5 @@ export const validateAndClean = (dataObject, draft = false, groupings, languageC
     })
   })
 
-  return {data: data, errors: errors}
+  return { data: data, errors: errors }
 }

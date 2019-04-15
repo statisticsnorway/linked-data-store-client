@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 
 import DomainSingleEdit from './DomainSingleEdit'
 import DomainSingleView from './DomainSingleView'
+import { LanguageContext } from '../../../utilities/context/LanguageContext'
 import { createDefaultData, createUiSchema, getData } from '../../../utilities'
 import { MESSAGES } from '../../../enum'
 
@@ -18,7 +19,7 @@ class DomainSingle extends Component {
   }
 
   componentDidUpdate (prevProps) {
-    const {params} = this.props
+    const { params } = this.props
 
     if (prevProps.params.id !== params.id) {
       this.reload()
@@ -26,7 +27,9 @@ class DomainSingle extends Component {
   }
 
   load = () => {
-    const {domain, languageCode, lds, params} = this.props
+    const { domain, lds, params } = this.props
+
+    let language = this.context.value
 
     getData(`${lds.url}${domain.path}`).then(schema => {
       const uiSchema = createUiSchema(schema.definitions, lds, domain.name)
@@ -44,12 +47,12 @@ class DomainSingle extends Component {
         getData(`${lds.url}/${lds.namespace}/${domain.name}/${params.id}`).then(data => {
           if (Array.isArray(data) && data.length < 1) {
             this.setState({
-              error: MESSAGES.NOTHING_FOUND[languageCode],
+              error: MESSAGES.NOTHING_FOUND[language],
               ready: true
             })
           } else {
             this.setState({
-              data: {...defaultData, ...data},
+              data: { ...defaultData, ...data },
               error: false,
               schema: schema.definitions[domain.name],
               ready: true,
@@ -82,34 +85,35 @@ class DomainSingle extends Component {
   }
 
   handleChange = (event, data) => {
-    const {[data.name]: deleted, ...errors} = this.state.errors
+    const { [data.name]: deleted, ...errors } = this.state.errors
 
     this.setState({
-      data: {...this.state.data, [data.name]: data.value},
+      data: { ...this.state.data, [data.name]: data.value },
       errors: errors,
       fresh: false
     })
   }
 
   setErrors = (errors) => {
-    this.setState({errors: errors})
+    this.setState({ errors: errors })
   }
 
   render () {
-    const {domain, languageCode, lds, location, params} = this.props
+    const { domain, lds, location, params } = this.props
 
     if (params.view === 'edit') {
-      return <DomainSingleEdit {...this.state} domain={domain} handleChange={this.handleChange}
-                               languageCode={languageCode} lds={lds} setErrors={this.setErrors} />
+      return <DomainSingleEdit {...this.state} domain={domain} handleChange={this.handleChange} lds={lds}
+                               setErrors={this.setErrors} />
     }
 
     if (params.view === 'view') {
-      return <DomainSingleView {...this.state} domain={domain} languageCode={languageCode} lds={lds}
-                               location={location} />
+      return <DomainSingleView {...this.state} domain={domain} lds={lds} location={location} />
     }
 
     return null
   }
 }
+
+DomainSingle.contextType = LanguageContext
 
 export default DomainSingle

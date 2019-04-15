@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
+import { Divider } from 'semantic-ui-react'
 
 import { FIBoolean, FIDate, FIDropdown, FIMultiInput, FINumber, FIRadio, FIText } from './form-inputs'
-import { Divider } from 'semantic-ui-react'
 
 const formComponents = {
   boolean: FIBoolean,

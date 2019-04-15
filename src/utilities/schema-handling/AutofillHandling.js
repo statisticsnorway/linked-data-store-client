@@ -17,7 +17,7 @@ export const setAutofillProperties = (domainProperties, property, producer) => {
     properties.type = domainProperties[property].type
   }
 
-  [{type: 'user', icon: 'user outline'}].forEach(value => {
+  [{ type: 'user', icon: 'user outline' }].forEach(value => {
     if (producers[producer].autofillTypes[value.type].includes(property)) {
       properties.icon = value.icon
     }

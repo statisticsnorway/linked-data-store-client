@@ -7,7 +7,7 @@ import App from '../App'
 import { getData } from '../utilities/fetch/Fetch'
 import { UI } from '../enum'
 
-jest.mock('../utilities/fetch/Fetch', () => ({getData: jest.fn()}))
+jest.mock('../utilities/fetch/Fetch', () => ({ getData: jest.fn() }))
 
 // Removes HTMLCanvasElement errors in console while running tests - https://github.com/jerairrest/react-chartjs-2/issues/155
 jest.mock('react-chartjs-2', () => ({
@@ -22,19 +22,19 @@ afterEach(() => {
 })
 
 const setup = () => {
-  const {container, getByTestId, getByText, queryAllByText} = render(
+  const { container, getByTestId, getByText, queryAllByText } = render(
     <MemoryRouter>
       <App />
     </MemoryRouter>
   )
 
-  return {container, getByTestId, getByText, queryAllByText}
+  return { container, getByTestId, getByText, queryAllByText }
 }
 
 test('App renders correctly when response good from LDS', async () => {
   getData.mockImplementation(() => Promise.resolve(['/data/Agent?schema']))
 
-  const {getByTestId, queryAllByText} = setup()
+  const { getByTestId, queryAllByText } = setup()
 
   await wait(() => {
     expect(getByTestId('health')).toHaveClass('green')
@@ -48,7 +48,7 @@ test('App renders correctly when response good from LDS', async () => {
 test('Changing language works correctly', async () => {
   getData.mockImplementation(() => Promise.resolve([]))
 
-  const {getByText, queryAllByText} = setup()
+  const { getByText, queryAllByText } = setup()
 
   await wait(() => {
     expect(queryAllByText(`${UI.LANGUAGE.nb} (${UI.LANGUAGE_CHOICE.nb})`)).toHaveLength(1)
@@ -62,7 +62,7 @@ test('Changing language works correctly', async () => {
 test('All navigation works', async () => {
   getData.mockImplementation(() => Promise.resolve([]))
 
-  const {container, getByText, queryAllByText} = setup()
+  const { container, getByText, queryAllByText } = setup()
 
   await wait(() => {
     fireEvent.click(container.querySelector('a[href="/settings"]'))
@@ -79,7 +79,7 @@ test('All navigation works', async () => {
 test('App renders correctly when bad response from LDS', async () => {
   getData.mockImplementation(() => Promise.reject('Error'))
 
-  const {getByTestId, queryAllByText} = setup()
+  const { getByTestId, queryAllByText } = setup()
 
   await wait(() => {
     expect(getByTestId('health')).toHaveClass('red')

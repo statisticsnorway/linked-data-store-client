@@ -5,7 +5,7 @@ import { truncateString } from '../../utilities'
 
 class FINumber extends Component {
   render () {
-    const {error, handleChange, uiSchema, value} = this.props
+    const { error, handleChange, uiSchema, value } = this.props
 
     return (
       <Form.Field required={uiSchema.input.required} error={!!error}>
@@ -15,7 +15,7 @@ class FINumber extends Component {
             {uiSchema.description}
           </Popup>
         </label>
-        <Input type='number' icon={{name: 'hashtag', color: 'teal'}} iconPosition='left' name={uiSchema.name}
+        <Input type='number' icon={{ name: 'hashtag', color: 'teal' }} iconPosition='left' name={uiSchema.name}
                placeholder={truncateString(uiSchema.displayName)} value={value} onChange={handleChange} />
       </Form.Field>
     )

@@ -1,17 +1,20 @@
 import React, { Component } from 'react'
 import { Divider, Form, Icon, Input, List, Popup, TextArea } from 'semantic-ui-react'
 
+import { LanguageContext } from '../../utilities/context/LanguageContext'
 import { truncateString } from '../../utilities'
 import { MESSAGES } from '../../enum'
 
-const style = {outline: '1px solid #00b5ad', outlineOffset: '2px'}
+const style = { outline: '1px solid #00b5ad', outlineOffset: '2px' }
 
 class FIMultiInputView extends Component {
   render () {
-    const {error, innerOutline, languageCode, options, outline, uiSchema, value} = this.props
-    const {addItem, removeItem, addValue, removeValue} = this.props
-    const {showOutline, hideOutlines, showInnerOutline, hideInnerOutlines} = this.props
-    const {mergeShallowChange, mergeDeepChange} = this.props
+    const { error, innerOutline, options, outline, uiSchema, value } = this.props
+    const { addItem, removeItem, addValue, removeValue } = this.props
+    const { showOutline, hideOutlines, showInnerOutline, hideInnerOutlines } = this.props
+    const { mergeShallowChange, mergeDeepChange } = this.props
+
+    let language = this.context.value
 
     return (
       <Form.Field required={uiSchema.input.required} error={!!error}>
@@ -22,7 +25,7 @@ class FIMultiInputView extends Component {
           </Popup>
           <Popup basic flowing trigger={<Icon link name='copy outline' color='green' onClick={addItem} />}>
             <Icon color='blue' name='info circle' />
-            {MESSAGES.ADD_ITEM[languageCode]}
+            {MESSAGES.ADD_ITEM[language]}
           </Popup>
         </label>
         {value.map((item, index) => {
@@ -37,7 +40,7 @@ class FIMultiInputView extends Component {
                                       onMouseOver={showOutline.bind(this, index)}
                                       onClick={addValue.bind(this, index)} />}>
                   <Icon color='blue' name='info circle' />
-                  {MESSAGES.ADD_VALUE[languageCode]}
+                  {MESSAGES.ADD_VALUE[language]}
                 </Popup>
                 }
                 <Form.Select fluid placeholder={truncateString(option.displayName, 17)} width={6}
@@ -54,7 +57,7 @@ class FIMultiInputView extends Component {
                                                    onClick={removeValue.bind(this, index, innerIndex)}
                                                    onMouseOver={showInnerOutline.bind(this, index, innerIndex)} />}>
                           <Icon color='blue' name='info circle' />
-                          {MESSAGES.REMOVE_VALUE[languageCode]}
+                          {MESSAGES.REMOVE_VALUE[language]}
                         </Popup>
                         <List.Content>
                           <Input placeholder={truncateString(value.displayName, 17)} value={innerValue}
@@ -75,9 +78,9 @@ class FIMultiInputView extends Component {
                                       onMouseOver={showOutline.bind(this, index)}
                                       onMouseOut={hideOutlines} />}>
                   <Icon color='blue' name='info circle' />
-                  {MESSAGES.REMOVE_ITEM[languageCode]}
+                  {MESSAGES.REMOVE_ITEM[language]}
                 </Popup>
-                <Divider hidden style={{marginBottom: 0}} />
+                <Divider hidden style={{ marginBottom: 0 }} />
               </Form.Group>
             )
           }
@@ -86,5 +89,7 @@ class FIMultiInputView extends Component {
     )
   }
 }
+
+FIMultiInputView.contextType = LanguageContext
 
 export default FIMultiInputView

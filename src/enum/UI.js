@@ -4,12 +4,12 @@ export const UI = {
     nb: 'Angi'
   },
   CANCEL: {
-    en: 'Cancel',
-    nb: 'Avbryt'
+    en: 'No, cancel',
+    nb: 'Nei, avbryt'
   },
   CONFIRM: {
-    en: 'Delete',
-    nb: 'Slett'
+    en: 'Yes, delete',
+    nb: 'Ja, slett'
   },
   CREATE_NEW: {
     en: 'Create new',

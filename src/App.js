@@ -4,16 +4,19 @@ import { registerLocale, setDefaultLocale } from 'react-datepicker'
 
 import AppView from './AppView'
 import { extractDomainFromString, getData } from './utilities'
+import { LanguageContext, languages } from './utilities/context/LanguageContext'
 
 registerLocale('nb', nb)
 
 const ldsEndpoint = process.env.NODE_ENV === 'production' ? 'https://lds.staging.ssbmod.net' : 'http://localhost:9090'
+const defaultLanguage = languages.NORWEGIAN.languageCode
 
 class App extends Component {
   state = {
     error: false,
     fresh: true,
-    languageCode: localStorage.hasOwnProperty('languageCode') ? localStorage.getItem('languageCode') : 'nb',
+    languageCode: localStorage.hasOwnProperty('languageCode') ?
+      localStorage.getItem('languageCode') : defaultLanguage,
     lds: {
       namespace: localStorage.hasOwnProperty('namespace') ? localStorage.getItem('namespace') : 'ns',
       producer: localStorage.hasOwnProperty('producer') ? localStorage.getItem('producer') : 'gsim',
@@ -24,13 +27,15 @@ class App extends Component {
   }
 
   componentDidMount () {
-    setDefaultLocale(this.state.languageCode)
+    const { languageCode } = this.state
+
+    setDefaultLocale(languageCode)
 
     this.loadDomains()
   }
 
   loadDomains () {
-    const {lds} = this.state
+    const { lds } = this.state
 
     getData(`${lds.url}/${lds.namespace}?schema`).then(response => {
       const domains = response.map(path => ({
@@ -54,39 +59,49 @@ class App extends Component {
     })
   }
 
-  changeLanguage = (event, data) => {
-    setDefaultLocale(data.name)
-
-    this.setState({languageCode: data.name}, () => {
-      localStorage.setItem('languageCode', data.name)
-    })
-  }
-
   changeSettings = (event, data) => {
+    const { lds } = this.state
+
     this.setState({
       fresh: false,
-      lds: {...this.state.lds, [data.name]: data.value}
+      lds: { ...lds, [data.name]: data.value }
     })
   }
 
   refreshSettings = () => {
-    this.setState({ready: false}, () => {
-      Object.keys(this.state.lds).forEach(item => {
-        localStorage.setItem(item, this.state.lds[item])
+    const { lds } = this.state
+
+    this.setState({ ready: false }, () => {
+      Object.keys(lds).forEach(item => {
+        localStorage.setItem(item, lds[item])
       })
 
       this.loadDomains()
     })
   }
 
+  setLanguage = (languageCode) => {
+    setDefaultLocale(languageCode)
+
+    this.setState({ languageCode: languageCode }, () => {
+      localStorage.setItem('languageCode', languageCode)
+    })
+  }
+
   render () {
+    const { languageCode } = this.state
+
     return (
-      <AppView
-        {...this.state}
-        changeLanguage={this.changeLanguage}
-        changeSettings={this.changeSettings}
-        refreshSettings={this.refreshSettings}
-      />
+      <LanguageContext.Provider value={{
+        value: languageCode,
+        setLanguage: (languageCode) => this.setLanguage(languageCode)
+      }}>
+        <AppView
+          {...this.state}
+          changeSettings={this.changeSettings}
+          refreshSettings={this.refreshSettings}
+        />
+      </LanguageContext.Provider>
     )
   }
 }

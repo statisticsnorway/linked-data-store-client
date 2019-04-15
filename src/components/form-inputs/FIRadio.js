@@ -3,7 +3,7 @@ import { Form, Icon, Popup, Radio } from 'semantic-ui-react'
 
 class FIRadio extends Component {
   render () {
-    const {error, handleChange, uiSchema, value} = this.props
+    const { error, handleChange, uiSchema, value } = this.props
 
     return (
       <Form.Field required={uiSchema.input.required} error={!!error}>
