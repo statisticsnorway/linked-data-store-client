@@ -9,10 +9,10 @@ class FIMultiInput extends Component {
   }
 
   componentDidMount () {
-    const {uiSchema} = this.props
+    const { uiSchema } = this.props
 
     if (uiSchema.input.option.hasOwnProperty('options')) {
-      this.setState({options: uiSchema.input.option.options})
+      this.setState({ options: uiSchema.input.option.options })
     }
 
     if (uiSchema.input.option.hasOwnProperty('endpoints')) {
@@ -21,70 +21,70 @@ class FIMultiInput extends Component {
   }
 
   addItem = () => {
-    const {handleChange, uiSchema, value} = this.props
+    const { handleChange, uiSchema, value } = this.props
 
-    handleChange(null, {name: uiSchema.input.name, value: [...value, this.props.uiSchema.input.emptyValue[0]]})
+    handleChange(null, { name: uiSchema.input.name, value: [...value, this.props.uiSchema.input.emptyValue[0]] })
   }
 
   removeItem = (indexToRemove) => {
-    const {handleChange, uiSchema, value} = this.props
+    const { handleChange, uiSchema, value } = this.props
 
-    handleChange(null, {name: uiSchema.input.name, value: value.filter((item, index) => index !== indexToRemove)})
+    handleChange(null, { name: uiSchema.input.name, value: value.filter((item, index) => index !== indexToRemove) })
   }
 
   addValue = (indexToAddTo) => {
-    const {handleChange, uiSchema, value} = this.props
+    const { handleChange, uiSchema, value } = this.props
     const clonedValue = JSON.parse(JSON.stringify(value))
 
     clonedValue[indexToAddTo][uiSchema.input.value.handler].push('')
 
-    handleChange(null, {name: uiSchema.input.name, value: clonedValue})
+    handleChange(null, { name: uiSchema.input.name, value: clonedValue })
   }
 
   removeValue = (indexToRemoveFrom, indexToRemove) => {
-    const {handleChange, uiSchema, value} = this.props
+    const { handleChange, uiSchema, value } = this.props
     const handler = uiSchema.input.value.handler
     const clonedValue = JSON.parse(JSON.stringify(value))
 
     clonedValue[indexToRemoveFrom][handler] = value[indexToRemoveFrom][handler]
       .filter((value, index) => index !== indexToRemove)
 
-    handleChange(null, {name: uiSchema.input.name, value: clonedValue})
+    handleChange(null, { name: uiSchema.input.name, value: clonedValue })
   }
 
   mergeShallowChange = (indexToEdit, handler, keeper, event, data) => {
-    const {handleChange, uiSchema, value} = this.props
+    const { handleChange, uiSchema, value } = this.props
     const clonedValue = JSON.parse(JSON.stringify(value))
 
-    clonedValue[indexToEdit] = {[handler]: data.value, [keeper]: clonedValue[indexToEdit][keeper]}
+    clonedValue[indexToEdit] = { [handler]: data.value, [keeper]: clonedValue[indexToEdit][keeper] }
 
-    handleChange(null, {name: uiSchema.input.name, value: clonedValue})
+    handleChange(null, { name: uiSchema.input.name, value: clonedValue })
   }
 
   mergeDeepChange = (indexToEdit, innerIndexToEdit, event, data) => {
-    const {handleChange, uiSchema, value} = this.props
+    const { handleChange, uiSchema, value } = this.props
     const clonedValue = JSON.parse(JSON.stringify(value))
     const handler = uiSchema.input.value.handler
 
     clonedValue[indexToEdit][handler][innerIndexToEdit] = data.value
 
-    handleChange(null, {name: uiSchema.input.name, value: clonedValue})
+    handleChange(null, { name: uiSchema.input.name, value: clonedValue })
   }
 
   showOutline = (index) => {
-    this.setState({outline: index})
+    this.setState({ outline: index })
   }
 
   hideOutlines = () => {
-    this.setState({outline: -1})
+    this.setState({ outline: -1 })
   }
 
   showInnerOutline = (index, innerIndex) => {
-    this.setState({innerOutline: [index, innerIndex]})
+    this.setState({ innerOutline: [index, innerIndex] })
   }
 
   hideInnerOutlines = () => {
-    this.setState({innerOutline: [-1, -1]})
+    this.setState({ innerOutline: [-1, -1] })
   }
 
   render () {

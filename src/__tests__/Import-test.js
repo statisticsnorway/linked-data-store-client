@@ -3,13 +3,14 @@ import 'jest-dom/extend-expect'
 import { MemoryRouter } from 'react-router-dom'
 import { cleanup, fireEvent, render, waitForElement } from 'react-testing-library'
 
+import { LanguageContext } from '../utilities/context/LanguageContext'
 import Import from '../pages/import/Import'
 import { putData } from '../utilities/fetch/Fetch'
 import { UI } from '../enum'
 
 import AgentData from './test-data/AgentData'
 
-jest.mock('../utilities/fetch/Fetch', () => ({putData: jest.fn()}))
+jest.mock('../utilities/fetch/Fetch', () => ({ putData: jest.fn() }))
 
 afterEach(() => {
   putData.mockReset()
@@ -18,7 +19,6 @@ afterEach(() => {
 
 const setup = () => {
   const props = {
-    languageCode: 'nb',
     lds: {
       namespace: 'ns',
       producer: 'gsim',
@@ -27,19 +27,21 @@ const setup = () => {
     }
   }
 
-  const {getByTestId, getByText, queryAllByText} = render(
+  const { getByTestId, getByText, queryAllByText } = render(
     <MemoryRouter>
-      <Import {...props} />
+      <LanguageContext.Provider value={{ value: 'nb' }}>
+        <Import {...props} />
+      </LanguageContext.Provider>
     </MemoryRouter>
   )
 
-  return {getByTestId, getByText, queryAllByText}
+  return { getByTestId, getByText, queryAllByText }
 }
 
 test('Import renders correctly when response from LDS', async () => {
   putData.mockImplementationOnce(() => Promise.resolve())
 
-  const {getByTestId, getByText, queryAllByText} = setup()
+  const { getByTestId, getByText, queryAllByText } = setup()
   const fileUploader = getByTestId('fileUploader')
 
   expect(fileUploader).not.toBeVisible()
@@ -47,7 +49,7 @@ test('Import renders correctly when response from LDS', async () => {
   fireEvent.change(fileUploader, {
     target: {
       files: [
-        new File([JSON.stringify(AgentData)], 'AgentExample.json', {type: 'application/json'})
+        new File([JSON.stringify(AgentData)], 'AgentExample.json', { type: 'application/json' })
       ]
     }
   })
@@ -60,7 +62,7 @@ test('Import renders correctly when response from LDS', async () => {
 test('Import renders correctly when bad response from LDS', async () => {
   putData.mockImplementation(() => Promise.reject('Error'))
 
-  const {getByTestId, getByText, queryAllByText} = setup()
+  const { getByTestId, getByText, queryAllByText } = setup()
   const fileUploader = getByTestId('fileUploader')
 
   expect(fileUploader).not.toBeVisible()
@@ -68,7 +70,7 @@ test('Import renders correctly when bad response from LDS', async () => {
   fireEvent.change(fileUploader, {
     target: {
       files: [
-        new File([JSON.stringify(AgentData)], 'AgentExample.json', {type: 'application/json'})
+        new File([JSON.stringify(AgentData)], 'AgentExample.json', { type: 'application/json' })
       ]
     }
   })

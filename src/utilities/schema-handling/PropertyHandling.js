@@ -30,24 +30,24 @@ const setInput = (properties, lds, domain, property) => {
       return fixArray(lds, properties, property)
 
     case 'boolean':
-      return {type: 'boolean', emptyValue: false}
+      return { type: 'boolean', emptyValue: false }
 
     case 'number':
-      return {type: 'number', emptyValue: ''}
+      return { type: 'number', emptyValue: '' }
 
     case 'string':
       return fixString(lds, properties, property)
 
     default:
-      return {type: 'text', emptyValue: ''}
+      return { type: 'text', emptyValue: '' }
   }
 }
 
 const fixArray = (lds, properties, property) => {
-  const input = {type: 'dropdown', emptyValue: [], multiple: true}
+  const input = { type: 'dropdown', emptyValue: [], multiple: true }
 
   if (properties[property].hasOwnProperty('enum')) {
-    input.options = properties[property].enum.map(value => {return {value: value, text: value}})
+    input.options = properties[property].enum.map(value => {return { value: value, text: value }})
   }
 
   if (properties.hasOwnProperty('_link_property_' + property)) {
@@ -69,11 +69,11 @@ const fixArray = (lds, properties, property) => {
 }
 
 const fixString = (lds, properties, property) => {
-  const input = {type: 'text', emptyValue: '', multiple: false}
+  const input = { type: 'text', emptyValue: '', multiple: false }
 
   if (properties[property].hasOwnProperty('enum')) {
     input.type = 'dropdown'
-    input.options = properties[property].enum.map(value => {return {value: value, text: value}})
+    input.options = properties[property].enum.map(value => {return { value: value, text: value }})
 
     if (input.options.length < 4) {
       input.type = 'radio'
@@ -99,7 +99,7 @@ const fixString = (lds, properties, property) => {
 
 const setInputFromReference = (definitions, reference, property) => {
   const referenceProperties = definitions[reference].properties
-  const input = {name: property, type: 'multiInput', option: {}, value: {}, multiple: true, reference: reference}
+  const input = { name: property, type: 'multiInput', option: {}, value: {}, multiple: true, reference: reference }
 
   Object.keys(referenceProperties).forEach(property => {
     // TODO: Checking for 'enum' is not good enough too distinguish option from value, but how else to do it?
@@ -108,7 +108,7 @@ const setInputFromReference = (definitions, reference, property) => {
       input.option.displayName = referenceProperties[property].displayName
       input.option.description = referenceProperties[property].description
       input.option.multiple = referenceProperties[property].type === 'array'
-      input.option.options = referenceProperties[property].enum.map(value => ({value: value, text: value}))
+      input.option.options = referenceProperties[property].enum.map(value => ({ value: value, text: value }))
       input.option.required = definitions[reference].hasOwnProperty('required') && definitions[reference].required.includes(property)
     } else {
       input.value.handler = property

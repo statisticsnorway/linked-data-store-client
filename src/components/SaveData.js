@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import { Button, Icon, Message, Popup } from 'semantic-ui-react'
 
+import { LanguageContext } from '../utilities/context/LanguageContext'
 import { createAutofillData, updateAutofillData } from '../producers/Producers'
 import { putData, validateAndClean } from '../utilities'
 import { ERRORS, UI } from '../enum'
@@ -14,15 +15,17 @@ class SaveData extends Component {
   }
 
   saveData = () => {
-    this.setState({loading: true}, () => {
-      const {data, domain, languageCode, lds, setErrors, uiSchema} = this.props
+    this.setState({ loading: true }, () => {
+      const { data, domain, lds, setErrors, uiSchema } = this.props
+
+      let language = this.context.value
 
       // TODO: For GSIM objects with administrativeStatus set to DRAFT this validateAndClean might want to be skipped
       // const draft = lds.producer === 'gsim' ? data.administrativeStatus === 'DRAFT' : false
-      const returned = validateAndClean(data, false, ['unique', 'common'], languageCode, uiSchema)
+      const returned = validateAndClean(data, false, ['unique', 'common'], language, uiSchema)
 
       if (Object.keys(returned.errors).length > 0) {
-        this.setState({loading: false})
+        this.setState({ loading: false })
 
         setErrors(returned.errors)
       } else {
@@ -56,18 +59,20 @@ class SaveData extends Component {
   }
 
   render () {
-    const {error, loading, redirect, redirectId} = this.state
-    const {domain, fresh, languageCode} = this.props
+    const { error, loading, redirect, redirectId } = this.state
+    const { domain, fresh } = this.props
+
+    let language = this.context.value
 
     if (redirect) {
-      return <Redirect exact push to={{pathname: `${domain.route}/${redirectId}/view`, state: {wasSaved: true}}} />
+      return <Redirect exact push to={{ pathname: `${domain.route}/${redirectId}/view`, state: { wasSaved: true } }} />
     } else {
       return (
-        <Popup header={ERRORS.NOT_SAVED[languageCode]} content={<Message negative icon='warning' content={error} />}
+        <Popup header={ERRORS.NOT_SAVED[language]} content={<Message negative icon='warning' content={error} />}
                open={error !== false} position='top right' wide='very'
                trigger={
                  <Button floated='right' positive animated loading={loading} onClick={this.saveData} disabled={fresh}>
-                   <Button.Content visible>{UI.SAVE[languageCode]}</Button.Content>
+                   <Button.Content visible>{UI.SAVE[language]}</Button.Content>
                    <Button.Content hidden>
                      <Icon fitted name='save' />
                    </Button.Content>
@@ -78,5 +83,7 @@ class SaveData extends Component {
     }
   }
 }
+
+SaveData.contextType = LanguageContext
 
 export default SaveData

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import ReactTable from 'react-table'
 
+import { LanguageContext } from '../../../utilities/context/LanguageContext'
 import { MESSAGES, TABLE } from '../../../enum'
 
 class DomainListTable extends Component {
@@ -11,7 +12,9 @@ class DomainListTable extends Component {
   }
 
   render () {
-    const {columns, data, languageCode} = this.props
+    const { columns, data } = this.props
+
+    let language = this.context.value
 
     return (
       <ReactTable
@@ -23,16 +26,18 @@ class DomainListTable extends Component {
         data={data}
         columns={columns}
         defaultPageSize={15}
-        noDataText={MESSAGES.NOTHING_FOUND[languageCode]}
-        previousText={TABLE.PREVIOUS[languageCode]}
-        nextText={TABLE.NEXT[languageCode]}
-        ofText={TABLE.OF[languageCode]}
-        pageText={TABLE.PAGE[languageCode]}
-        loadingText={TABLE.LOADING[languageCode]}
-        rowsText={TABLE.ROWS[languageCode]}
+        noDataText={MESSAGES.NOTHING_FOUND[language]}
+        previousText={TABLE.PREVIOUS[language]}
+        nextText={TABLE.NEXT[language]}
+        ofText={TABLE.OF[language]}
+        pageText={TABLE.PAGE[language]}
+        loadingText={TABLE.LOADING[language]}
+        rowsText={TABLE.ROWS[language]}
       />
     )
   }
 }
+
+DomainListTable.contextType = LanguageContext
 
 export default DomainListTable

@@ -1,5 +1,4 @@
 export { ERRORS } from './ERRORS'
-export { LANGUAGES } from './LANGUAGES'
 export { MESSAGES } from './MESSAGES'
 export { TABLE } from './TABLE'
 export { UI } from './UI'

@@ -1,5 +1,5 @@
 const credentials = process.env.NODE_ENV === 'production' ? 'include' : 'same-origin'
-const headers = {'Content-Type': 'application/json; charset=utf-8'}
+const headers = { 'Content-Type': 'application/json; charset=utf-8' }
 
 export const getData = (url) => {
   return new Promise((resolve, reject) => {
@@ -8,7 +8,7 @@ export const getData = (url) => {
       method: 'GET',
       headers: headers
     }).then(response => {
-      if (response.status === 200) {
+      if (response.status >= 200 && response.status < 300) {
         response.json().then(json => resolve(json))
       } else if (response.status === 404) {
         // This must be done since LDS does not return an empty array
@@ -28,7 +28,7 @@ export const putData = (url, data) => {
       body: JSON.stringify(data),
       headers: headers
     }).then(response => {
-      if (response.status === 200) {
+      if (response.status >= 200 && response.status < 300) {
         resolve()
       } else {
         response.text().then(text => reject(`${text} (${url})`))
@@ -44,8 +44,8 @@ export const deleteData = (url) => {
       method: 'DELETE',
       headers: headers
     }).then(response => {
-      if (response.status === 200) {
-        response.json().then(json => resolve(json))
+      if (response.status >= 200 && response.status < 300) {
+        resolve()
       } else {
         response.text().then(text => reject(`${text} (${url})`))
       }

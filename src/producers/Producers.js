@@ -96,26 +96,21 @@ export const updateAutofillData = (data, property, producer, user) => {
       }
 
     case 'default':
-      switch (property) {
-        default:
-          return data
-      }
+      return data
 
     default:
       return data
   }
 }
 
-export const extractStringFromObject = (object, producer, languageCode) => {
+export const extractStringFromObject = (object, producer, language) => {
   if (typeof object === 'object' && object !== null) {
-    switch (producer) {
-      case 'gsim':
-        const nameObject = object.find(object => object.languageCode === languageCode)
+    if (producer === 'gsim') {
+      const nameObject = object.find(object => object.languageCode === language)
 
-        return `${nameObject === undefined ? object[0].languageText : nameObject.languageText}`
-
-      default:
-        return object.toString()
+      return `${nameObject === undefined ? object[0].languageText : nameObject.languageText}`
+    } else {
+      return object.toString()
     }
   } else {
     return object

@@ -2,15 +2,18 @@ import React, { Component } from 'react'
 import DatePicker from 'react-datepicker'
 import { Divider, Form, Icon, Input, Popup } from 'semantic-ui-react'
 
+import { LanguageContext } from '../../utilities/context/LanguageContext'
 import { truncateString } from '../../utilities'
 import { MESSAGES, UI } from '../../enum'
 
-const style = {outline: '1px solid #00b5ad', outlineOffset: '2px'}
+const style = { outline: '1px solid #00b5ad', outlineOffset: '2px' }
 
 class FIDateView extends Component {
   render () {
-    const {error, languageCode, outline, uiSchema, value} = this.props
-    const {addItem, removeItem, mergeShallowChange, mergeDeepChange, showOutline, hideOutlines} = this.props
+    const { error, outline, uiSchema, value } = this.props
+    const { addItem, removeItem, mergeShallowChange, mergeDeepChange, showOutline, hideOutlines } = this.props
+
+    let language = this.context.value
 
     return (
       <Form.Field required={uiSchema.input.required} error={!!error}>
@@ -22,25 +25,25 @@ class FIDateView extends Component {
           {uiSchema.input.multiple &&
           <Popup basic flowing trigger={<Icon link name='copy outline' color='green' onClick={addItem} />}>
             <Icon color='blue' name='info circle' />
-            {MESSAGES.ADD_ITEM[languageCode]}
+            {MESSAGES.ADD_ITEM[language]}
           </Popup>
           }
         </label>
         {!uiSchema.input.multiple &&
-        <CustomDatePicker displayName={uiSchema.displayName} index={-1} languageCode={languageCode}
-                          merge={mergeShallowChange} outline={outline} value={value} />
+        <CustomDatePicker displayName={uiSchema.displayName} index={-1} merge={mergeShallowChange} outline={outline}
+                          value={value} />
         }
         {uiSchema.input.multiple && value.map((entry, index) =>
           <div key={index}>
-            <CustomDatePicker displayName={uiSchema.displayName} index={index} languageCode={languageCode}
-                              merge={mergeDeepChange} outline={outline} value={entry} />
+            <CustomDatePicker displayName={uiSchema.displayName} index={index} merge={mergeDeepChange} outline={outline}
+                              value={entry} />
             <Popup basic flowing
                    trigger={<Icon link name='delete' color='red' onClick={removeItem.bind(this, index)}
                                   onMouseOut={hideOutlines} onMouseOver={showOutline.bind(this, index)} />}>
               <Icon color='blue' name='info circle' />
-              {MESSAGES.REMOVE_ITEM[languageCode]}
+              {MESSAGES.REMOVE_ITEM[language]}
             </Popup>
-            <Divider hidden style={{marginBottom: 0}} />
+            <Divider hidden style={{ marginBottom: 0 }} />
           </div>
         )}
       </Form.Field>
@@ -58,10 +61,12 @@ class CustomDatePicker extends Component {
   }
 
   render () {
-    const {displayName, index, languageCode, merge, outline, value} = this.props
+    const { displayName, index, merge, outline, value } = this.props
 
-    return <DatePicker todayButton={UI.TODAY[languageCode]} dateFormat={UI.DATE_FORMAT[languageCode]} showWeekNumbers
-                       peekNextMonth showMonthDropdown showYearDropdown dropdownMode='select' locale={languageCode}
+    let language = this.context.value
+
+    return <DatePicker todayButton={UI.TODAY[language]} dateFormat={UI.DATE_FORMAT[language]} showWeekNumbers
+                       peekNextMonth showMonthDropdown showYearDropdown dropdownMode='select' locale={language}
                        customInput={<CustomDateInput index={index} outline={outline} />}
                        placeholderText={truncateString(displayName)} selected={this.convertDate(value)}
                        onChange={date => merge(index, date)} />
@@ -70,11 +75,14 @@ class CustomDatePicker extends Component {
 
 class CustomDateInput extends Component {
   render () {
-    const {index, onClick, outline, value} = this.props
+    const { index, onClick, outline, value } = this.props
 
-    return <Input style={outline === index ? style : {}} icon={{name: 'calendar alternate outline', color: 'teal'}}
+    return <Input style={outline === index ? style : {}} icon={{ name: 'calendar alternate outline', color: 'teal' }}
                   iconPosition='left' value={value} onClick={onClick} />
   }
 }
+
+CustomDatePicker.contextType = LanguageContext
+FIDateView.contextType = LanguageContext
 
 export default FIDateView

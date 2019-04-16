@@ -67,6 +67,10 @@ export const MESSAGES = {
     en: 'Are you sure?',
     nb: 'Er du sikker?'
   },
+  SURE_EXTENDED: {
+    en: 'You are about to delete the object with id',
+    nb: 'Du er på vei til å slette objektet med id'
+  },
   USER: {
     en: 'The username used when saving/editing objects',
     nb: 'Brukernavnet som blir brukt når man lagrer/editerer objekter'

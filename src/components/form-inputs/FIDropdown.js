@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 
 import FIDropdownView from './FIDropdownView'
+import { LanguageContext } from '../../utilities/context/LanguageContext'
 import { extractStringFromObject } from '../../producers/Producers'
 import { getData } from '../../utilities'
 import { ERRORS } from '../../enum'
@@ -15,7 +16,9 @@ class FIDropdown extends Component {
   }
 
   componentDidMount () {
-    const {languageCode, uiSchema} = this.props
+    const { uiSchema } = this.props
+
+    let language = this.context.value
 
     if (uiSchema.input.hasOwnProperty('options')) {
       this.setState({
@@ -27,15 +30,17 @@ class FIDropdown extends Component {
     } else {
       this.setState({
         loading: false,
-        warning: ERRORS.NO_OPTIONS[languageCode]
+        warning: ERRORS.NO_OPTIONS[language]
       })
     }
   }
 
   loadOptions = () => {
-    this.setState({loading: true}, () => {
-      const {languageCode, lds, uiSchema, value} = this.props
+    this.setState({ loading: true }, () => {
+      const { lds, uiSchema, value } = this.props
       const links = uiSchema.input.links.length
+
+      let language = this.context.value
 
       Promise.all(
         uiSchema.input.links.map(link => {
@@ -45,9 +50,10 @@ class FIDropdown extends Component {
                 const options = response.map(item => {
                   const domain = link.substring(link.lastIndexOf('/') + 1)
                   const value = `/${domain}/${item.id}`
-                  const text = `${extractStringFromObject(item.name, lds.producer, languageCode)} ${links > 1 ? ` (${domain})` : ''}`
+                  const text = `${extractStringFromObject(item.name, lds.producer, language)} ${links > 1 ?
+                    ` (${domain})` : ''}`
 
-                  return {text: text, value: value}
+                  return { text: text, value: value }
                 })
 
                 resolve(options)
@@ -55,8 +61,9 @@ class FIDropdown extends Component {
                 const options = []
                 const domain = link.substring(link.lastIndexOf('/') + 1)
                 const value = `/${domain}/${response.id}`
-                const text = `${extractStringFromObject(response.name, lds.producer, languageCode)} ${links > 1 ? ` (${domain})` : ''}`
-                const option = {text: text, value: value}
+                const text = `${extractStringFromObject(response.name, lds.producer, language)} ${links > 1
+                  ? ` (${domain})` : ''}`
+                const option = { text: text, value: value }
 
                 options.push(option)
 
@@ -76,17 +83,17 @@ class FIDropdown extends Component {
         let warning = false
 
         if (options.length === 0) {
-          warning = ERRORS.NO_OPTIONS[languageCode]
+          warning = ERRORS.NO_OPTIONS[language]
         } else {
           if (uiSchema.input.multiple && value.length > 0) {
             if (!options.some(r => value.includes(r.value))) {
-              warning = ERRORS.MISSING_LINK[languageCode]
+              warning = ERRORS.MISSING_LINK[language]
             }
           }
 
           if (!uiSchema.input.multiple && value !== '') {
             if (!options.some(r => value === r.value)) {
-              warning = ERRORS.MISSING_LINK[languageCode]
+              warning = ERRORS.MISSING_LINK[language]
             }
           }
         }
@@ -102,7 +109,7 @@ class FIDropdown extends Component {
   }
 
   handleExternalClick = () => {
-    const {lds, value} = this.props
+    const { lds, value } = this.props
 
     this.setState({
       redirect: true,
@@ -111,7 +118,7 @@ class FIDropdown extends Component {
   }
 
   handleLabelClick = (event, data) => {
-    const {lds} = this.props
+    const { lds } = this.props
 
     this.setState({
       redirect: true,
@@ -120,7 +127,7 @@ class FIDropdown extends Component {
   }
 
   render () {
-    const {redirect, redirectRoute} = this.state
+    const { redirect, redirectRoute } = this.state
 
     if (redirect) {
       return <Redirect exact push to={`${redirectRoute}`} />
@@ -130,5 +137,7 @@ class FIDropdown extends Component {
     }
   }
 }
+
+FIDropdown.contextType = LanguageContext
 
 export default FIDropdown
