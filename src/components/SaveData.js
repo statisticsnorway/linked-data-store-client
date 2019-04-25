@@ -65,7 +65,7 @@ class SaveData extends Component {
     let language = this.context.value
 
     if (redirect) {
-      return <Redirect exact push to={{ pathname: `${domain.route}/${redirectId}/view`, state: { wasSaved: true } }} />
+      return <Redirect exact to={{ pathname: `${domain.route}`, state: { wasSaved: redirectId } }} />
     } else {
       return (
         <Popup header={ERRORS.NOT_SAVED[language]} content={<Message negative icon='warning' content={error} />}

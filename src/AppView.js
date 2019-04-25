@@ -20,12 +20,11 @@ class AppView extends Component {
           <Route path='/explore' exact render={() => <Explore domains={domains} lds={lds} />} />
           {domains.map(domain =>
             <Route key={`${domain.name}Single`} exact path={`${domain.route}/:id/:view`}
-                   render={({ location, match }) =>
-                     <DomainSingle domain={domain} lds={lds} location={location} params={match.params} />} />
+                   render={({ match }) => <DomainSingle domain={domain} lds={lds} params={match.params} />} />
           )}
           {domains.map(domain =>
-            <Route key={`${domain.name}List`} exact path={`${domain.route}`} render={() =>
-              <DomainList domain={domain} lds={lds} />
+            <Route key={`${domain.name}List`} exact path={`${domain.route}`} render={({ location }) =>
+              <DomainList domain={domain} lds={lds} location={location} />
             } />
           )}
         </div>

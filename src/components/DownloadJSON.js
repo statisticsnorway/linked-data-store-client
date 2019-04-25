@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Button, Icon } from 'semantic-ui-react'
 
 import { LanguageContext } from '../utilities/context/LanguageContext'
-import { createAutofillData, updateAutofillData } from '../producers/Producers'
+import { createAutofillData } from '../producers/Producers'
 import { validateAndClean } from '../utilities'
 import { UI } from '../enum'
 
@@ -19,11 +19,7 @@ class DownloadJSON extends Component {
     if (Object.keys(returned.errors).length > 0) {
       setErrors(returned.errors)
     } else {
-      if (returned.data.id !== '') {
-        Object.keys(uiSchema.autofilled).forEach(property => {
-          returned.data[property] = updateAutofillData(returned.data[property], property, lds.producer, lds.user)
-        })
-      } else {
+      if (returned.data.id === '') {
         Object.keys(uiSchema.autofilled).forEach(property => {
           returned.data[property] = createAutofillData(returned.data[property], property, lds.producer, lds.user)
         })
