@@ -99,7 +99,7 @@ class DomainSingle extends Component {
   }
 
   render () {
-    const { domain, lds, location, params } = this.props
+    const { domain, lds, params } = this.props
 
     if (params.view === 'edit') {
       return <DomainSingleEdit {...this.state} domain={domain} handleChange={this.handleChange} lds={lds}
@@ -107,7 +107,7 @@ class DomainSingle extends Component {
     }
 
     if (params.view === 'view') {
-      return <DomainSingleView {...this.state} domain={domain} lds={lds} location={location} />
+      return <DomainSingleView {...this.state} domain={domain} lds={lds} />
     }
 
     return null

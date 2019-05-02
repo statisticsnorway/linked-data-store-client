@@ -70,7 +70,7 @@ class FIMultiInputView extends Component {
                 }
                 {!value.multiple &&
                 <TextArea rows={2} placeholder={truncateString(value.displayName, 17)} width={10}
-                          value={item[value.handler]}
+                          value={item[value.handler]} style={{ marginRight: '0.5em' }}
                           onChange={mergeShallowChange.bind(this, index, value.handler, option.handler)} />
                 }
                 <Popup basic flowing

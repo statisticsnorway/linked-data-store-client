@@ -56,7 +56,7 @@ test('DomainList renders correctly when good response from LDS', async () => {
 
     expect(queryAllByText(`${UI.CREATE_NEW.nb} Agent`)).toHaveLength(1)
     expect(queryAllByText('Test Agent')).toHaveLength(1)
-    expect(queryAllByText('An agents spesifically designed for testing')).toHaveLength(1)
+    expect(queryAllByText('An agent spesifically designed for testing')).toHaveLength(1)
     expect(link).toBeVisible()
     expect(link).toHaveTextContent(/^903c45b1-7f69-4ee4-b6f3-d95aba633297$/)
   })

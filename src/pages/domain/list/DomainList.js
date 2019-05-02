@@ -6,7 +6,7 @@ import DomainListTable from './DomainListTable'
 import { LanguageContext } from '../../../utilities/context/LanguageContext'
 import { extractStringFromObject, producers } from '../../../producers/Producers'
 import { getData } from '../../../utilities'
-import { ERRORS, UI } from '../../../enum'
+import { ERRORS, MESSAGES, UI } from '../../../enum'
 
 class DomainList extends Component {
   state = {
@@ -70,7 +70,7 @@ class DomainList extends Component {
 
   render () {
     const { columns, data, displayName, error, ready } = this.state
-    const { domain } = this.props
+    const { domain, location } = this.props
 
     let language = this.context.value
 
@@ -80,6 +80,9 @@ class DomainList extends Component {
         {ready && !error &&
         <div>
           <Header as='h1' icon={{ name: 'table', color: 'teal' }} content={displayName} />
+          {location && location.state && location.state.wasSaved &&
+          <Message positive icon='check' content={`${MESSAGES.WAS_SAVED[language]} (${location.state.wasSaved})`} />
+          }
           <DomainListTable columns={columns} data={data} />
           <Divider hidden />
           <Link to={`${domain.route}/new/edit`}>

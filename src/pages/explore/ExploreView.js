@@ -35,7 +35,7 @@ const barOptions = {
 
 const tableHeaderIcons = [
   { name: 'file', color: 'blue' },
-  { name: 'hashtag', color: 'blue' },
+  { name: 'hashtag', color: 'teal' },
   { name: 'unlinkify', color: 'red' },
   { name: 'linkify', color: 'green' }
 ]
@@ -46,7 +46,6 @@ class ExploreView extends Component {
   }
 
   chartTab = (chartData) => {
-
     const panes = [
       {
         menuItem: 'Bar', render: () =>

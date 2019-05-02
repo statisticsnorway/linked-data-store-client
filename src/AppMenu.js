@@ -7,6 +7,7 @@ import { UI } from './enum'
 
 class AppMenu extends Component {
   state = {
+    activeItem: '',
     search: ''
   }
 
@@ -14,25 +15,27 @@ class AppMenu extends Component {
     this.setState({ search: '' })
   }
 
+  handleItemClick = (event, { name }) => this.setState({ activeItem: name })
+
   handleSearch = (event, data) => {
     this.setState({ search: data.value })
   }
 
   render () {
-    const { search } = this.state
+    const { activeItem, search } = this.state
     const { domains, error, ready } = this.props
 
     let language = this.context.value
 
     return (
       <Menu borderless color='blue' size='huge'>
-        <Menu.Item header as={Link} to='/' content={UI.HEADER[language]} />
+        <Menu.Item header as={Link} to='/' content={UI.HEADER[language]} onClick={this.handleItemClick} />
         <Menu.Item icon={{
           name: ready ? 'circle' : 'spinner', color: error === false ? 'green' : 'red',
           loading: !ready, 'data-testid': 'health'
         }}
         />
-        <Dropdown item scrolling disabled={!ready || error !== false}
+        <Dropdown item scrolling disabled={!ready || error !== false} onClick={this.handleItemClick}
                   text={`${UI.DOMAINS[language]} (${ready && !error ? domains.length : '...'})`}>
           <Dropdown.Menu>
             <Input icon='search' iconPosition='left' placeholder={UI.SEARCH[language]} value={search}
@@ -45,10 +48,13 @@ class AppMenu extends Component {
             }
           </Dropdown.Menu>
         </Dropdown>
-        <Menu.Item as={Link} to='/import' disabled={!ready || error !== false} content={UI.IMPORT[language]} />
-        <Menu.Item as={Link} to='/explore' disabled={!ready || error !== false} content={UI.EXPLORE[language]} />
+        <Menu.Item as={Link} to='/import' disabled={!ready || error !== false} content={UI.IMPORT[language]}
+                   name='import' active={activeItem === 'import'} onClick={this.handleItemClick} />
+        <Menu.Item as={Link} to='/explore' disabled={!ready || error !== false} content={UI.EXPLORE[language]}
+                   name='explore' active={activeItem === 'explore'} onClick={this.handleItemClick} />
         <Menu.Menu position='right'>
-          <Menu.Item as={Link} to='/settings' icon={{ name: 'setting', color: 'teal' }} />
+          <Menu.Item as={Link} to='/settings' icon={{ name: 'setting', color: 'teal' }}
+                     onClick={this.handleItemClick} />
           <Dropdown item text={`${UI.LANGUAGE[language]} (${UI.LANGUAGE_CHOICE[language]})`}>
             <Dropdown.Menu>
               {Object.keys(languages).map(languageName =>

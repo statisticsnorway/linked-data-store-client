@@ -5,11 +5,11 @@ import { Button, Divider, Grid, Header, Icon, Message, Popup, Segment } from 'se
 import { LanguageContext } from '../../../utilities/context/LanguageContext'
 import { extractStringFromObject } from '../../../producers/Producers'
 import { convertDataToView } from '../../../utilities'
-import { ERRORS, MESSAGES, UI } from '../../../enum'
+import { ERRORS, UI } from '../../../enum'
 
 class DomainSingleView extends Component {
   render () {
-    const { data, domain, error, lds, location, ready, uiSchema } = this.props
+    const { data, domain, error, lds, ready, uiSchema } = this.props
 
     let language = this.context.value
 
@@ -28,9 +28,6 @@ class DomainSingleView extends Component {
               </Header.Subheader>
             </Header.Content>
           </Header>
-          {location.state && location.state.wasSaved &&
-          <Message positive icon='check' content={`${MESSAGES.WAS_SAVED[language]}`} />
-          }
           <Divider hidden />
           <Grid columns='equal' divided>
             {['common', 'unique', 'autofilled'].map(grouping =>
