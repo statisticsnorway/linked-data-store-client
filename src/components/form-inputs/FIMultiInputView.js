@@ -55,7 +55,8 @@ class FIMultiInputView extends Component {
                         <Popup basic flowing
                                trigger={<List.Icon link name='close' color='red' onMouseOut={hideInnerOutlines}
                                                    onClick={removeValue.bind(this, index, innerIndex)}
-                                                   onMouseOver={showInnerOutline.bind(this, index, innerIndex)} />}>
+                                                   onMouseOver={showInnerOutline.bind(this, index, innerIndex)}
+                                                   style={{ paddingRight: 0 }} />}>
                           <Icon color='blue' name='info circle' />
                           {MESSAGES.REMOVE_VALUE[language]}
                         </Popup>

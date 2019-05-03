@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Divider, Form, Grid, Header, Icon, Label, List, Message, Popup, Segment } from 'semantic-ui-react'
+import { Container, Divider, Form, Grid, Header, Icon, Label, List, Message, Popup, Segment } from 'semantic-ui-react'
 
 import { DeleteData, DownloadJSON, FormField, SaveData } from '../../../components'
 import { LanguageContext } from '../../../utilities/context/LanguageContext'
@@ -56,6 +56,9 @@ class DomainSingleEdit extends Component {
                 <Icon color='blue' name='info circle' />
                 {fresh ? MESSAGES.NOT_EDITED[language] : MESSAGES.EDITED[language]}
               </Popup>
+              <Container textAlign='right'>
+                <span style={{ color: '#db2828' }}>*</span>{` = ${UI.REQUIRED[language]}`}
+              </Container>
               <List relaxed>
                 {Object.keys(uiSchema.autofilled).map(property =>
                   <List.Item key={property}>

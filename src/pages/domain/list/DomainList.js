@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { Button, Divider, Header, Icon, Message, Segment } from 'semantic-ui-react'
+import { Button, Divider, Header, Icon, Input, Message, Segment } from 'semantic-ui-react'
 
 import DomainListTable from './DomainListTable'
 import { LanguageContext } from '../../../utilities/context/LanguageContext'
@@ -15,7 +15,7 @@ class DomainList extends Component {
   }
 
   componentDidMount () {
-    const { domain, lds } = this.props
+    const { domain, lds, location } = this.props
     const schemaUrl = `${lds.url}${domain.path}`
     const dataUrl = `${lds.url}/${lds.namespace}/${domain.name}`
 
@@ -29,6 +29,15 @@ class DomainList extends Component {
           displayName: schema.definitions[domain.name].displayName,
           error: false,
           ready: true
+        }, () => {
+          if (location && location.state && location.state.wasSaved) {
+            const element = document.getElementsByName('idSearch')
+            const nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set
+
+            nativeInputValueSetter.call(element[0], location.state.wasSaved)
+
+            element[0].dispatchEvent(new Event('input', { bubbles: true }))
+          }
         })
       ).catch(error =>
         this.setState({
@@ -54,7 +63,16 @@ class DomainList extends Component {
         :
         `${props.value}`,
       Header: properties[header] ? properties[header].displayName : '',
-      headerStyle: { fontWeight: '700' }
+      headerStyle: { fontWeight: '700' },
+      Filter: ({ filter, onChange }) => (
+        <Input
+          name={`${header}Search`}
+          onChange={event => onChange(event.target.value)}
+          value={filter ? filter.value : ''}
+          placeholder={UI.SEARCH[this.context.value]}
+          fluid
+        />
+      )
     }))
 
   mapData = (data, language, producer) =>
@@ -81,7 +99,7 @@ class DomainList extends Component {
         <div>
           <Header as='h1' icon={{ name: 'table', color: 'teal' }} content={displayName} />
           {location && location.state && location.state.wasSaved &&
-          <Message positive icon='check' content={`${MESSAGES.WAS_SAVED[language]} (${location.state.wasSaved})`} />
+          <Message positive icon='check' content={`${MESSAGES.WAS_SAVED[language]}`} />
           }
           <DomainListTable columns={columns} data={data} />
           <Divider hidden />

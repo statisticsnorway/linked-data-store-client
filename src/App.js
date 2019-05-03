@@ -8,7 +8,6 @@ import { LanguageContext, languages } from './utilities/context/LanguageContext'
 
 registerLocale('nb', nb)
 
-const ldsEndpoint = process.env.NODE_ENV === 'production' ? 'https://lds.staging.ssbmod.net' : 'http://localhost:9090'
 const defaultLanguage = languages.NORWEGIAN.languageCode
 
 class App extends Component {
@@ -20,7 +19,7 @@ class App extends Component {
     lds: {
       namespace: localStorage.hasOwnProperty('namespace') ? localStorage.getItem('namespace') : 'ns',
       producer: localStorage.hasOwnProperty('producer') ? localStorage.getItem('producer') : 'gsim',
-      url: localStorage.hasOwnProperty('url') ? localStorage.getItem('url') : ldsEndpoint,
+      url: localStorage.hasOwnProperty('url') ? localStorage.getItem('url') : process.env.REACT_APP_LDS,
       user: localStorage.hasOwnProperty('user') ? localStorage.getItem('user') : 'Test user'
     },
     ready: false

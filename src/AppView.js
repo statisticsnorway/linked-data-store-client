@@ -1,9 +1,15 @@
 import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
-import { Divider } from 'semantic-ui-react'
 
 import AppMenu from './AppMenu'
+import AppFooter from './AppFooter'
 import { DomainList, DomainSingle, Explore, Import, Settings } from './pages'
+
+const footerStyleHelp = {
+  display: 'flex',
+  minHeight: '100vh',
+  flexDirection: 'column'
+}
 
 class AppView extends Component {
   render () {
@@ -11,11 +17,11 @@ class AppView extends Component {
     const { domains, ready, ...settings } = this.props
 
     return (
-      <div>
+      <div style={footerStyleHelp}>
         <AppMenu domains={domains} error={error} ready={ready} />
         <Route path='/(settings|)' exact render={() => <Settings {...settings} />} />
         {ready && !error &&
-        <div>
+        <div style={{ flex: 1 }}>
           <Route path='/import' exact render={() => <Import lds={lds} />} />
           <Route path='/explore' exact render={() => <Explore domains={domains} lds={lds} />} />
           {domains.map(domain =>
@@ -29,7 +35,7 @@ class AppView extends Component {
           )}
         </div>
         }
-        <Divider hidden />
+        <AppFooter />
       </div>
     )
   }

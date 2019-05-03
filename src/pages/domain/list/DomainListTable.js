@@ -25,7 +25,7 @@ class DomainListTable extends Component {
         resizable={false}
         data={data}
         columns={columns}
-        defaultPageSize={15}
+        defaultPageSize={10}
         noDataText={MESSAGES.NOTHING_FOUND[language]}
         previousText={TABLE.PREVIOUS[language]}
         nextText={TABLE.NEXT[language]}
