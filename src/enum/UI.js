@@ -1,4 +1,8 @@
 export const UI = {
+  APP_VERSION: {
+    en: 'App version',
+    nb: 'App versjon'
+  },
   APPLY: {
     en: 'Apply',
     nb: 'Angi'
@@ -86,6 +90,10 @@ export const UI = {
   PRODUCER: {
     en: 'Producer',
     nb: '"Producer"'
+  },
+  REQUIRED: {
+    en: 'required field',
+    nb: 'obligatorisk felt'
   },
   SAVE: {
     en: 'Save',
