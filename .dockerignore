@@ -1,0 +1,14 @@
+# dependencies
+/node_modules
+
+# intellij
+/.idea
+
+# production
+/build
+
+# testing
+/coverage
+
+# misc
+/.git
