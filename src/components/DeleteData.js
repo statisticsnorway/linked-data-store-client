@@ -58,7 +58,7 @@ class DeleteData extends Component {
                   content={<Message positive={deleted} negative={!deleted} icon={deleted ? 'check' : 'warning'}
                                     content={message} />}
                   trigger={
-                    <div>
+                    <>
                       <Button floated='left' negative animated loading={loading} disabled={disabled}
                               onClick={this.showConfirm}>
                         <Button.Content visible>{UI.DELETE[language]}</Button.Content>
@@ -74,7 +74,7 @@ class DeleteData extends Component {
                                  floated: 'left'
                                }}
                                confirmButton={{ content: UI.CONFIRM[language], icon: 'check' }} />
-                    </div>} />
+                    </>} />
   }
 }
 

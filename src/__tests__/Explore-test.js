@@ -59,13 +59,13 @@ test('Explore renders correctly when good response from LDS', async () => {
   const { queryAllByText } = setup()
 
   await wait(() => {
-    expect(queryAllByText(`${UI.EXPLORE.nb}`)).toHaveLength(1)
+    expect(queryAllByText(UI.EXPLORE.nb)).toHaveLength(1)
     TABLE.EXPLORE_HEADERS.nb.forEach(header => {
       expect(queryAllByText(header)).toHaveLength(1)
     })
     expect(queryAllByText('Agent')).toHaveLength(1)
-    expect(queryAllByText(`${UI.INSTANCE_COUNT.nb}`)).toHaveLength(1)
-    expect(queryAllByText(`${UI.UNUSED_COUNT.nb}`)).toHaveLength(1)
+    expect(queryAllByText(UI.INSTANCE_COUNT.nb)).toHaveLength(1)
+    expect(queryAllByText(UI.UNUSED_COUNT.nb)).toHaveLength(1)
   })
 
   expect(getData).toHaveBeenCalledTimes(2)

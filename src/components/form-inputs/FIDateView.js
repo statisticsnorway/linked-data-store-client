@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import DatePicker from 'react-datepicker'
 import { Divider, Form, Icon, Input, Popup } from 'semantic-ui-react'
 
@@ -34,7 +34,7 @@ class FIDateView extends Component {
                           value={value} />
         }
         {uiSchema.input.multiple && value.map((entry, index) =>
-          <div key={index}>
+          <Fragment key={index}>
             <CustomDatePicker displayName={uiSchema.displayName} index={index} merge={mergeDeepChange} outline={outline}
                               value={entry} />
             <Popup basic flowing
@@ -44,7 +44,7 @@ class FIDateView extends Component {
               {MESSAGES.REMOVE_ITEM[language]}
             </Popup>
             <Divider hidden style={{ marginBottom: 0 }} />
-          </div>
+          </Fragment>
         )}
       </Form.Field>
     )

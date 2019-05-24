@@ -12,11 +12,8 @@ export const getData = (url) => {
       method: 'GET',
       headers: headers
     }).then(response => {
-      if (response.status >= 200 && response.status < 300) {
+      if ((response.status >= 200 && response.status < 300) || response.status === 404) {
         response.json().then(json => resolve(json))
-      } else if (response.status === 404) {
-        // This must be done since LDS does not return an empty array
-        resolve([])
       } else {
         response.text().then(text => reject(text))
       }

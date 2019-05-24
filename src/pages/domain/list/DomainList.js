@@ -61,7 +61,7 @@ class DomainList extends Component {
           {props.value}
         </Link>
         :
-        `${props.value}`,
+        props.value,
       Header: properties[header] ? properties[header].displayName : '',
       headerStyle: { fontWeight: '700' },
       Filter: ({ filter, onChange }) => (
@@ -96,7 +96,7 @@ class DomainList extends Component {
       <Segment basic loading={!ready}>
         {ready && error && <Message negative icon='warning' header={ERRORS.ERROR[language]} content={error} />}
         {ready && !error &&
-        <div>
+        <>
           <Header as='h1' icon={{ name: 'table', color: 'teal' }} content={displayName} />
           {location && location.state && location.state.wasSaved &&
           <Message positive icon='check' content={`${MESSAGES.WAS_SAVED[language]}`} />
@@ -113,7 +113,7 @@ class DomainList extends Component {
               </Button.Content>
             </Button>
           </Link>
-        </div>
+        </>
         }
       </Segment>
     )

@@ -17,7 +17,7 @@ class DomainSingleView extends Component {
       <Segment basic loading={!ready}>
         {ready && error && <Message negative icon='warning' header={ERRORS.ERROR[language]} content={error} />}
         {ready && !error &&
-        <div>
+        <>
           <Header as='h1' dividing>
             <Icon name='file alternate outline' color='teal' />
             <Header.Content>
@@ -55,7 +55,7 @@ class DomainSingleView extends Component {
             <Button.Content visible>{UI.EDIT[language]}</Button.Content>
             <Button.Content hidden><Icon fitted name='edit outline' /></Button.Content>
           </Button>
-        </div>
+        </>
         }
       </Segment>
     )

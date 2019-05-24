@@ -17,7 +17,7 @@ class DomainSingleEdit extends Component {
       <Segment basic loading={!ready}>
         {ready && error && <Message negative icon='warning' header={ERRORS.ERROR[language]} content={error} />}
         {ready && !error &&
-        <div>
+        <>
           <Header as='h1' dividing icon={{ name: 'edit outline', color: fresh ? 'teal' : 'orange' }}
                   content={schema.displayName} subheader={schema.description} />
           {lds.producer === 'gsim' && data.administrativeStatus === 'DRAFT' &&
@@ -86,7 +86,7 @@ class DomainSingleEdit extends Component {
           <DeleteData domain={domain} lds={lds} id={data.id} uiSchema={uiSchema} />
           <DownloadJSON data={data} lds={lds} setErrors={setErrors} uiSchema={uiSchema} />
           <SaveData data={data} domain={domain} fresh={fresh} lds={lds} setErrors={setErrors} uiSchema={uiSchema} />
-        </div>
+        </>
         }
       </Segment>
     )
