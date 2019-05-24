@@ -14,7 +14,6 @@ Run `yarn start` and navigate to `http://localhost:3000`.
 [react-testing-library](https://github.com/kentcdodds/react-testing-library) is used for testing.
 
 ### Docker locally
-* `yarn build`
 * `docker build . -t linked-data-store-client:0.1`
 * `docker run -p 8000:80 linked-data-store-client:0.1`
 * Navigate to `http://localhost:8000/`
