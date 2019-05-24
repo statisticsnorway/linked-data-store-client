@@ -1,4 +1,3 @@
-const credentials = process.env.NODE_ENV === 'production' ? 'include' : 'same-origin'
 const headers = { 'Content-Type': 'application/json; charset=utf-8' }
 
 // TODO: Implement AbortController in each class using either of these functions to set state.
@@ -8,7 +7,6 @@ const headers = { 'Content-Type': 'application/json; charset=utf-8' }
 export const getData = (url) => {
   return new Promise((resolve, reject) => {
     fetch(url, {
-      credentials: credentials,
       method: 'GET',
       headers: headers
     }).then(response => {
@@ -24,7 +22,6 @@ export const getData = (url) => {
 export const putData = (url, data) => {
   return new Promise((resolve, reject) => {
     fetch(url, {
-      credentials: credentials,
       method: 'PUT',
       body: JSON.stringify(data),
       headers: headers
@@ -41,7 +38,6 @@ export const putData = (url, data) => {
 export const deleteData = (url) => {
   return new Promise((resolve, reject) => {
     fetch(url, {
-      credentials: credentials,
       method: 'DELETE',
       headers: headers
     }).then(response => {
