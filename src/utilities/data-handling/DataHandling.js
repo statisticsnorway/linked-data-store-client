@@ -107,7 +107,7 @@ const fixMultiInput = (data, uiSchema) =>
       <List.Item key={index}>
         <List.Content>
           <List.Header style={{ lineHeight: '1.4285em', fontStyle: 'italic' }}>
-            {`${value[uiSchema.input.option.handler]}`}
+            {value[uiSchema.input.option.handler]}
           </List.Header>
           <List.Description>
             {Array.isArray(value[uiSchema.input.value.handler]) ?
@@ -115,7 +115,7 @@ const fixMultiInput = (data, uiSchema) =>
                 {value[uiSchema.input.value.handler].map(item => <List.Item key={item} content={item} />)}
               </List.List>
               :
-              `${value[uiSchema.input.value.handler]}`
+              value[uiSchema.input.value.handler]
             }
           </List.Description>
         </List.Content>

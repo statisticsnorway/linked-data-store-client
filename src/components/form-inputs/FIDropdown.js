@@ -130,7 +130,7 @@ class FIDropdown extends Component {
     const { redirect, redirectRoute } = this.state
 
     if (redirect) {
-      return <Redirect exact push to={`${redirectRoute}`} />
+      return <Redirect exact push to={redirectRoute} />
     } else {
       return <FIDropdownView {...this.state} {...this.props} loadOptions={this.loadOptions}
                              handleExternalClick={this.handleExternalClick} handleLabelClick={this.handleLabelClick} />

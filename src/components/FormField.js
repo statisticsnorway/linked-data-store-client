@@ -18,10 +18,10 @@ class FormField extends Component {
     const FormComponent = formComponents[this.props.uiSchema.input.type]
 
     return (
-      <div>
+      <>
         <FormComponent {...this.props} />
         <Divider hidden />
-      </div>
+      </>
     )
   }
 }

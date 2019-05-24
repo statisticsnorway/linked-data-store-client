@@ -29,7 +29,7 @@ class AppView extends Component {
                    render={({ match }) => <DomainSingle domain={domain} lds={lds} params={match.params} />} />
           )}
           {domains.map(domain =>
-            <Route key={`${domain.name}List`} exact path={`${domain.route}`} render={({ location }) =>
+            <Route key={`${domain.name}List`} exact path={domain.route} render={({ location }) =>
               <DomainList domain={domain} lds={lds} location={location} />
             } />
           )}

@@ -52,9 +52,9 @@ test('Changing language works correctly', async () => {
 
   await wait(() => {
     expect(queryAllByText(`${UI.LANGUAGE.nb} (${UI.LANGUAGE_CHOICE.nb})`)).toHaveLength(1)
-    fireEvent.click(getByText(`${UI.ENGLISH.nb}`))
+    fireEvent.click(getByText(UI.ENGLISH.nb))
     expect(queryAllByText(`${UI.LANGUAGE.en} (${UI.LANGUAGE_CHOICE.en})`)).toHaveLength(1)
-    fireEvent.click(getByText(`${UI.NORWEGIAN.en}`))
+    fireEvent.click(getByText(UI.NORWEGIAN.en))
     expect(queryAllByText(`${UI.LANGUAGE.nb} (${UI.LANGUAGE_CHOICE.nb})`)).toHaveLength(1)
   })
 })
@@ -66,13 +66,13 @@ test('All navigation works', async () => {
 
   await wait(() => {
     fireEvent.click(container.querySelector('a[href="/settings"]'))
-    expect(queryAllByText(`${UI.SETTINGS_HEADER.nb}`)).toHaveLength(1)
-    fireEvent.click(getByText(`${UI.IMPORT.nb}`))
-    expect(queryAllByText(`${UI.UPLOAD.nb}`)).toHaveLength(1)
-    fireEvent.click(getByText(`${UI.HEADER.nb}`))
-    expect(queryAllByText(`${UI.SETTINGS_HEADER.nb}`)).toHaveLength(1)
-    fireEvent.click(getByText(`${UI.EXPLORE.nb}`))
-    expect(queryAllByText(`${UI.SETTINGS_HEADER.nb}`)).toHaveLength(0)
+    expect(queryAllByText(UI.SETTINGS_HEADER.nb)).toHaveLength(1)
+    fireEvent.click(getByText(UI.IMPORT.nb))
+    expect(queryAllByText(UI.UPLOAD.nb)).toHaveLength(1)
+    fireEvent.click(getByText(UI.HEADER.nb))
+    expect(queryAllByText(UI.SETTINGS_HEADER.nb)).toHaveLength(1)
+    fireEvent.click(getByText(UI.EXPLORE.nb))
+    expect(queryAllByText(UI.SETTINGS_HEADER.nb)).toHaveLength(0)
   })
 })
 
