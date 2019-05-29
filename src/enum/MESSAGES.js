@@ -48,7 +48,7 @@ export const MESSAGES = {
     nb: 'Fant ingenting...'
   },
   PRODUCER: {
-    en: 'Which structure on JSONSchemas the klient should adhere by',
+    en: 'Which structure on JSONSchemas the client should adhere by',
     nb: 'Hvilken struktur på JSONSchemas klienten skal forholde seg til'
   },
   REMOVE_ITEM: {
