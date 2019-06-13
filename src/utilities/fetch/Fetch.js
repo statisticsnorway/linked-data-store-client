@@ -10,7 +10,7 @@ export const getData = (url) => {
       method: 'GET',
       headers: headers
     }).then(response => {
-      if ((response.status >= 200 && response.status < 300) || response.status === 404) {
+      if (response.ok) {
         response.json().then(json => resolve(json))
       } else {
         response.text().then(text => reject(text))
@@ -26,7 +26,7 @@ export const putData = (url, data) => {
       body: JSON.stringify(data),
       headers: headers
     }).then(response => {
-      if (response.status >= 200 && response.status < 300) {
+      if (response.ok) {
         resolve()
       } else {
         response.text().then(text => reject(`${text} (${url})`))
@@ -41,7 +41,7 @@ export const deleteData = (url) => {
       method: 'DELETE',
       headers: headers
     }).then(response => {
-      if (response.status >= 200 && response.status < 300) {
+      if (response.ok) {
         resolve()
       } else {
         response.text().then(text => reject(`${text} (${url})`))
