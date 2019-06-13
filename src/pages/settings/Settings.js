@@ -14,6 +14,12 @@ class Settings extends Component {
     const { error, fresh, lds } = this.props
     const { changeSettings, refreshSettings } = this.props
 
+    const ldsLocations = [
+      { key: 'a', text: 'LDS A', value: process.env.REACT_APP_LDS },
+      { key: 'b', text: 'LDS B', value: `${process.env.REACT_APP_LDS}-b` },
+      { key: 'c', text: 'LDS C', value: `${process.env.REACT_APP_LDS}-c` }
+    ]
+
     let language = this.context.value
 
     return (
@@ -25,8 +31,12 @@ class Settings extends Component {
             <Divider hidden />
             <Form size='large'>
               <Popup flowing size='large' position='left center' trigger={
-                <Form.Input label={UI.LOCATION[language]} placeholder={UI.LOCATION[language]} name='url'
-                            value={lds.url} onChange={changeSettings} />
+                process.env.NODE_ENV === 'production' ?
+                  <Form.Select label={UI.LOCATION[language]} placeholder={UI.LOCATION[language]} name='url'
+                               value={lds.url} onChange={changeSettings} options={ldsLocations} />
+                  :
+                  <Form.Input label={UI.LOCATION[language]} placeholder={UI.LOCATION[language]} name='url'
+                              value={lds.url} onChange={changeSettings} />
               }>
                 <Icon color='blue' name='info circle' />
                 {MESSAGES.LOCATION[language]}
