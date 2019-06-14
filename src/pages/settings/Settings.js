@@ -40,7 +40,7 @@ class Settings extends Component {
             <Divider hidden />
             <Form size='large'>
               <Popup flowing size='large' position='left center' trigger={
-                process.env.NODE_ENV === 'development' ?
+                process.env.NODE_ENV === 'production' ?
                   <Form.Select label={UI.LOCATION[language]} placeholder={UI.LOCATION[language]} name='url'
                                value={lds.url} onChange={changeSettings} options={ldsOptions} allowAdditions
                                onAddItem={this.addLdsOption} search />
