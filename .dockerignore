@@ -1,9 +1,6 @@
 # dependencies
 /node_modules
 
-# intellij
-/.idea
-
 # production
 /build
 
@@ -12,3 +9,4 @@
 
 # misc
 /.git
+/.idea

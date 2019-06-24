@@ -2,7 +2,7 @@ FROM node:current-alpine as react-build
 WORKDIR /app
 COPY . ./
 RUN yarn install
-RUN CI=true yarn test
+RUN CI=true yarn coverage
 RUN CI=true yarn build
 
 FROM nginx:alpine

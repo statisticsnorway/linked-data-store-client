@@ -1,7 +1,7 @@
 import React from 'react'
 import 'jest-dom/extend-expect'
 import { MemoryRouter } from 'react-router-dom'
-import { cleanup, render, wait } from 'react-testing-library'
+import { cleanup, render, wait } from '@testing-library/react'
 
 import { LanguageContext } from '../utilities/context/LanguageContext'
 import DomainList from '../pages/domain/list/DomainList'
