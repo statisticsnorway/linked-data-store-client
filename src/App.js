@@ -39,7 +39,6 @@ class App extends Component {
     getData(`${lds.url}/${lds.namespace}?schema`).then(response => {
       const domains = response.map(path => ({
         name: extractDomainFromString(path),
-        path: path,
         route: `/${lds.producer}/${extractDomainFromString(path)}`
       }))
 

@@ -15,18 +15,30 @@ class DomainList extends Component {
   }
 
   componentDidMount () {
-    const { domain, lds, location } = this.props
-    const schemaUrl = `${lds.url}${domain.path}`
-    const dataUrl = `${lds.url}/${lds.namespace}/${domain.name}`
+    this.load()
+  }
+
+  componentDidUpdate (prevProps) {
+    const { params } = this.props
+
+    if (prevProps.params.domain !== params.domain) {
+      this.reload()
+    }
+  }
+
+  load = () => {
+    const { lds, location, params } = this.props
+    const schemaUrl = `${lds.url}/${lds.namespace}/${params.domain}?schema`
+    const dataUrl = `${lds.url}/${lds.namespace}/${params.domain}`
 
     let language = this.context.value
 
     getData(schemaUrl).then(schema =>
       getData(dataUrl).then(data =>
         this.setState({
-          columns: this.mapColumns(domain, lds.producer, schema.definitions[domain.name].properties),
+          columns: this.mapColumns(params.domain, lds.producer, schema.definitions[params.domain].properties),
           data: this.mapData(Array.isArray(data) ? data : [data], language, lds.producer),
-          displayName: schema.definitions[domain.name].displayName,
+          displayName: schema.definitions[params.domain].displayName,
           error: false,
           ready: true
         }, () => {
@@ -53,11 +65,20 @@ class DomainList extends Component {
     )
   }
 
+  reload = () => {
+    this.setState({
+      error: false,
+      ready: false
+    }, () => {
+      this.load()
+    })
+  }
+
   mapColumns = (domain, producer, properties) =>
     producers[producer].tableHeaders.map(header => ({
       accessor: header,
       Cell: props => header === 'id' ?
-        <Link to={`${domain.route}/${props.original.id}/view`}>
+        <Link to={`/${producer}/${domain}/${props.original.id}/view`}>
           {props.value}
         </Link>
         :
@@ -88,7 +109,7 @@ class DomainList extends Component {
 
   render () {
     const { columns, data, displayName, error, ready } = this.state
-    const { domain, location } = this.props
+    const { lds, location, params } = this.props
 
     let language = this.context.value
 
@@ -103,7 +124,7 @@ class DomainList extends Component {
           }
           <DomainListTable columns={columns} data={data} />
           <Divider hidden />
-          <Link to={`${domain.route}/new/edit`}>
+          <Link to={`/${lds.producer}/${params.domain}/new/edit`}>
             <Button animated color='teal' floated='right' disabled={!!error || !ready}>
               <Button.Content visible>
                 {`${UI.CREATE_NEW[language]} ${displayName}`}

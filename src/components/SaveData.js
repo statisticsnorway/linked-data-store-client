@@ -39,7 +39,7 @@ class SaveData extends Component {
           })
         }
 
-        const url = `${lds.url}/${lds.namespace}/${domain.name}/${returned.data.id}`
+        const url = `${lds.url}/${lds.namespace}/${domain}/${returned.data.id}`
 
         // TODO: If the putData fails, a new id is created on each try, should that be the case?
         putData(url, returned.data).then(() => {
@@ -60,12 +60,12 @@ class SaveData extends Component {
 
   render () {
     const { error, loading, redirect, redirectId } = this.state
-    const { domain, fresh } = this.props
+    const { domain, fresh, lds } = this.props
 
     let language = this.context.value
 
     if (redirect) {
-      return <Redirect exact to={{ pathname: `${domain.route}`, state: { wasSaved: redirectId } }} />
+      return <Redirect exact to={{ pathname: `/${lds.producer}/${domain}`, state: { wasSaved: redirectId } }} />
     } else {
       return (
         <Popup header={ERRORS.NOT_SAVED[language]} content={<Message negative icon='warning' content={error} />}

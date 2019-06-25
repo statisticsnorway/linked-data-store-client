@@ -28,7 +28,7 @@ class DeleteData extends Component {
       showConfirm: false
     }, () => {
       const { domain, id, lds } = this.props
-      const url = `${lds.url}/${lds.namespace}/${domain.name}/${id}`
+      const url = `${lds.url}/${lds.namespace}/${domain}/${id}`
 
       let language = this.context.value
 
