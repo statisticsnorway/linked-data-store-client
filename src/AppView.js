@@ -13,8 +13,8 @@ const footerStyleHelp = {
 
 class AppView extends Component {
   render () {
-    const { error, lds } = this.props
-    const { domains, ready, ...settings } = this.props
+    const { error, lds, ready } = this.props
+    const { domains, ...settings } = this.props
 
     return (
       <div style={footerStyleHelp}>
@@ -23,17 +23,13 @@ class AppView extends Component {
           <Route path='/(settings|)' exact render={() => <Settings {...settings} />} />
           {ready && !error &&
           <>
-            <Route path='/import' exact render={() => <Import lds={lds} />} />
-            <Route path='/explore' exact render={() => <Explore domains={domains} lds={lds} />} />
-            {domains.map(domain =>
-              <Route key={`${domain.name}Single`} exact path={`${domain.route}/:id/:view`}
-                     render={({ match }) => <DomainSingle domain={domain} lds={lds} params={match.params} />} />
-            )}
-            {domains.map(domain =>
-              <Route key={`${domain.name}List`} exact path={domain.route} render={({ location }) =>
-                <DomainList domain={domain} lds={lds} location={location} />
-              } />
-            )}
+            <Route exact path='/import' render={() => <Import lds={lds} />} />
+            <Route exact path='/explore' render={() => <Explore domains={domains} lds={lds} />} />
+            <Route exact path={`/:producer/:domain/:id/:view`}
+                   render={({ match }) => <DomainSingle lds={lds} params={match.params} />} />
+            <Route exact path={`/:producer/:domain`} render={({ location, match }) =>
+              <DomainList lds={lds} location={location} params={match.params} />
+            } />
           </>
           }
         </div>

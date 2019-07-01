@@ -20,11 +20,6 @@ afterEach(() => {
 
 const setup = (id) => {
   const props = {
-    domain: {
-      name: 'Agent',
-      path: '/ns/Agent?schema',
-      route: '/gsim/Agent'
-    },
     lds: {
       namespace: 'ns',
       producer: 'gsim',
@@ -32,6 +27,7 @@ const setup = (id) => {
       user: 'Test user'
     },
     params: {
+      domain: 'Agent',
       id: id,
       view: 'edit'
     }

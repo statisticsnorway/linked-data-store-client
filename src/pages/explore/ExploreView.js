@@ -99,7 +99,7 @@ class ExploreView extends Component {
                   {Object.keys(data).map((domain, index) =>
                     <Table.Row key={index} warning={data[domain].storage.length < 1}
                                style={{ display: !showEmpty && data[domain].storage.length < 1 ? 'none' : '' }}>
-                      <Table.Cell><Link to={`${producer}/${domain}`}>{domain}</Link></Table.Cell>
+                      <Table.Cell><Link to={`/${producer}/${domain}`}>{domain}</Link></Table.Cell>
                       <Table.Cell textAlign='center'>{data[domain].storage.length}</Table.Cell>
                       <Table.Cell textAlign='center'>
                         {data[domain].unused.length > 0 ?

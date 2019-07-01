@@ -27,24 +27,24 @@ class DomainSingle extends Component {
   }
 
   load = () => {
-    const { domain, lds, params } = this.props
+    const { lds, params } = this.props
 
     let language = this.context.value
 
-    getData(`${lds.url}${domain.path}`).then(schema => {
-      const uiSchema = createUiSchema(schema.definitions, lds, domain.name)
-      const defaultData = createDefaultData(schema.definitions[domain.name].properties, uiSchema)
+    getData(`${lds.url}/${lds.namespace}/${params.domain}?schema`).then(schema => {
+      const uiSchema = createUiSchema(schema.definitions, lds, params.domain)
+      const defaultData = createDefaultData(schema.definitions[params.domain].properties, uiSchema)
 
       if (params.id === 'new') {
         this.setState({
           data: defaultData,
           error: false,
-          schema: schema.definitions[domain.name],
+          schema: schema.definitions[params.domain],
           ready: true,
           uiSchema: uiSchema
         })
       } else {
-        getData(`${lds.url}/${lds.namespace}/${domain.name}/${params.id}`).then(data => {
+        getData(`${lds.url}/${lds.namespace}/${params.domain}/${params.id}`).then(data => {
           if (Array.isArray(data) && data.length < 1) {
             this.setState({
               error: MESSAGES.NOTHING_FOUND[language],
@@ -54,7 +54,7 @@ class DomainSingle extends Component {
             this.setState({
               data: { ...defaultData, ...data },
               error: false,
-              schema: schema.definitions[domain.name],
+              schema: schema.definitions[params.domain],
               ready: true,
               uiSchema: uiSchema
             })
@@ -99,15 +99,15 @@ class DomainSingle extends Component {
   }
 
   render () {
-    const { domain, lds, params } = this.props
+    const { lds, params } = this.props
 
     if (params.view === 'edit') {
-      return <DomainSingleEdit {...this.state} domain={domain} handleChange={this.handleChange} lds={lds}
+      return <DomainSingleEdit {...this.state} domain={params.domain} handleChange={this.handleChange} lds={lds}
                                setErrors={this.setErrors} />
     }
 
     if (params.view === 'view') {
-      return <DomainSingleView {...this.state} domain={domain} lds={lds} />
+      return <DomainSingleView {...this.state} domain={params.domain} lds={lds} />
     }
 
     return null

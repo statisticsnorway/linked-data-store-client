@@ -29,7 +29,6 @@ const setup = () => {
   const props = {
     domains: [{
       name: 'Agent',
-      path: '/ns/Agent?schema',
       route: '/gsim/Agent'
     }],
     lds: {

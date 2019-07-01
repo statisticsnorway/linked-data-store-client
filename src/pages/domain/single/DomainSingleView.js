@@ -22,7 +22,7 @@ class DomainSingleView extends Component {
             <Icon name='file alternate outline' color='teal' />
             <Header.Content>
               {`${extractStringFromObject(data.name, lds.producer, language)} `}
-              <i style={{ fontWeight: 400 }}>({domain.name})</i>
+              <i style={{ fontWeight: 400 }}>({domain})</i>
               <Header.Subheader>
                 {extractStringFromObject(data.description, lds.producer, language)}
               </Header.Subheader>
@@ -51,7 +51,7 @@ class DomainSingleView extends Component {
             )}
           </Grid>
           <Divider hidden />
-          <Button floated='right' color='orange' animated as={Link} to={`${domain.route}/${data.id}/edit`}>
+          <Button floated='right' color='orange' animated as={Link} to={`/${lds.producer}/${domain}/${data.id}/edit`}>
             <Button.Content visible>{UI.EDIT[language]}</Button.Content>
             <Button.Content hidden><Icon fitted name='edit outline' /></Button.Content>
           </Button>
