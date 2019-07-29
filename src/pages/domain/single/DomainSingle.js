@@ -76,6 +76,7 @@ class DomainSingle extends Component {
 
   reload = () => {
     this.setState({
+      error: false,
       errors: {},
       fresh: true,
       ready: false

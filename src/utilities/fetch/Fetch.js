@@ -13,7 +13,7 @@ export const getData = (url) => {
       if (response.ok) {
         response.json().then(json => resolve(json))
       } else {
-        response.text().then(text => reject(text))
+        response.text().then(text => text !== '' ? reject(text) : reject(`${response.statusText} (${url})`))
       }
     }).catch(error => reject(`${error} (${url})`))
   })
