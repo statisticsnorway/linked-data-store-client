@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { Button, Divider, Header, Icon, Input, Message, Segment } from 'semantic-ui-react'
+import { Button, Divider, Header, Icon, Input, Message, Popup, Segment } from 'semantic-ui-react'
 
 import DomainListTable from './DomainListTable'
 import { LanguageContext } from '../../../utilities/context/LanguageContext'
@@ -124,6 +124,13 @@ class DomainList extends Component {
           }
           <DomainListTable columns={columns} data={data} />
           <Divider hidden />
+          <Popup basic flowing
+                 trigger={
+                   <Icon link name='sync' color='blue' onClick={this.load} />
+                 }>
+            <Icon color='blue' name='info circle' />
+            {MESSAGES.REFRESH_DOMAIN_LIST[language]}
+          </Popup>
           <Link to={`/${lds.producer}/${params.domain}/new/edit`}>
             <Button animated color='teal' floated='right' disabled={!!error || !ready}>
               <Button.Content visible>

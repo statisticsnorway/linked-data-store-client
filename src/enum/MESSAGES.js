@@ -51,6 +51,10 @@ export const MESSAGES = {
     en: 'Which structure on JSONSchemas the client should adhere by',
     nb: 'Hvilken struktur på JSONSchemas klienten skal forholde seg til'
   },
+  REFRESH_DOMAIN_LIST: {
+    en: 'Refresh the list (also updates language on the fetched items if possible)',
+    nb: 'Oppdater listen (oppdaterer også språket på elementen hvis mulig)'
+  },
   REMOVE_ITEM: {
     en: 'Click to remove this item',
     nb: 'Klikk for å fjerne dette punktet'

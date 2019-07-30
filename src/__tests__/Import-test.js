@@ -1,5 +1,5 @@
 import React from 'react'
-import 'jest-dom/extend-expect'
+import '@testing-library/jest-dom/extend-expect'
 import { MemoryRouter } from 'react-router-dom'
 import { cleanup, fireEvent, render, waitForElement } from '@testing-library/react'
 
