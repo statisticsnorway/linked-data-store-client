@@ -3,7 +3,7 @@ import { Route } from 'react-router-dom'
 
 import AppMenu from './AppMenu'
 import AppFooter from './AppFooter'
-import { DomainList, DomainSingle, Explore, Import, Settings } from './pages'
+import { Dataset, DomainList, DomainSingle, Explore, Import, Settings } from './pages'
 
 const footerStyleHelp = {
   display: 'flex',
@@ -25,6 +25,7 @@ class AppView extends Component {
           <>
             <Route exact path='/import' render={() => <Import lds={lds} />} />
             <Route exact path='/explore' render={() => <Explore domains={domains} lds={lds} />} />
+            <Route exact path='/dataset' render={() => <Dataset lds={lds} />} />
             <Route exact path={`/:producer/:domain/:id/:view`}
                    render={({ match }) => <DomainSingle lds={lds} params={match.params} />} />
             <Route exact path={`/:producer/:domain`} render={({ location, match }) =>

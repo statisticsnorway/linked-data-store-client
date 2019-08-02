@@ -52,6 +52,8 @@ class AppMenu extends Component {
                    name='import' active={activeItem === 'import'} onClick={this.handleItemClick} />
         <Menu.Item as={Link} to='/explore' disabled={!ready || error !== false} content={UI.EXPLORE[language]}
                    name='explore' active={activeItem === 'explore'} onClick={this.handleItemClick} />
+        <Menu.Item as={Link} to='/dataset' disabled={!ready || error !== false} content={UI.DATASET[language]}
+                   name='dataset' active={activeItem === 'dataset'} onClick={this.handleItemClick} />
         <Menu.Menu position='right'>
           <Menu.Item as={Link} to='/settings' icon={{ name: 'setting', color: 'teal' }}
                      onClick={this.handleItemClick} />

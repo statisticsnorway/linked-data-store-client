@@ -1,3 +1,4 @@
+export { default as Dataset } from './dataset/Dataset'
 export { default as DomainList } from './domain/list/DomainList'
 export { default as DomainSingle } from './domain/single/DomainSingle'
 export { default as Explore } from './explore/Explore'

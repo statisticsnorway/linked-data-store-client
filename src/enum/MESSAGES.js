@@ -53,7 +53,7 @@ export const MESSAGES = {
   },
   REFRESH_DOMAIN_LIST: {
     en: 'Refresh the list (also updates language on the fetched items if possible)',
-    nb: 'Oppdater listen (oppdaterer også språket på elementen hvis mulig)'
+    nb: 'Oppdater listen (oppdaterer også språket på dataene i tabellen hvis mulig)'
   },
   REMOVE_ITEM: {
     en: 'Click to remove this item',

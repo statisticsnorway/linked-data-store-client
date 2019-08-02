@@ -69,6 +69,8 @@ test('All navigation works', async () => {
     expect(queryAllByText(UI.SETTINGS_HEADER.nb)).toHaveLength(1)
     fireEvent.click(getByText(UI.IMPORT.nb))
     expect(queryAllByText(UI.UPLOAD.nb)).toHaveLength(1)
+    fireEvent.click(getByText(UI.DATASET.nb))
+    expect(queryAllByText(UI.DATASET.nb)).toHaveLength(2)
     fireEvent.click(getByText(UI.HEADER.nb))
     expect(queryAllByText(UI.SETTINGS_HEADER.nb)).toHaveLength(1)
     fireEvent.click(getByText(UI.EXPLORE.nb))
