@@ -1,5 +1,5 @@
 import React from 'react'
-import '@testing-library/jest-dom/extend-expect'
+import { toBeDisabled } from '@testing-library/jest-dom'
 import { MemoryRouter } from 'react-router-dom'
 import { cleanup, fireEvent, render, wait } from '@testing-library/react'
 
@@ -11,6 +11,8 @@ import { ERRORS, MESSAGES, UI } from '../enum'
 import AgentSchema from './test-data/AgentSchema'
 import AgentData from './test-data/AgentData'
 import StatisticalProgramSchema from './test-data/StatisticalProgramSchema'
+
+expect.extend({ toBeDisabled })
 
 jest.mock('../utilities/fetch/Fetch', () => ({ deleteData: jest.fn(), getData: jest.fn(), putData: jest.fn() }))
 

@@ -17,7 +17,7 @@
     "react-scripts": "^3.0.0",
     "react-table": "^6.9.2",
     "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^0.87.1",
+    "semantic-ui-react": "^0.88.0",
     "uuid": "^3.3.2"
   },
   "scripts": {
@@ -38,7 +38,7 @@
   ],
   "devDependencies": {
     "@testing-library/jest-dom": "^4.0.0",
-    "@testing-library/react": "^8.0.1"
+    "@testing-library/react": "^9.1.4"
   },
   "jest": {
     "collectCoverageFrom": [

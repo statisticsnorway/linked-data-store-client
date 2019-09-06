@@ -1,5 +1,5 @@
 import React from 'react'
-import '@testing-library/jest-dom/extend-expect'
+import { toBeVisible, toHaveTextContent } from '@testing-library/jest-dom'
 import { MemoryRouter } from 'react-router-dom'
 import { cleanup, fireEvent, render, wait } from '@testing-library/react'
 
@@ -10,6 +10,8 @@ import { MESSAGES, UI } from '../enum'
 
 import AgentSchema from './test-data/AgentSchema'
 import AgentData from './test-data/AgentData'
+
+expect.extend({ toBeVisible, toHaveTextContent })
 
 jest.mock('../utilities/fetch/Fetch', () => ({ getData: jest.fn() }))
 

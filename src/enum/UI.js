@@ -19,10 +19,6 @@ export const UI = {
     en: 'Create new',
     nb: 'Opprett ny'
   },
-  DATASET: {
-    en: 'Dataset',
-    nb: 'Datasett'
-  },
   DATE_FORMAT: {
     en: 'MM/dd/yyyy',
     nb: 'd.M.yyyy'
