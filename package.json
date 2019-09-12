@@ -17,7 +17,7 @@
     "react-scripts": "^3.0.0",
     "react-table": "^6.9.2",
     "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^0.87.1",
+    "semantic-ui-react": "^0.88.0",
     "uuid": "^3.3.2"
   },
   "scripts": {
@@ -37,8 +37,8 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "@testing-library/react": "^8.0.1",
-    "jest-dom": "^3.1.2"
+    "@testing-library/jest-dom": "^4.0.0",
+    "@testing-library/react": "^9.1.4"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -51,10 +51,10 @@
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 50,
-        "functions": 50,
-        "lines": 50,
-        "statements": 50
+        "branches": 60,
+        "functions": 60,
+        "lines": 60,
+        "statements": 60
       }
     }
   }

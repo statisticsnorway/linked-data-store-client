@@ -1,11 +1,13 @@
 import React from 'react'
-import 'jest-dom/extend-expect'
+import { toHaveClass } from '@testing-library/jest-dom'
 import { MemoryRouter } from 'react-router-dom'
 import { cleanup, fireEvent, render, wait } from '@testing-library/react'
 
 import App from '../App'
 import { getData } from '../utilities/fetch/Fetch'
-import { UI } from '../enum'
+import { MESSAGES, UI } from '../enum'
+
+expect.extend({ toHaveClass })
 
 jest.mock('../utilities/fetch/Fetch', () => ({ getData: jest.fn() }))
 
@@ -22,13 +24,13 @@ afterEach(() => {
 })
 
 const setup = () => {
-  const { container, getByTestId, getByText, queryAllByText } = render(
+  const { container, getByPlaceholderText, getByTestId, getByText, queryAllByText } = render(
     <MemoryRouter>
       <App />
     </MemoryRouter>
   )
 
-  return { container, getByTestId, getByText, queryAllByText }
+  return { container, getByPlaceholderText, getByTestId, getByText, queryAllByText }
 }
 
 test('App renders correctly when response good from LDS', async () => {
@@ -74,6 +76,21 @@ test('All navigation works', async () => {
     fireEvent.click(getByText(UI.EXPLORE.nb))
     expect(queryAllByText(UI.SETTINGS_HEADER.nb)).toHaveLength(0)
   })
+})
+
+test('Changing settings works correctly', async () => {
+  getData.mockImplementation(() => Promise.resolve([]))
+
+  const { getByPlaceholderText, getByText, queryAllByText } = setup()
+
+  await wait(() => {
+    fireEvent.change(getByPlaceholderText(UI.USER.nb), { target: { value: 'Mr. Test' } })
+    expect(queryAllByText(MESSAGES.NEW_VALUES.nb)).toHaveLength(1)
+    fireEvent.click(getByText(UI.APPLY.nb))
+  })
+
+  expect(getData).toHaveBeenCalledTimes(2)
+  expect(getData).toHaveBeenCalledWith('http://localhost:9090/ns?schema')
 })
 
 test('App renders correctly when bad response from LDS', async () => {

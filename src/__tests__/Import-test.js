@@ -1,5 +1,5 @@
 import React from 'react'
-import 'jest-dom/extend-expect'
+import { toBeVisible } from '@testing-library/jest-dom'
 import { MemoryRouter } from 'react-router-dom'
 import { cleanup, fireEvent, render, waitForElement } from '@testing-library/react'
 
@@ -9,6 +9,8 @@ import { putData } from '../utilities/fetch/Fetch'
 import { UI } from '../enum'
 
 import AgentData from './test-data/AgentData'
+
+expect.extend({ toBeVisible })
 
 jest.mock('../utilities/fetch/Fetch', () => ({ putData: jest.fn() }))
 

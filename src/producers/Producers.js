@@ -11,7 +11,11 @@ export const producers = {
     autofillTypes: {
       user: ['createdBy', 'lastUpdatedBy']
     },
-    tableHeaders: ['name', 'description', 'id']
+    tableHeaders: {
+      default: ['name', 'description', 'id'],
+      DimensionalDataSet: ['name', 'description', 'dataSetState', 'dimensionalDataStructure', 'metadataSourcePath', 'dataSourcePath', 'agentInRoles', 'version', 'id'],
+      UnitDataSet: ['name', 'description', 'dataSetState', 'unitDataStructure', 'metadataSourcePath', 'dataSourcePath', 'agentInRoles', 'version', 'id']
+    }
   },
   default: {
     grouping: {
@@ -21,7 +25,9 @@ export const producers = {
     autofillTypes: {
       user: []
     },
-    tableHeaders: ['id']
+    tableHeaders: {
+      default: ['id']
+    }
   }
 }
 

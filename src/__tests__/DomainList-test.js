@@ -1,7 +1,7 @@
 import React from 'react'
-import 'jest-dom/extend-expect'
+import { toBeVisible, toHaveTextContent } from '@testing-library/jest-dom'
 import { MemoryRouter } from 'react-router-dom'
-import { cleanup, render, wait } from '@testing-library/react'
+import { cleanup, fireEvent, render, wait } from '@testing-library/react'
 
 import { LanguageContext } from '../utilities/context/LanguageContext'
 import DomainList from '../pages/domain/list/DomainList'
@@ -10,6 +10,8 @@ import { MESSAGES, UI } from '../enum'
 
 import AgentSchema from './test-data/AgentSchema'
 import AgentData from './test-data/AgentData'
+
+expect.extend({ toBeVisible, toHaveTextContent })
 
 jest.mock('../utilities/fetch/Fetch', () => ({ getData: jest.fn() }))
 
@@ -31,7 +33,7 @@ const setup = () => {
     }
   }
 
-  const { container, queryAllByText } = render(
+  const { container, getAllByPlaceholderText, queryAllByText } = render(
     <MemoryRouter>
       <LanguageContext.Provider value={{ value: 'nb' }}>
         <DomainList {...props} />
@@ -39,7 +41,7 @@ const setup = () => {
     </MemoryRouter>
   )
 
-  return { container, queryAllByText }
+  return { container, getAllByPlaceholderText, queryAllByText }
 }
 
 test('DomainList renders correctly when good response from LDS', async () => {
@@ -91,4 +93,18 @@ test('DomainList renders correctly when bad response from LDS', async () => {
 
   expect(getData).toHaveBeenCalledTimes(1)
   expect(getData).toHaveBeenCalledWith('http://localhost:9090/ns/Agent?schema')
+})
+
+test('DomainList filters columns correctly', async () => {
+  getData
+    .mockImplementationOnce(() => Promise.resolve(AgentSchema))
+    .mockImplementationOnce(() => Promise.resolve(AgentData))
+
+  const { getAllByPlaceholderText, queryAllByText } = setup()
+
+  await wait(() => {
+    fireEvent.change(getAllByPlaceholderText(UI.SEARCH.nb)[0], { target: { value: 'Not an Agent' } })
+    expect(queryAllByText('Test Agent')).toHaveLength(0)
+    expect(queryAllByText('An agent specifically designed for testing')).toHaveLength(0)
+  })
 })
