@@ -10,8 +10,8 @@ steps:
       - CI=true yarn build
     when:
       event:
-        - pull_request
-        - push
+      - pull_request
+      - push
 
   - name: code-analysis
     image: aosapps/drone-sonar-plugin
@@ -22,8 +22,8 @@ steps:
         from_secret: sonar_token
     when:
       event:
-        - pull_request
-        - push
+      - pull_request
+      - push
 
   - name: publish-docker
     image: plugins/gcr
@@ -56,8 +56,8 @@ steps:
 
 trigger:
   ref:
-    - refs/heads/develop
-    - refs/pull/*/head
+  - refs/heads/develop
+  - refs/pull/*/head
 
 ---
 kind: secret
