@@ -1,0 +1,69 @@
+kind: pipeline
+name: linked-data-store-client
+
+steps:
+  - name: install-test-and-build
+    image: node:current-alpine
+    commands:
+      - yarn install
+      - CI=true yarn coverage
+      - CI=true yarn build
+
+  - name: code-analysis
+    image: aosapps/drone-sonar-plugin
+    settings:
+      sonar_host: https://sonarqube.infra.ssbmod.net
+#        from_secret: sonar_host -- Not implemented yet
+      sonar_token:
+        from_secret: sonar_token
+
+  - name: publish-docker
+    image: plugins/gcr
+    settings:
+      repo: bip-nullfem/linked-data-store-client
+      registry: eu.gcr.io
+      tags: "${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:8}"
+      json_key:
+        from_secret: gcr_credentials
+    when:
+      branch:
+      - develop
+      event:
+      - push
+
+  - name: slack
+    image: plugins/slack
+    settings:
+      webhook:
+        from_secret: slack_webhook_url
+#      channel: bip-ci-test -- Choosing channel is not enabled yet
+    when:
+      status: [ success, failure ]
+
+---
+kind: secret
+name: sonar_host
+get:
+  path: drone-sonarqube-configuration
+  name: url
+
+---
+kind: secret
+name: sonar_token
+get:
+  path: drone-sonarqube-configuration
+  name: token
+
+---
+kind: secret
+name: gcr_credentials
+get:
+  path: drone-gcr-credentials
+  name: gcr-credentials
+
+---
+kind: secret
+name: slack_webhook_url
+get:
+  path: drone-slack-webhook-url
+  name: slack-webhook-url

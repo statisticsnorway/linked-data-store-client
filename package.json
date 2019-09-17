@@ -1,6 +1,6 @@
 {
   "name": "linked-data-store-client",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "repository": {
     "type": "git",
@@ -21,10 +21,10 @@
     "uuid": "^3.3.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --verbose=false",
-    "coverage": "react-scripts test --coverage --watchAll=false",
+    "start": "node ./node_modules/react-scripts/bin/react-scripts.js start",
+    "build": "node ./node_modules/react-scripts/bin/react-scripts.js build",
+    "test": "node ./node_modules/react-scripts/bin/react-scripts.js test --verbose=false",
+    "coverage": "node ./node_modules/react-scripts/bin/react-scripts.js test --coverage --watchAll=false",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -52,9 +52,9 @@
     "coverageThreshold": {
       "global": {
         "branches": 60,
-        "functions": 60,
-        "lines": 60,
-        "statements": 60
+        "functions": 65,
+        "lines": 70,
+        "statements": 70
       }
     }
   }
