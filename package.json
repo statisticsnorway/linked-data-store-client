@@ -21,9 +21,9 @@
     "uuid": "^3.3.2"
   },
   "scripts": {
-    "start": "node ./node_modules/react-scripts/bin/react-scripts.js start",
+    "start": "react-scripts start",
     "build": "node ./node_modules/react-scripts/bin/react-scripts.js build",
-    "test": "node ./node_modules/react-scripts/bin/react-scripts.js test --verbose=false",
+    "test": "node ./node_modules/react-scripts/bin/react-scripts.js test --verbose=false --watchAll=false",
     "coverage": "node ./node_modules/react-scripts/bin/react-scripts.js test --coverage --watchAll=false",
     "eject": "react-scripts eject"
   },
