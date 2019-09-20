@@ -51,7 +51,7 @@ const fixDropdown = (data, producer) => {
       <List>
         {data.map(item => {
           if (item.startsWith('/')) {
-            // TODO: Add resolving names of referenced objects here
+            // Add resolving names of referenced objects here
             return <List.Item key={item} style={{ lineHeight: '1.4285em' }} as={Link}
                               to={`/${producer}${item}/${API.VIEWS.VIEW}`}
                               content={item} />
@@ -63,7 +63,7 @@ const fixDropdown = (data, producer) => {
     )
   } else {
     if (data.startsWith('/')) {
-      // TODO: Add resolving names of referenced object here
+      // Add resolving names of referenced object here
       return <Link to={`/${producer}${data}/${API.VIEWS.VIEW}`}>{data}</Link>
     } else {
       return data

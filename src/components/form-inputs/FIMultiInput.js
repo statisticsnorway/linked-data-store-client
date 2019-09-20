@@ -16,7 +16,7 @@ class FIMultiInput extends Component {
     }
 
     if (uiSchema.input.option.hasOwnProperty('endpoints')) {
-      // TODO: Logic to fetch options data
+      // Logic to fetch options data
     }
   }
 

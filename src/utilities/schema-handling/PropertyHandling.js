@@ -1,24 +1,5 @@
 import { extractReferenceFromString } from '../common/StringHandling'
 
-const setInput = (properties, lds, domain, property) => {
-  switch (properties[property].type) {
-    case 'array':
-      return fixArray(lds, properties, property)
-
-    case 'boolean':
-      return { type: 'boolean', emptyValue: false }
-
-    case 'number':
-      return { type: 'number', emptyValue: '' }
-
-    case 'string':
-      return fixString(lds, properties, property)
-
-    default:
-      return { type: 'text', emptyValue: '' }
-  }
-}
-
 const fixArray = (lds, properties, property) => {
   const input = { type: 'dropdown', emptyValue: [], multiple: true }
 
@@ -71,6 +52,25 @@ const fixString = (lds, properties, property) => {
   }
 
   return input
+}
+
+const setInput = (properties, lds, domain, property) => {
+  switch (properties[property].type) {
+    case 'array':
+      return fixArray(lds, properties, property)
+
+    case 'boolean':
+      return { type: 'boolean', emptyValue: false }
+
+    case 'number':
+      return { type: 'number', emptyValue: '' }
+
+    case 'string':
+      return fixString(lds, properties, property)
+
+    default:
+      return { type: 'text', emptyValue: '' }
+  }
 }
 
 const setInputFromReference = (definitions, reference, property) => {

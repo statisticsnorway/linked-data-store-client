@@ -24,7 +24,7 @@ class Explore extends Component {
     ready: false
   }
 
-  // TODO: This is a nasty bit of code...
+  // TODO: Reduce Cognitive Complexity
   componentDidMount () {
     const { domains, lds } = this.props
 

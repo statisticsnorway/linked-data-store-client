@@ -75,6 +75,13 @@ class DomainList extends Component {
     })
   }
 
+  handleCellPopup = (props, truncationLength) => props.value.length > truncationLength ?
+    <Popup basic flowing trigger={<div>{truncateString(props.value, truncationLength)}</div>}>
+      {props.value}
+    </Popup>
+    :
+    props.value
+
   handleCellHeader = (props, truncationLength) => Array.isArray(props.value) ?
     <Popup basic flowing trigger={
       <div>{props.value.map(value => <p key={value}>{truncateString(value, truncationLength)}</p>)}</div>
@@ -82,12 +89,7 @@ class DomainList extends Component {
       <div>{props.value.map(value => <p key={value}>{value}</p>)}</div>
     </Popup>
     :
-    props.value.length > truncationLength ?
-      <Popup basic flowing trigger={<div>{truncateString(props.value, truncationLength)}</div>}>
-        {props.value}
-      </Popup>
-      :
-      props.value
+    this.handleCellPopup(props, truncationLength)
 
   mapColumns = (domain, producer, properties) => {
     const headers = producers[producer].tableHeaders.hasOwnProperty(domain) ? domain : 'default'
@@ -125,14 +127,10 @@ class DomainList extends Component {
 
       producers[producer].tableHeaders[headers].forEach(header => {
         if (item.hasOwnProperty(header)) {
-          if (Array.isArray(item[header])) {
-            if (item[header].every(value => typeof value === 'string')) {
-              dataEntry[header] = item[header]
-            } else {
-              dataEntry[header] = extractStringFromObject(item[header], producer, language)
-            }
-          } else {
+          if (Array.isArray(item[header]) && !item[header].every(value => typeof value === 'string')) {
             dataEntry[header] = extractStringFromObject(item[header], producer, language)
+          } else {
+            dataEntry[header] = item[header]
           }
         } else {
           dataEntry[header] = ''
