@@ -4,7 +4,7 @@ import { cleanup, fireEvent, render } from '@testing-library/react'
 import { LanguageContext } from '../utilities/context/LanguageContext'
 import DownloadJSON from '../components/DownloadJSON'
 import { createUiSchema } from '../utilities'
-import { UI } from '../enum'
+import { API, LDS_TEST_PROPERTIES, TEST_DOMAINS, UI } from '../enum'
 
 import AgentSchema from './test-data/AgentSchema'
 import AgentData from './test-data/AgentData'
@@ -14,21 +14,14 @@ afterEach(() => {
 })
 
 const setup = () => {
-  const lds = {
-    namespace: 'ns',
-    producer: 'gsim',
-    url: 'http://localhost:9090',
-    user: 'Test user'
-  }
-
   const props = {
     data: AgentData,
-    lds: lds,
-    uiSchema: createUiSchema(AgentSchema.definitions, lds, 'Agent')
+    lds: LDS_TEST_PROPERTIES,
+    uiSchema: createUiSchema(AgentSchema.definitions, LDS_TEST_PROPERTIES, TEST_DOMAINS.AGENT)
   }
 
   const { getByText } = render(
-    <LanguageContext.Provider value={{ value: 'nb' }}>
+    <LanguageContext.Provider value={{ value: API.DEFAULT_LANGUAGE }}>
       <DownloadJSON {...props} />
     </LanguageContext.Provider>
   )

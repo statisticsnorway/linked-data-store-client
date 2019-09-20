@@ -1,4 +1,6 @@
+export { API } from './API'
 export { ERRORS } from './ERRORS'
 export { MESSAGES } from './MESSAGES'
 export { TABLE } from './TABLE'
+export { BASE_TEST_URL, LDS_TEST_PROPERTIES, TEST_DOMAINS, TEST_URLS } from './TESTS'
 export { UI } from './UI'

@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import { Button, Container, Divider, Form, Grid, Header, Icon, Message, Popup, Segment } from 'semantic-ui-react'
 
 import { LanguageContext } from '../../utilities/context/LanguageContext'
-import { ERRORS, MESSAGES, UI } from '../../enum'
+import { API, ERRORS, MESSAGES, UI } from '../../enum'
 
 const producers = [
-  { key: 'default', text: 'Default', value: 'default' },
-  { key: 'gsim', text: 'GSIM', value: 'gsim' }
+  { key: 'basic', text: 'Basic', value: 'basic' },
+  { key: API.DEFAULT_PRODUCER, text: 'GSIM', value: API.DEFAULT_PRODUCER }
 ]
 
 class Settings extends Component {

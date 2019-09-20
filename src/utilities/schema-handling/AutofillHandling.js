@@ -1,11 +1,11 @@
 import { producers } from '../../producers/Producers'
 
 export const setAutofillProperties = (domainProperties, property, producer) => {
-  const properties = {}
-
-  properties.name = property
-  properties.displayName = domainProperties[property].displayName
-  properties.description = domainProperties[property].description
+  const properties = {
+    name: property,
+    displayName: domainProperties[property].displayName,
+    description: domainProperties[property].description
+  }
 
   if (domainProperties[property].hasOwnProperty('format')) {
     properties.type = domainProperties[property].format

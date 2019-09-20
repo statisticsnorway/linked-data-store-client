@@ -4,7 +4,7 @@ import { Button, Icon } from 'semantic-ui-react'
 import { LanguageContext } from '../utilities/context/LanguageContext'
 import { createAutofillData } from '../producers/Producers'
 import { validateAndClean } from '../utilities'
-import { UI } from '../enum'
+import { API, UI } from '../enum'
 
 class DownloadJSON extends Component {
   downloadJSON = () => {
@@ -12,9 +12,8 @@ class DownloadJSON extends Component {
 
     let language = this.context.value
 
-    // TODO: For GSIM objects with administrativeStatus set to DRAFT this validateAndClean might want to be skipped
-    const draft = lds.producer === 'gsim' ? data.administrativeStatus === 'DRAFT' : false
-    const returned = validateAndClean(data, draft, ['unique', 'common'], language, uiSchema)
+    const draft = lds.producer === API.DEFAULT_PRODUCER ? data.administrativeStatus === 'DRAFT' : false
+    const returned = validateAndClean(data, ['unique', 'common'], language, uiSchema, draft)
 
     if (Object.keys(returned.errors).length > 0) {
       setErrors(returned.errors)

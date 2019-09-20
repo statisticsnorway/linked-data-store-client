@@ -6,7 +6,7 @@ import DomainListTable from './DomainListTable'
 import { LanguageContext } from '../../../utilities/context/LanguageContext'
 import { extractStringFromObject, producers } from '../../../producers/Producers'
 import { getData, truncateString } from '../../../utilities'
-import { ERRORS, MESSAGES, UI } from '../../../enum'
+import { API, ERRORS, MESSAGES, UI } from '../../../enum'
 
 class DomainList extends Component {
   state = {
@@ -28,7 +28,7 @@ class DomainList extends Component {
 
   load = () => {
     const { lds, location, params } = this.props
-    const schemaUrl = `${lds.url}/${lds.namespace}/${params.domain}?schema`
+    const schemaUrl = `${lds.url}/${lds.namespace}/${params.domain}${API.SCHEMA_QUERY}`
     const dataUrl = `${lds.url}/${lds.namespace}/${params.domain}`
 
     let language = this.context.value
@@ -75,6 +75,22 @@ class DomainList extends Component {
     })
   }
 
+  handleCellPopup = (props, truncationLength) => props.value.length > truncationLength ?
+    <Popup basic flowing trigger={<div>{truncateString(props.value, truncationLength)}</div>}>
+      {props.value}
+    </Popup>
+    :
+    props.value
+
+  handleCellHeader = (props, truncationLength) => Array.isArray(props.value) ?
+    <Popup basic flowing trigger={
+      <div>{props.value.map(value => <p key={value}>{truncateString(value, truncationLength)}</p>)}</div>
+    }>
+      <div>{props.value.map(value => <p key={value}>{value}</p>)}</div>
+    </Popup>
+    :
+    this.handleCellPopup(props, truncationLength)
+
   mapColumns = (domain, producer, properties) => {
     const headers = producers[producer].tableHeaders.hasOwnProperty(domain) ? domain : 'default'
     const truncationLength = 200 / producers[producer].tableHeaders[headers].length
@@ -82,23 +98,11 @@ class DomainList extends Component {
     return producers[producer].tableHeaders[headers].map(header => ({
       accessor: header,
       Cell: props => header === 'id' ?
-        <Link to={`/${producer}/${domain}/${props.original.id}/view`}>
+        <Link to={`/${producer}/${domain}/${props.original.id}/${API.VIEWS.VIEW}`}>
           {props.value}
         </Link>
         :
-        Array.isArray(props.value) ?
-          <Popup basic flowing trigger={
-            <div>{props.value.map(value => <p key={value}>{truncateString(value, truncationLength)}</p>)}</div>
-          }>
-            <div>{props.value.map(value => <p key={value}>{value}</p>)}</div>
-          </Popup>
-          :
-          props.value.length > truncationLength ?
-            <Popup basic flowing trigger={<div>{truncateString(props.value, truncationLength)}</div>}>
-              {props.value}
-            </Popup>
-            :
-            props.value
+        this.handleCellHeader(props, truncationLength)
       ,
       Header: properties[header] ? properties[header].displayName : '',
       headerStyle: { fontWeight: '700' },
@@ -123,14 +127,10 @@ class DomainList extends Component {
 
       producers[producer].tableHeaders[headers].forEach(header => {
         if (item.hasOwnProperty(header)) {
-          if (Array.isArray(item[header])) {
-            if (item[header].every(value => typeof value === 'string')) {
-              dataEntry[header] = item[header]
-            } else {
-              dataEntry[header] = extractStringFromObject(item[header], producer, language)
-            }
-          } else {
+          if (Array.isArray(item[header]) && !item[header].every(value => typeof value === 'string')) {
             dataEntry[header] = extractStringFromObject(item[header], producer, language)
+          } else {
+            dataEntry[header] = item[header]
           }
         } else {
           dataEntry[header] = ''
@@ -166,7 +166,7 @@ class DomainList extends Component {
               </Popup>
             </Grid.Column>
             <Grid.Column>
-              <Link to={`/${lds.producer}/${params.domain}/new/edit`}>
+              <Link to={`/${lds.producer}/${params.domain}/${API.VIEWS.NEW}/${API.VIEWS.EDIT}`}>
                 <Button animated color='teal' floated='right' disabled={!!error || !ready}>
                   <Button.Content visible>
                     {`${UI.CREATE_NEW[language]} ${displayName}`}

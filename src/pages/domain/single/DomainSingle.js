@@ -4,7 +4,7 @@ import DomainSingleEdit from './DomainSingleEdit'
 import DomainSingleView from './DomainSingleView'
 import { LanguageContext } from '../../../utilities/context/LanguageContext'
 import { createDefaultData, createUiSchema, getData } from '../../../utilities'
-import { MESSAGES } from '../../../enum'
+import { API, MESSAGES } from '../../../enum'
 
 class DomainSingle extends Component {
   state = {
@@ -31,11 +31,11 @@ class DomainSingle extends Component {
 
     let language = this.context.value
 
-    getData(`${lds.url}/${lds.namespace}/${params.domain}?schema`).then(schema => {
+    getData(`${lds.url}/${lds.namespace}/${params.domain}${API.SCHEMA_QUERY}`).then(schema => {
       const uiSchema = createUiSchema(schema.definitions, lds, params.domain)
       const defaultData = createDefaultData(schema.definitions[params.domain].properties, uiSchema)
 
-      if (params.id === 'new') {
+      if (params.id === API.VIEWS.NEW) {
         this.setState({
           data: defaultData,
           error: false,
@@ -102,12 +102,12 @@ class DomainSingle extends Component {
   render () {
     const { lds, params } = this.props
 
-    if (params.view === 'edit') {
+    if (params.view === API.VIEWS.EDIT) {
       return <DomainSingleEdit {...this.state} domain={params.domain} handleChange={this.handleChange} lds={lds}
                                setErrors={this.setErrors} />
     }
 
-    if (params.view === 'view') {
+    if (params.view === API.VIEWS.VIEW) {
       return <DomainSingleView {...this.state} domain={params.domain} lds={lds} />
     }
 

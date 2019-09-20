@@ -6,7 +6,7 @@ import { cleanup, fireEvent, render, waitForElement } from '@testing-library/rea
 import { LanguageContext } from '../utilities/context/LanguageContext'
 import Import from '../pages/import/Import'
 import { putData } from '../utilities/fetch/Fetch'
-import { UI } from '../enum'
+import { API, ERRORS, LDS_TEST_PROPERTIES, UI } from '../enum'
 
 import AgentData from './test-data/AgentData'
 
@@ -19,20 +19,15 @@ afterEach(() => {
   cleanup()
 })
 
-const setup = () => {
-  const props = {
-    lds: {
-      namespace: 'ns',
-      producer: 'gsim',
-      url: 'http://localhost:9090',
-      user: 'Test user'
-    }
-  }
+const FILE = 'AgentExample.json'
+const FILE_TYPE = 'application/json'
+const TEST_ID = 'fileUploader'
 
+const setup = () => {
   const { getByTestId, getByText, queryAllByText } = render(
     <MemoryRouter>
-      <LanguageContext.Provider value={{ value: 'nb' }}>
-        <Import {...props} />
+      <LanguageContext.Provider value={{ value: API.DEFAULT_LANGUAGE }}>
+        <Import lds={LDS_TEST_PROPERTIES} />
       </LanguageContext.Provider>
     </MemoryRouter>
   )
@@ -44,14 +39,14 @@ test('Import renders correctly when response from LDS', async () => {
   putData.mockImplementationOnce(() => Promise.resolve())
 
   const { getByTestId, getByText, queryAllByText } = setup()
-  const fileUploader = getByTestId('fileUploader')
+  const fileUploader = getByTestId(TEST_ID)
 
   expect(fileUploader).not.toBeVisible()
 
   fireEvent.change(fileUploader, {
     target: {
       files: [
-        new File([JSON.stringify(AgentData)], 'AgentExample.json', { type: 'application/json' })
+        new File([JSON.stringify(AgentData)], FILE, { type: FILE_TYPE })
       ]
     }
   })
@@ -62,17 +57,17 @@ test('Import renders correctly when response from LDS', async () => {
 })
 
 test('Import renders correctly when bad response from LDS', async () => {
-  putData.mockImplementation(() => Promise.reject('Error'))
+  putData.mockImplementation(() => Promise.reject(ERRORS.ERROR.en))
 
   const { getByTestId, getByText, queryAllByText } = setup()
-  const fileUploader = getByTestId('fileUploader')
+  const fileUploader = getByTestId(TEST_ID)
 
   expect(fileUploader).not.toBeVisible()
 
   fireEvent.change(fileUploader, {
     target: {
       files: [
-        new File([JSON.stringify(AgentData)], 'AgentExample.json', { type: 'application/json' })
+        new File([JSON.stringify(AgentData)], FILE, { type: FILE_TYPE })
       ]
     }
   })
@@ -80,6 +75,6 @@ test('Import renders correctly when bad response from LDS', async () => {
   await waitForElement(() => getByText(UI.IMPORTING_SUCCESS.nb))
 
   expect(queryAllByText('0 / 1')).toHaveLength(1)
-  expect(queryAllByText('AgentExample.json')).toHaveLength(1)
-  expect(queryAllByText('Error')).toHaveLength(1)
+  expect(queryAllByText(FILE)).toHaveLength(1)
+  expect(queryAllByText(ERRORS.ERROR.en)).toHaveLength(1)
 })

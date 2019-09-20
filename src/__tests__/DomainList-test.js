@@ -6,7 +6,7 @@ import { cleanup, fireEvent, render, wait } from '@testing-library/react'
 import { LanguageContext } from '../utilities/context/LanguageContext'
 import DomainList from '../pages/domain/list/DomainList'
 import { getData } from '../utilities/fetch/Fetch'
-import { MESSAGES, UI } from '../enum'
+import { API, ERRORS, LDS_TEST_PROPERTIES, MESSAGES, TEST_DOMAINS, TEST_URLS, UI } from '../enum'
 
 import AgentSchema from './test-data/AgentSchema'
 import AgentData from './test-data/AgentData'
@@ -22,20 +22,15 @@ afterEach(() => {
 
 const setup = () => {
   const props = {
-    lds: {
-      namespace: 'ns',
-      producer: 'gsim',
-      url: 'http://localhost:9090',
-      user: 'Test user'
-    },
+    lds: LDS_TEST_PROPERTIES,
     params: {
-      domain: 'Agent'
+      domain: TEST_DOMAINS.AGENT
     }
   }
 
   const { container, getAllByPlaceholderText, queryAllByText } = render(
     <MemoryRouter>
-      <LanguageContext.Provider value={{ value: 'nb' }}>
+      <LanguageContext.Provider value={{ value: API.DEFAULT_LANGUAGE }}>
         <DomainList {...props} />
       </LanguageContext.Provider>
     </MemoryRouter>
@@ -50,20 +45,21 @@ test('DomainList renders correctly when good response from LDS', async () => {
     .mockImplementationOnce(() => Promise.resolve(AgentData))
 
   const { container, queryAllByText } = setup()
+  const AgentId = new RegExp('^' + AgentData.id + '$')
 
   await wait(() => {
-    const link = container.querySelector('a[href="/gsim/Agent/903c45b1-7f69-4ee4-b6f3-d95aba633297/view"]')
+    const link = container.querySelector(`a[href="/gsim/${TEST_DOMAINS.AGENT}/${AgentData.id}/view"]`)
 
-    expect(queryAllByText(`${UI.CREATE_NEW.nb} Agent`)).toHaveLength(1)
-    expect(queryAllByText('Test Agent')).toHaveLength(1)
-    expect(queryAllByText('An agent specifically designed for testing')).toHaveLength(1)
+    expect(queryAllByText(`${UI.CREATE_NEW.nb} ${TEST_DOMAINS.AGENT}`)).toHaveLength(1)
+    expect(queryAllByText(AgentData.name[0].languageText)).toHaveLength(1)
+    expect(queryAllByText(AgentData.description[0].languageText)).toHaveLength(1)
     expect(link).toBeVisible()
-    expect(link).toHaveTextContent(/^903c45b1-7f69-4ee4-b6f3-d95aba633297$/)
+    expect(link).toHaveTextContent(AgentId)
   })
 
   expect(getData).toHaveBeenCalledTimes(2)
-  expect(getData).toHaveBeenNthCalledWith(1, 'http://localhost:9090/ns/Agent?schema')
-  expect(getData).toHaveBeenNthCalledWith(2, 'http://localhost:9090/ns/Agent')
+  expect(getData).toHaveBeenNthCalledWith(1, TEST_URLS.AGENT_SCHEMA_URL)
+  expect(getData).toHaveBeenNthCalledWith(2, TEST_URLS.AGENT_BASE_URL)
 })
 
 test('DomainList renders correctly when empty response from LDS', async () => {
@@ -78,21 +74,21 @@ test('DomainList renders correctly when empty response from LDS', async () => {
   })
 
   expect(getData).toHaveBeenCalledTimes(2)
-  expect(getData).toHaveBeenNthCalledWith(1, 'http://localhost:9090/ns/Agent?schema')
-  expect(getData).toHaveBeenNthCalledWith(2, 'http://localhost:9090/ns/Agent')
+  expect(getData).toHaveBeenNthCalledWith(1, TEST_URLS.AGENT_SCHEMA_URL)
+  expect(getData).toHaveBeenNthCalledWith(2, TEST_URLS.AGENT_BASE_URL)
 })
 
 test('DomainList renders correctly when bad response from LDS', async () => {
-  getData.mockImplementation(() => Promise.reject('Error'))
+  getData.mockImplementation(() => Promise.reject(ERRORS.ERROR.en))
 
   const { queryAllByText } = setup()
 
   await wait(() => {
-    expect(queryAllByText('Error')).toHaveLength(1)
+    expect(queryAllByText(ERRORS.ERROR.en)).toHaveLength(1)
   })
 
   expect(getData).toHaveBeenCalledTimes(1)
-  expect(getData).toHaveBeenCalledWith('http://localhost:9090/ns/Agent?schema')
+  expect(getData).toHaveBeenCalledWith(TEST_URLS.AGENT_SCHEMA_URL)
 })
 
 test('DomainList filters columns correctly', async () => {
@@ -103,8 +99,8 @@ test('DomainList filters columns correctly', async () => {
   const { getAllByPlaceholderText, queryAllByText } = setup()
 
   await wait(() => {
-    fireEvent.change(getAllByPlaceholderText(UI.SEARCH.nb)[0], { target: { value: 'Not an Agent' } })
-    expect(queryAllByText('Test Agent')).toHaveLength(0)
-    expect(queryAllByText('An agent specifically designed for testing')).toHaveLength(0)
+    fireEvent.change(getAllByPlaceholderText(UI.SEARCH.nb)[0], { target: { value: `Not an ${TEST_DOMAINS.AGENT}` } })
+    expect(queryAllByText(AgentData.name[0].languageText)).toHaveLength(0)
+    expect(queryAllByText(AgentData.description[0].languageText)).toHaveLength(0)
   })
 })

@@ -23,7 +23,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "node ./node_modules/react-scripts/bin/react-scripts.js build",
-    "test": "node ./node_modules/react-scripts/bin/react-scripts.js test --verbose=false --watchAll=false",
+    "test": "node ./node_modules/react-scripts/bin/react-scripts.js test --verbose=false --watchAll=true",
     "coverage": "node ./node_modules/react-scripts/bin/react-scripts.js test --coverage --watchAll=false",
     "eject": "react-scripts eject"
   },
@@ -51,10 +51,10 @@
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 60,
-        "functions": 65,
-        "lines": 70,
-        "statements": 70
+        "branches": 64,
+        "functions": 68,
+        "lines": 74,
+        "statements": 73
       }
     }
   }

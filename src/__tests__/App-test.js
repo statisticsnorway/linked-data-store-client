@@ -5,7 +5,7 @@ import { cleanup, fireEvent, render, wait } from '@testing-library/react'
 
 import App from '../App'
 import { getData } from '../utilities/fetch/Fetch'
-import { MESSAGES, UI } from '../enum'
+import { API, ERRORS, MESSAGES, TEST_DOMAINS, TEST_URLS, UI } from '../enum'
 
 expect.extend({ toHaveClass })
 
@@ -34,17 +34,17 @@ const setup = () => {
 }
 
 test('App renders correctly when response good from LDS', async () => {
-  getData.mockImplementation(() => Promise.resolve(['/data/Agent?schema']))
+  getData.mockImplementation(() => Promise.resolve([`/data/${TEST_DOMAINS.AGENT}${API.SCHEMA_QUERY}`]))
 
   const { getByTestId, queryAllByText } = setup()
 
   await wait(() => {
     expect(getByTestId('health')).toHaveClass('green')
-    expect(queryAllByText('Agent')).toHaveLength(1)
+    expect(queryAllByText(TEST_DOMAINS.AGENT)).toHaveLength(1)
   })
 
   expect(getData).toHaveBeenCalledTimes(1)
-  expect(getData).toHaveBeenCalledWith('http://localhost:9090/ns?schema')
+  expect(getData).toHaveBeenCalledWith(TEST_URLS.BASE_SCHEMAS_URL)
 })
 
 test('Changing language works correctly', async () => {
@@ -90,19 +90,19 @@ test('Changing settings works correctly', async () => {
   })
 
   expect(getData).toHaveBeenCalledTimes(2)
-  expect(getData).toHaveBeenCalledWith('http://localhost:9090/ns?schema')
+  expect(getData).toHaveBeenCalledWith(TEST_URLS.BASE_SCHEMAS_URL)
 })
 
 test('App renders correctly when bad response from LDS', async () => {
-  getData.mockImplementation(() => Promise.reject('Error'))
+  getData.mockImplementation(() => Promise.reject(ERRORS.ERROR.en))
 
   const { getByTestId, queryAllByText } = setup()
 
   await wait(() => {
     expect(getByTestId('health')).toHaveClass('red')
-    expect(queryAllByText('Error')).toHaveLength(1)
+    expect(queryAllByText(ERRORS.ERROR.en)).toHaveLength(1)
   })
 
   expect(getData).toHaveBeenCalledTimes(1)
-  expect(getData).toHaveBeenCalledWith('http://localhost:9090/ns?schema')
+  expect(getData).toHaveBeenCalledWith(TEST_URLS.BASE_SCHEMAS_URL)
 })
