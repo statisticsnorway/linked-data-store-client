@@ -15,7 +15,7 @@ export const getData = (url) => {
       } else {
         response.text().then(text => text !== '' ? reject(text) : reject(`${response.statusText} (${url})`))
       }
-    }).catch(error => reject(`${error} (${url})`))
+    }).catch(error => reject(`${error.toString()} (${url})`))
   })
 }
 
@@ -31,7 +31,7 @@ export const putData = (url, data) => {
       } else {
         response.text().then(text => reject(`${text} (${url})`))
       }
-    }).catch(error => reject(`${error} (${url})`))
+    }).catch(error => reject(`${error.toString()} (${url})`))
   })
 }
 
@@ -46,6 +46,6 @@ export const deleteData = (url) => {
       } else {
         response.text().then(text => reject(`${text} (${url})`))
       }
-    }).catch(error => reject(`${error} (${url})`))
+    }).catch(error => reject(`${error.toString()} (${url})`))
   })
 }

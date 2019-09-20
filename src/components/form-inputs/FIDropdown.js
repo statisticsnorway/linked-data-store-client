@@ -72,7 +72,7 @@ class FIDropdown extends Component {
             }).catch(error => {
               this.setState({
                 loading: false,
-                problem: error,
+                problem: error.toString(),
                 warning: false
               })
             })

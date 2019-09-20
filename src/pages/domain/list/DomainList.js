@@ -54,13 +54,13 @@ class DomainList extends Component {
         })
       ).catch(error =>
         this.setState({
-          error: error,
+          error: error.toString(),
           ready: true
         })
       )
     ).catch(error =>
       this.setState({
-        error: error,
+        error: error.toString(),
         ready: true
       })
     )

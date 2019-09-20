@@ -85,7 +85,7 @@ class Import extends Component {
         progress: prevState.progress + 1,
         responses: [...prevState.responses, {
           name: filename,
-          text: error
+          text: error.toString()
         }]
       }))
     })

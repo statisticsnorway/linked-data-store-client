@@ -73,8 +73,7 @@ const setInput = (properties, lds, domain, property) => {
   }
 }
 
-const setInputFromReference = (definitions, reference, property) => {
-  const referenceProperties = definitions[reference].properties
+const setMultiInput = (definitions, referenceProperties, reference, property) => {
   const input = { name: property, type: 'multiInput', option: {}, value: {}, multiple: true, reference: reference }
 
   Object.keys(referenceProperties).forEach(property => {
@@ -100,6 +99,56 @@ const setInputFromReference = (definitions, reference, property) => {
   }]
 
   return input
+}
+
+const setProcessStepCodeBlockDetails = (definitions, referenceProperties, reference, property) => {
+  const input = {
+    name: property,
+    type: 'processStepCodeBlockDetails',
+    index: {},
+    option: {},
+    value: {},
+    multiple: true,
+    reference: reference
+  }
+
+  Object.keys(referenceProperties).forEach(property => {
+    let inputType = 'option'
+
+    // Checking for 'enum' is not good enough too distinguish option from value, but how else to do it?
+    if (referenceProperties[property].hasOwnProperty('enum')) {
+      input[inputType].options = referenceProperties[property].enum.map(value => ({ value: value, text: value }))
+    } else if (property === 'codeBlockIndex') {
+      inputType = 'index'
+    } else {
+      inputType = 'value'
+    }
+
+    input[inputType].handler = property
+    input[inputType].displayName = referenceProperties[property].displayName
+    input[inputType].description = referenceProperties[property].description
+    input[inputType].multiple = referenceProperties[property].type === 'array'
+    input[inputType].required = definitions[reference].hasOwnProperty('required') && definitions[reference].required.includes(property)
+
+  })
+
+  input.emptyValue = [{
+    [input.index.handler]: 1,
+    [input.option.handler]: input.option.multiple ? [''] : '',
+    [input.value.handler]: input.value.multiple ? [''] : ''
+  }]
+
+  return input
+}
+
+const setInputFromReference = (definitions, reference, property) => {
+  const referenceProperties = definitions[reference].properties
+
+  if (Object.keys(referenceProperties).length > 2) {
+    return setProcessStepCodeBlockDetails(definitions, referenceProperties, reference, property)
+  } else {
+    return setMultiInput(definitions, referenceProperties, reference, property)
+  }
 }
 
 export const setProperties = (definitions, lds, domain, property) => {

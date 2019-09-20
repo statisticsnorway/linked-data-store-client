@@ -51,6 +51,10 @@ export const UI = {
     en: 'LDS Client',
     nb: 'LDS Klient'
   },
+  HANDLE_CODE_BLOCKS: {
+    en: 'Handle code blocks (Zeppelin paragraphs)',
+    nb: 'Behandle kodeblokker (Zeppelin paragrafer)'
+  },
   IMPORT: {
     en: 'Import',
     nb: 'Importér'
