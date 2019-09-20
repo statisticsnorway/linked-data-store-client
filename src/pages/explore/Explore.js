@@ -10,6 +10,7 @@ import {
   stringToColor,
   upperCaseFirst
 } from '../../utilities'
+import { API } from '../../enum'
 
 const grouping = ['common', 'unique']
 
@@ -27,7 +28,7 @@ class Explore extends Component {
   componentDidMount () {
     const { domains, lds } = this.props
 
-    getData(`${lds.url}/${lds.namespace}?schema=embed`).then(schemas => {
+    getData(`${lds.url}/${lds.namespace}${API.SCHEMA_QUERY_EMBED}`).then(schemas => {
       Promise.all(
         domains.map(domain => {
           return getData(`${lds.url}/${lds.namespace}/${domain.name}`).then(response => {

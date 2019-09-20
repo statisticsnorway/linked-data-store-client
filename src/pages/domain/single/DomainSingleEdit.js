@@ -4,7 +4,7 @@ import { Container, Divider, Form, Grid, Header, Icon, Label, List, Message, Pop
 import { DeleteData, DownloadJSON, FormField, SaveData } from '../../../components'
 import { LanguageContext } from '../../../utilities/context/LanguageContext'
 import { convertDataToView } from '../../../utilities'
-import { ERRORS, MESSAGES, UI } from '../../../enum'
+import { API, ERRORS, MESSAGES, UI } from '../../../enum'
 
 class DomainSingleEdit extends Component {
   render () {
@@ -20,7 +20,7 @@ class DomainSingleEdit extends Component {
         <>
           <Header as='h1' dividing icon={{ name: 'edit outline', color: fresh ? 'teal' : 'orange' }}
                   content={schema.displayName} subheader={schema.description} />
-          {lds.producer === 'gsim' && data.administrativeStatus === 'DRAFT' &&
+          {lds.producer === API.DEFAULT_PRODUCER && data.administrativeStatus === 'DRAFT' &&
           <Message warning icon='warning' header={UI.WARNING[language]}
                    content={`${uiSchema.common.administrativeStatus.displayName} ${MESSAGES.GSIM_DRAFT[language]}`}
           />

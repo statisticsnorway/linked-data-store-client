@@ -5,7 +5,7 @@ import FIDropdownView from './FIDropdownView'
 import { LanguageContext } from '../../utilities/context/LanguageContext'
 import { extractStringFromObject } from '../../producers/Producers'
 import { getData } from '../../utilities'
-import { ERRORS } from '../../enum'
+import { API, ERRORS } from '../../enum'
 
 class FIDropdown extends Component {
   state = {
@@ -113,7 +113,7 @@ class FIDropdown extends Component {
 
     this.setState({
       redirect: true,
-      redirectRoute: `/${lds.producer}${value}/view`
+      redirectRoute: `/${lds.producer}${value}/${API.VIEWS.VIEW}`
     })
   }
 
@@ -122,7 +122,7 @@ class FIDropdown extends Component {
 
     this.setState({
       redirect: true,
-      redirectRoute: `/${lds.producer}${data.value}/view`
+      redirectRoute: `/${lds.producer}${data.value}/${API.VIEWS.VIEW}`
     })
   }
 

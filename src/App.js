@@ -4,21 +4,20 @@ import { registerLocale, setDefaultLocale } from 'react-datepicker'
 
 import AppView from './AppView'
 import { extractDomainFromString, getData } from './utilities'
-import { LanguageContext, languages } from './utilities/context/LanguageContext'
+import { LanguageContext } from './utilities/context/LanguageContext'
+import { API } from './enum'
 
-registerLocale('nb', nb)
-
-const defaultLanguage = languages.NORWEGIAN.languageCode
+registerLocale(API.DEFAULT_LANGUAGE, nb)
 
 class App extends Component {
   state = {
     error: false,
     fresh: true,
     languageCode: localStorage.hasOwnProperty('languageCode') ?
-      localStorage.getItem('languageCode') : defaultLanguage,
+      localStorage.getItem('languageCode') : API.DEFAULT_LANGUAGE,
     lds: {
-      namespace: localStorage.hasOwnProperty('namespace') ? localStorage.getItem('namespace') : 'ns',
-      producer: localStorage.hasOwnProperty('producer') ? localStorage.getItem('producer') : 'gsim',
+      namespace: localStorage.hasOwnProperty('namespace') ? localStorage.getItem('namespace') : API.DEFAULT_NAMESPACE,
+      producer: localStorage.hasOwnProperty('producer') ? localStorage.getItem('producer') : API.DEFAULT_PRODUCER,
       url: localStorage.hasOwnProperty('url') ? localStorage.getItem('url') : process.env.REACT_APP_LDS,
       user: localStorage.hasOwnProperty('user') ? localStorage.getItem('user') : 'Test user'
     },
@@ -36,7 +35,7 @@ class App extends Component {
   loadDomains () {
     const { lds } = this.state
 
-    getData(`${lds.url}/${lds.namespace}?schema`).then(response => {
+    getData(`${lds.url}/${lds.namespace}${API.SCHEMA_QUERY}`).then(response => {
       const domains = response.map(path => ({
         name: extractDomainFromString(path),
         route: `/${lds.producer}/${extractDomainFromString(path)}`

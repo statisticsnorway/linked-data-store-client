@@ -1,9 +1,10 @@
 import { setVersion } from '../utilities/schema-handling/AutofillHandling'
+import { API } from '../enum'
 
 const uuidv4 = require('uuid/v4')
 
 export const producers = {
-  gsim: {
+  [API.DEFAULT_PRODUCER]: {
     grouping: {
       autofilled: ['id', 'createdDate', 'createdBy', 'version', 'versionValidFrom', 'lastUpdatedDate', 'lastUpdatedBy', 'validFrom', 'validUntil'],
       common: ['name', 'description', 'administrativeStatus', 'versionRationale', 'administrativeDetails', 'agentInRoles']
@@ -17,7 +18,7 @@ export const producers = {
       UnitDataSet: ['name', 'description', 'dataSetState', 'unitDataStructure', 'metadataSourcePath', 'dataSourcePath', 'agentInRoles', 'version', 'id']
     }
   },
-  default: {
+  basic: {
     grouping: {
       autofilled: ['id'],
       common: []
@@ -33,7 +34,7 @@ export const producers = {
 
 export const createAutofillData = (data, property, producer, user) => {
   switch (producer) {
-    case 'gsim':
+    case API.DEFAULT_PRODUCER:
       switch (property) {
         case 'id':
           return uuidv4()
@@ -62,14 +63,8 @@ export const createAutofillData = (data, property, producer, user) => {
           return data
       }
 
-    case 'default':
-      switch (property) {
-        case 'id':
-          return uuidv4()
-
-        default:
-          return data
-      }
+    case 'basic':
+      return property === 'id' ? uuidv4() : data
 
     default:
       return data
@@ -78,7 +73,7 @@ export const createAutofillData = (data, property, producer, user) => {
 
 export const updateAutofillData = (data, property, producer, user) => {
   switch (producer) {
-    case 'gsim':
+    case API.DEFAULT_PRODUCER:
       switch (property) {
         case 'lastUpdatedDate':
         case 'versionValidFrom':
@@ -101,7 +96,7 @@ export const updateAutofillData = (data, property, producer, user) => {
           return data
       }
 
-    case 'default':
+    case 'basic':
       return data
 
     default:
@@ -111,7 +106,7 @@ export const updateAutofillData = (data, property, producer, user) => {
 
 export const extractStringFromObject = (object, producer, language) => {
   if (typeof object === 'object' && object !== null) {
-    if (producer === 'gsim') {
+    if (producer === API.DEFAULT_PRODUCER) {
       const nameObject = object.find(object => object.languageCode === language)
 
       return `${nameObject === undefined ? object[0].languageText : nameObject.languageText}`

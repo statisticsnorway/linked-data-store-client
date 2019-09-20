@@ -5,7 +5,7 @@ import { Button, Divider, Grid, Header, Icon, Message, Popup, Segment } from 'se
 import { LanguageContext } from '../../../utilities/context/LanguageContext'
 import { extractStringFromObject } from '../../../producers/Producers'
 import { convertDataToView } from '../../../utilities'
-import { ERRORS, UI } from '../../../enum'
+import { API, ERRORS, UI } from '../../../enum'
 
 class DomainSingleView extends Component {
   render () {
@@ -51,7 +51,8 @@ class DomainSingleView extends Component {
             )}
           </Grid>
           <Divider hidden />
-          <Button floated='right' color='orange' animated as={Link} to={`/${lds.producer}/${domain}/${data.id}/edit`}>
+          <Button floated='right' color='orange' animated as={Link}
+                  to={`/${lds.producer}/${domain}/${data.id}/${API.VIEWS.EDIT}`}>
             <Button.Content visible>{UI.EDIT[language]}</Button.Content>
             <Button.Content hidden><Icon fitted name='edit outline' /></Button.Content>
           </Button>
