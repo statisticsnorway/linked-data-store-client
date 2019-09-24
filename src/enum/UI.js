@@ -91,6 +91,10 @@ export const UI = {
     en: 'Norwegian',
     nb: 'Norsk'
   },
+  ZEPPELIN_PARAGRAPH_INDEX: {
+    en: 'Paragraph index',
+    nb: 'Paragraf index'
+  },
   PRODUCER: {
     en: 'Producer',
     nb: '"Producer"'
@@ -130,6 +134,10 @@ export const UI = {
   USER: {
     en: 'Username',
     nb: 'Brukernavn'
+  },
+  VIEW_CODE_BLOCK: {
+    en: 'View code block (Zeppelin paragraph)',
+    nb: 'Se kodeblokk (Zeppelin paragraf)'
   },
   WARNING: {
     en: 'Warning',

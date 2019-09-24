@@ -3,22 +3,24 @@ import { Divider } from 'semantic-ui-react'
 
 import {
   FIBoolean,
+  FICodeBlock,
   FIDate,
   FIDropdown,
+  FIMultiCodeBlock,
   FIMultiInput,
   FINumber,
-  FIProcessStepCodeBlockDetails,
   FIRadio,
   FIText
 } from './form-inputs'
 
 const formComponents = {
   boolean: FIBoolean,
+  codeBlock: FICodeBlock,
   dropdown: FIDropdown,
   date: FIDate,
+  multiCodeBlock: FIMultiCodeBlock,
   multiInput: FIMultiInput,
   number: FINumber,
-  processStepCodeBlockDetails: FIProcessStepCodeBlockDetails,
   radio: FIRadio,
   text: FIText
 }

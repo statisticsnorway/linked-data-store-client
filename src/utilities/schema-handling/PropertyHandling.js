@@ -28,26 +28,30 @@ const fixArray = (lds, properties, property) => {
 const fixString = (lds, properties, property) => {
   const input = { type: 'text', emptyValue: '', multiple: false }
 
-  if (properties[property].hasOwnProperty('enum')) {
-    input.type = 'dropdown'
-    input.options = properties[property].enum.map(value => {return { value: value, text: value }})
+  if (property === 'codeBlock') {
+    input.type = 'codeBlock'
+  } else {
+    if (properties[property].hasOwnProperty('enum')) {
+      input.type = 'dropdown'
+      input.options = properties[property].enum.map(value => {return { value: value, text: value }})
 
-    if (input.options.length < 4) {
-      input.type = 'radio'
+      if (input.options.length < 4) {
+        input.type = 'radio'
+      }
     }
-  }
 
-  if (properties.hasOwnProperty('_link_property_' + property)) {
-    input.type = 'dropdown'
-    input.links = Object.keys(properties['_link_property_' + property].properties).map(link =>
-      `${lds.url}/${lds.namespace}/${link}`
-    )
-  }
+    if (properties.hasOwnProperty('_link_property_' + property)) {
+      input.type = 'dropdown'
+      input.links = Object.keys(properties['_link_property_' + property].properties).map(link =>
+        `${lds.url}/${lds.namespace}/${link}`
+      )
+    }
 
-  if (properties[property].hasOwnProperty('format')) {
-    if (properties[property].format === 'date-time') {
-      input.type = 'date'
-      input.emptyValue = null
+    if (properties[property].hasOwnProperty('format')) {
+      if (properties[property].format === 'date-time') {
+        input.type = 'date'
+        input.emptyValue = null
+      }
     }
   }
 
@@ -73,44 +77,8 @@ const setInput = (properties, lds, domain, property) => {
   }
 }
 
-const setMultiInput = (definitions, referenceProperties, reference, property) => {
+const setReferenceInput = (definitions, referenceProperties, reference, property, codeBlocks) => {
   const input = { name: property, type: 'multiInput', option: {}, value: {}, multiple: true, reference: reference }
-
-  Object.keys(referenceProperties).forEach(property => {
-    let inputType = 'option'
-
-    // Checking for 'enum' is not good enough too distinguish option from value, but how else to do it?
-    if (referenceProperties[property].hasOwnProperty('enum')) {
-      input[inputType].options = referenceProperties[property].enum.map(value => ({ value: value, text: value }))
-    } else {
-      inputType = 'value'
-    }
-
-    input[inputType].handler = property
-    input[inputType].displayName = referenceProperties[property].displayName
-    input[inputType].description = referenceProperties[property].description
-    input[inputType].multiple = referenceProperties[property].type === 'array'
-    input[inputType].required = definitions[reference].hasOwnProperty('required') && definitions[reference].required.includes(property)
-  })
-
-  input.emptyValue = [{
-    [input.option.handler]: input.option.multiple ? [''] : '',
-    [input.value.handler]: input.value.multiple ? [''] : ''
-  }]
-
-  return input
-}
-
-const setProcessStepCodeBlockDetails = (definitions, referenceProperties, reference, property) => {
-  const input = {
-    name: property,
-    type: 'processStepCodeBlockDetails',
-    index: {},
-    option: {},
-    value: {},
-    multiple: true,
-    reference: reference
-  }
 
   Object.keys(referenceProperties).forEach(property => {
     let inputType = 'option'
@@ -120,6 +88,7 @@ const setProcessStepCodeBlockDetails = (definitions, referenceProperties, refere
       input[inputType].options = referenceProperties[property].enum.map(value => ({ value: value, text: value }))
     } else if (property === 'codeBlockIndex') {
       inputType = 'index'
+      input.index = {}
     } else {
       inputType = 'value'
     }
@@ -129,14 +98,22 @@ const setProcessStepCodeBlockDetails = (definitions, referenceProperties, refere
     input[inputType].description = referenceProperties[property].description
     input[inputType].multiple = referenceProperties[property].type === 'array'
     input[inputType].required = definitions[reference].hasOwnProperty('required') && definitions[reference].required.includes(property)
-
   })
 
-  input.emptyValue = [{
-    [input.index.handler]: 1,
-    [input.option.handler]: input.option.multiple ? [''] : '',
-    [input.value.handler]: input.value.multiple ? [''] : ''
-  }]
+  if (codeBlocks) {
+    input.emptyValue = [{
+      [input.index.handler]: 1,
+      [input.option.handler]: input.option.multiple ? [''] : '',
+      [input.value.handler]: input.value.multiple ? [''] : ''
+    }]
+
+    input.type = 'multiCodeBlock'
+  } else {
+    input.emptyValue = [{
+      [input.option.handler]: input.option.multiple ? [''] : '',
+      [input.value.handler]: input.value.multiple ? [''] : ''
+    }]
+  }
 
   return input
 }
@@ -145,9 +122,10 @@ const setInputFromReference = (definitions, reference, property) => {
   const referenceProperties = definitions[reference].properties
 
   if (Object.keys(referenceProperties).length > 2) {
-    return setProcessStepCodeBlockDetails(definitions, referenceProperties, reference, property)
+    // If this is ever the case without it beeing related to GSIM and ProcessStepCodeBlockDetails it will have to be handled differently
+    return setReferenceInput(definitions, referenceProperties, reference, property, true)
   } else {
-    return setMultiInput(definitions, referenceProperties, reference, property)
+    return setReferenceInput(definitions, referenceProperties, reference, property, false)
   }
 }
 

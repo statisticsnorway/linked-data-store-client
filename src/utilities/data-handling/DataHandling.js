@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { Icon, List } from 'semantic-ui-react'
 
 import { API, UI } from '../../enum'
+import { CodeBlockDetails, MultiCodeBlockDetails } from '../../components'
 
 export const createDefaultData = (properties, uiSchema) => {
   const data = {}
@@ -108,8 +109,14 @@ export const convertDataToView = (data, language, producer, uiSchema) => {
         case 'dropdown':
           return fixDropdown(data, producer)
 
+        case 'multiCodeBlock':
+          return <MultiCodeBlockDetails data={data} uiSchema={uiSchema} />
+
         case 'multiInput':
           return fixMultiInput(data, uiSchema)
+
+        case 'codeBlock':
+          return <CodeBlockDetails data={data} uiSchema={uiSchema} />
 
         default:
           return data

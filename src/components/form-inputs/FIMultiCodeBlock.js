@@ -3,9 +3,9 @@ import { Button, Form, Icon, Modal, Popup } from 'semantic-ui-react'
 
 import { LanguageContext } from '../../utilities/context/LanguageContext'
 import { UI } from '../../enum'
-import FIProcessStepCodeBlockDetailsContent from './FIProcessStepCodeBlockDetailsContent'
+import FIMultiCodeBlockContent from './FIMultiCodeBlockContent'
 
-class FIProcessStepCodeBlockDetails extends Component {
+class FIMultiCodeBlock extends Component {
   state = { modalOpen: false }
 
   showModal = () => this.setState({ modalOpen: true })
@@ -35,7 +35,7 @@ class FIProcessStepCodeBlockDetails extends Component {
         <Modal size='large' centered={false} open={modalOpen} onClose={this.closeModal}>
           <Modal.Header>{uiSchema.displayName}</Modal.Header>
           <Modal.Content>
-            <FIProcessStepCodeBlockDetailsContent {...this.props} />
+            <FIMultiCodeBlockContent {...this.props} />
           </Modal.Content>
         </Modal>
       </Form.Field>
@@ -43,6 +43,6 @@ class FIProcessStepCodeBlockDetails extends Component {
   }
 }
 
-FIProcessStepCodeBlockDetails.contextType = LanguageContext
+FIMultiCodeBlock.contextType = LanguageContext
 
-export default FIProcessStepCodeBlockDetails
+export default FIMultiCodeBlock
