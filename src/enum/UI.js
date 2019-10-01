@@ -51,6 +51,10 @@ export const UI = {
     en: 'LDS Client',
     nb: 'LDS Klient'
   },
+  HANDLE_CODE_BLOCKS: {
+    en: 'Handle code block(s) (Zeppelin paragraph(s))',
+    nb: 'Behandle kodeblokk(er) (Zeppelin paragraf(er))'
+  },
   IMPORT: {
     en: 'Import',
     nb: 'Importér'
@@ -86,6 +90,10 @@ export const UI = {
   NORWEGIAN: {
     en: 'Norwegian',
     nb: 'Norsk'
+  },
+  ZEPPELIN_PARAGRAPH_INDEX: {
+    en: 'Paragraph index',
+    nb: 'Paragraf index'
   },
   PRODUCER: {
     en: 'Producer',
@@ -126,6 +134,10 @@ export const UI = {
   USER: {
     en: 'Username',
     nb: 'Brukernavn'
+  },
+  VIEW_CODE_BLOCK: {
+    en: 'View code block(s) (Zeppelin paragraph(s))',
+    nb: 'Se kodeblokk(er) (Zeppelin paragraf(er))'
   },
   WARNING: {
     en: 'Warning',

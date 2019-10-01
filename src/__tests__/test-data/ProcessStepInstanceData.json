@@ -1,0 +1,19 @@
+{
+  "id": "d7eb0706-f6c8-4fa5-8aae-702613ce9911",
+  "name": [
+    {
+      "languageCode": "en",
+      "languageText": "Test Process step instance"
+    }
+  ],
+  "createdDate": "2019-09-24T12:45:16.124Z",
+  "createdBy": "Test user",
+  "version": "1.0.0",
+  "versionValidFrom": "2019-09-24T12:45:16.124Z",
+  "lastUpdatedDate": "2019-09-24T12:45:16.124Z",
+  "lastUpdatedBy": "Test user",
+  "validFrom": "2019-09-24T12:45:16.124Z",
+  "validUntil": "2020-09-24T12:45:16.124Z",
+  "codeBlock": "%pyspark\r\n#Importer alle datasett du skal bruke i dette process steget\r\ndf = spark.read.load('gs://somedata/data/auto.parquet')\r\ndf2 = spark.read.load('gsim-link')",
+  "codeType": "Python"
+}

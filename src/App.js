@@ -49,7 +49,7 @@ class App extends Component {
       })
     }).catch(error => {
       this.setState({
-        error: error,
+        error: error.toString(),
         fresh: true,
         ready: true
       })

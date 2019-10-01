@@ -42,7 +42,7 @@ class DeleteData extends Component {
       }).catch(error => {
         this.setState({
           loading: false,
-          message: `${ERRORS.NOT_DELETED[language]} (${error})`
+          message: `${ERRORS.NOT_DELETED[language]} (${error.toString()})`
         })
       })
     })

@@ -49,7 +49,7 @@ class SaveData extends Component {
           })
         }).catch(error => {
           this.setState({
-            error: error,
+            error: error.toString(),
             loading: false
           })
         })

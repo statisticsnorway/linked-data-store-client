@@ -38,7 +38,7 @@ class Explore extends Component {
               return [response]
             }
           }).catch(error => {
-            return [error]
+            return [error.toString()]
           })
         })
       ).then(responses => {
@@ -197,7 +197,7 @@ class Explore extends Component {
       })
     }).catch(error => {
       this.setState({
-        error: error,
+        error: error.toString(),
         ready: true
       })
     })
