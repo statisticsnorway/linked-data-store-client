@@ -1,6 +1,6 @@
 {
   "name": "linked-data-store-client",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
   "repository": {
     "type": "git",
@@ -24,7 +24,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "node ./node_modules/react-scripts/bin/react-scripts.js build",
-    "test": "node ./node_modules/react-scripts/bin/react-scripts.js test --verbose=false --watchAll=true",
+    "test": "react-scripts test --verbose=false --watchAll=true",
     "coverage": "node ./node_modules/react-scripts/bin/react-scripts.js test --coverage --watchAll=false",
     "eject": "react-scripts eject"
   },

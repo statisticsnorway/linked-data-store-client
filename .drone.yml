@@ -16,7 +16,7 @@ steps:
   - name: code-analysis
     image: aosapps/drone-sonar-plugin
     settings:
-      sonar_host: https://sonarqube.infra.ssbmod.net
+      sonar_host: https://sonarqube.prod-bip-ci.ssb.no
 #        from_secret: sonar_host -- Not implemented yet
       sonar_token:
         from_secret: sonar_token
@@ -28,7 +28,7 @@ steps:
   - name: publish-docker
     image: plugins/gcr
     settings:
-      repo: bip-nullfem/linked-data-store-client
+      repo: prod-bip/linked-data-store-client
       registry: eu.gcr.io
       tags: "${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:8}"
       json_key:

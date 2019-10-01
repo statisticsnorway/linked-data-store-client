@@ -14,6 +14,6 @@ Run `yarn start` and navigate to `http://localhost:3000`.
 
 ### Docker locally
 * `yarn build`
-* `docker build . -t linked-data-store-client:0.1`
-* `docker run -p 8000:80 linked-data-store-client:0.1`
+* `docker build -t linked-data-store-client .`
+* `docker run -p 8000:80 linked-data-store-client:latest`
 * Navigate to `http://localhost:8000/`
