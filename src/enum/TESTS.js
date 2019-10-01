@@ -11,6 +11,8 @@ export const LDS_TEST_PROPERTIES = {
 
 export const TEST_DOMAINS = {
   AGENT: 'Agent',
+  PROCESS_STEP: 'ProcessStep',
+  PROCESS_STEP_INSTANCE: 'ProcessStepInstance',
   STATISTICAL_PROGRAM: 'StatisticalProgram'
 }
 

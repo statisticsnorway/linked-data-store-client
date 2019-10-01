@@ -10,11 +10,16 @@ import { API, ERRORS, LDS_TEST_PROPERTIES, MESSAGES, TEST_DOMAINS, TEST_URLS, UI
 
 import AgentSchema from './test-data/AgentSchema'
 import AgentData from './test-data/AgentData'
+import ProcessStepSchema from './test-data/ProcessStepSchema'
+import ProcessStepData from './test-data/ProcessStepData'
+import ProcessStepInstanceSchema from './test-data/ProcessStepInstanceSchema'
+import ProcessStepInstanceData from './test-data/ProcessStepInstanceData'
 import StatisticalProgramSchema from './test-data/StatisticalProgramSchema'
 
 expect.extend({ toBeDisabled })
 
 jest.mock('../utilities/fetch/Fetch', () => ({ deleteData: jest.fn(), getData: jest.fn(), putData: jest.fn() }))
+jest.mock('react-ace')
 
 afterEach(() => {
   deleteData.mockReset()
@@ -33,7 +38,7 @@ const setup = (domain, id) => {
     }
   }
 
-  const { getByText, queryAllByText } = render(
+  const { container, getByText, queryAllByPlaceholderText, queryAllByText } = render(
     <MemoryRouter>
       <LanguageContext.Provider value={{ value: API.DEFAULT_LANGUAGE }}>
         <DomainSingle {...props} />
@@ -41,7 +46,7 @@ const setup = (domain, id) => {
     </MemoryRouter>
   )
 
-  return { getByText, queryAllByText }
+  return { container, getByText, queryAllByPlaceholderText, queryAllByText }
 }
 
 test('DomainSingle renders edit correctly when good response from LDS', async () => {
@@ -64,6 +69,41 @@ test('DomainSingle renders edit correctly when good response from LDS', async ()
   expect(getData).toHaveBeenCalledTimes(4)
   expect(getData).toHaveBeenNthCalledWith(1, TEST_URLS.AGENT_SCHEMA_URL)
   expect(getData).toHaveBeenNthCalledWith(2, `${TEST_URLS.AGENT_BASE_URL}/${AgentData.id}`)
+})
+
+test('DomainSingle renders code block input for single code block correctly', async () => {
+  getData
+    .mockImplementationOnce(() => Promise.resolve(ProcessStepInstanceSchema))
+    .mockImplementationOnce(() => Promise.resolve(ProcessStepInstanceData))
+    .mockImplementationOnce(() => Promise.resolve([])) // _link_property_agentInRoles resolve
+    .mockImplementationOnce(() => Promise.resolve([])) // _link_property_parameterInputs resolve
+    .mockImplementationOnce(() => Promise.resolve([])) // _link_property_processExecutionLog resolve
+    .mockImplementationOnce(() => Promise.resolve([])) // _link_property_processMetrics resolve
+    .mockImplementationOnce(() => Promise.resolve([])) // _link_property_transformableInputs resolve
+    .mockImplementationOnce(() => Promise.resolve([])) // _link_property_processSupportInputs resolve
+    .mockImplementationOnce(() => Promise.resolve([])) // _link_property_transformedOutputs resolve
+
+  const { container } = setup(TEST_DOMAINS.PROCESS_STEP_INSTANCE, ProcessStepInstanceData.id)
+
+  await wait(() => {
+    expect(container.querySelector('.ace-editor')).toBeDefined()
+  })
+})
+
+test('DomainSingle renders a button for multi code block input correctly', async () => {
+  getData
+    .mockImplementationOnce(() => Promise.resolve(ProcessStepSchema))
+    .mockImplementationOnce(() => Promise.resolve(ProcessStepData))
+    .mockImplementationOnce(() => Promise.resolve([])) // _link_property_agentInRoles resolve
+    .mockImplementationOnce(() => Promise.resolve([])) // _link_property_processStepInstances resolve
+    .mockImplementationOnce(() => Promise.resolve([])) // _link_property_processControl resolve
+    .mockImplementationOnce(() => Promise.resolve([])) // _link_property_parentProcessStep resolve
+
+  const { queryAllByText } = setup(TEST_DOMAINS.PROCESS_STEP, ProcessStepData.id)
+
+  await wait(() => {
+    expect(queryAllByText(UI.HANDLE_CODE_BLOCKS.nb)).toHaveLength(1)
+  })
 })
 
 test('DomainSingle renders edit on fresh object correctly when good response from LDS', async () => {
