@@ -1,6 +1,6 @@
 {
   "name": "linked-data-store-client",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
   "repository": {
     "type": "git",
@@ -15,7 +15,7 @@
     "react-datepicker": "^2.1.0",
     "react-dom": "^16.7.0",
     "react-router-dom": "^5.0.0",
-    "react-scripts": "^3.0.0",
+    "react-scripts": "3.1.2",
     "react-table": "^6.9.2",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.88.0",
@@ -24,7 +24,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "node ./node_modules/react-scripts/bin/react-scripts.js build",
-    "test": "node ./node_modules/react-scripts/bin/react-scripts.js test --verbose=false --watchAll=true",
+    "test": "react-scripts test --verbose=false --watchAll=true",
     "coverage": "node ./node_modules/react-scripts/bin/react-scripts.js test --coverage --watchAll=false",
     "eject": "react-scripts eject"
   },
