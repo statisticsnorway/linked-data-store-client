@@ -15,5 +15,6 @@
   "validFrom": "2019-09-24T12:45:16.124Z",
   "validUntil": "2020-09-24T12:45:16.124Z",
   "codeBlock": "%pyspark\r\n#Importer alle datasett du skal bruke i dette process steget\r\ndf = spark.read.load('gs://somedata/data/auto.parquet')\r\ndf2 = spark.read.load('gsim-link')",
+  "codeBlockTitle": "The code",
   "codeType": "Python"
 }

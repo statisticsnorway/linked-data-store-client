@@ -89,6 +89,9 @@ const setReferenceInput = (definitions, referenceProperties, reference, property
     } else if (property === 'codeBlockIndex') {
       inputType = 'index'
       input.index = {}
+    } else if (property === 'codeBlockTitle') {
+      inputType = 'title'
+      input.title = {}
     } else {
       inputType = 'value'
     }
@@ -103,6 +106,7 @@ const setReferenceInput = (definitions, referenceProperties, reference, property
   if (codeBlocks) {
     input.emptyValue = [{
       [input.index.handler]: 1,
+      [input.title.handler]: '',
       [input.option.handler]: input.option.multiple ? [''] : '',
       [input.value.handler]: input.value.multiple ? [''] : ''
     }]

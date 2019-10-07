@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Accordion, Dropdown, Form, Icon, Popup } from 'semantic-ui-react'
+import { Accordion, Dropdown, Form, Icon, Popup, TextArea } from 'semantic-ui-react'
 import AceEditor from 'react-ace'
 
 import 'brace/mode/python'
@@ -37,6 +37,7 @@ class FIMultiCodeBlockContent extends Component {
 
     const inputOption = uiSchema.input.option
     const inputValue = uiSchema.input.value
+    const inputTitle = uiSchema.input.title
 
     return (
       <Accordion fluid>
@@ -49,6 +50,17 @@ class FIMultiCodeBlockContent extends Component {
             </Accordion.Title>
             <Accordion.Content active={activeIndex === index}>
               <Form>
+                <Form.Field required={inputTitle.required}>
+                  <label>
+                    <Popup basic flowing trigger={<span>{`${inputTitle.displayName} `}</span>}>
+                      <Icon color='blue' name='info circle' />
+                      {inputTitle.description}
+                    </Popup>
+                  </label>
+                  <TextArea rows={2} name={inputTitle.handler} placeholder={truncateString(inputTitle.displayName)}
+                            value={element.codeBlockTitle}
+                            onChange={(event, data) => this.mergeDeepChange(index, inputTitle.handler, data.value)} />
+                </Form.Field>
                 <Form.Field required={inputOption.required}>
                   <label>
                     <Popup basic flowing trigger={<span>{`${inputOption.displayName} `}</span>}>
@@ -76,7 +88,7 @@ class FIMultiCodeBlockContent extends Component {
                     highlightActiveLine={true}
                     placeholder={truncateString(inputValue.displayName)}
                     onChange={(data, event) => this.mergeDeepChange(index, inputValue.handler, data)}
-                    name={uiSchema.input.name}
+                    name={inputValue.handler}
                     value={element.codeBlockValue}
                     width='100%'
                     height='20em'

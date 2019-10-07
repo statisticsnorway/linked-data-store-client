@@ -1,6 +1,6 @@
 {
   "name": "linked-data-store-client",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": true,
   "repository": {
     "type": "git",
@@ -15,7 +15,7 @@
     "react-datepicker": "^2.1.0",
     "react-dom": "^16.7.0",
     "react-router-dom": "^5.0.0",
-    "react-scripts": "3.1.2",
+    "react-scripts": "3.2.0",
     "react-table": "^6.9.2",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.88.0",
@@ -52,10 +52,10 @@
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 63,
+        "branches": 62,
         "functions": 67,
-        "lines": 75,
-        "statements": 74
+        "lines": 73,
+        "statements": 73
       }
     }
   }

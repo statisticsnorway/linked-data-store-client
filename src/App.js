@@ -4,6 +4,7 @@ import { registerLocale, setDefaultLocale } from 'react-datepicker'
 
 import AppView from './AppView'
 import { extractDomainFromString, getData } from './utilities'
+import { extractFromVersionObject } from './producers/Producers'
 import { LanguageContext } from './utilities/context/LanguageContext'
 import { API } from './enum'
 
@@ -21,7 +22,8 @@ class App extends Component {
       url: localStorage.hasOwnProperty('url') ? localStorage.getItem('url') : process.env.REACT_APP_LDS,
       user: localStorage.hasOwnProperty('user') ? localStorage.getItem('user') : 'Test user'
     },
-    ready: false
+    ready: false,
+    schemaModel: {}
   }
 
   componentDidMount () {
@@ -41,12 +43,30 @@ class App extends Component {
         route: `/${lds.producer}/${extractDomainFromString(path)}`
       }))
 
-      this.setState({
-        domains: domains,
-        error: false,
-        fresh: true,
-        ready: true
-      })
+      if (lds.producer === API.DEFAULT_PRODUCER) {
+        getData(`${lds.url}/${lds.namespace}/${API.DEFAULT_VERSION_OBJECT.NAME}${API.SCHEMA_QUERY}`).then(response => {
+          this.setState({
+            domains: domains,
+            error: false,
+            fresh: true,
+            ready: true,
+            schemaModel: extractFromVersionObject(response, lds.producer)
+          })
+        }).catch(error => {
+          this.setState({
+            error: error.toString(),
+            fresh: true,
+            ready: true
+          })
+        })
+      } else {
+        this.setState({
+          domains: domains,
+          error: false,
+          fresh: true,
+          ready: true
+        })
+      }
     }).catch(error => {
       this.setState({
         error: error.toString(),

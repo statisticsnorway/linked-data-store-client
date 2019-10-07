@@ -162,6 +162,11 @@
           "displayName": "Agent in roles",
           "description": "Agent(s) acting in the Role(s) for this information object."
         },
+        "codeBlockTitle": {
+          "type": "string",
+          "description": "Title of code block",
+          "displayName": "Title"
+        },
         "codeBlock": {
           "type": "string",
           "displayName": "Code block",
@@ -275,6 +280,7 @@
         "createdBy",
         "versionValidFrom",
         "validFrom",
+        "codeBlockTitle",
         "codeBlock",
         "codeType"
       ],

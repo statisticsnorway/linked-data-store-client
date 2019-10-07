@@ -117,3 +117,19 @@ export const extractStringFromObject = (object, producer, language) => {
     return object
   }
 }
+
+export const extractFromVersionObject = (object, producer) => {
+  if (typeof object === 'object' && object !== null) {
+    if (producer === API.DEFAULT_PRODUCER) {
+      return {
+        displayName: object.definitions[API.DEFAULT_VERSION_OBJECT.NAME].properties[API.DEFAULT_VERSION_OBJECT.PROPERTY].displayName,
+        latestChange: object.definitions[API.DEFAULT_VERSION_OBJECT.NAME].properties[API.DEFAULT_VERSION_OBJECT.PROPERTY].description,
+        version: object.definitions[API.DEFAULT_VERSION_OBJECT.NAME].properties[API.DEFAULT_VERSION_OBJECT.PROPERTY].default
+      }
+    } else {
+      return object.toString()
+    }
+  } else {
+    return object
+  }
+}

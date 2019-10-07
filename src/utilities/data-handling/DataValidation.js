@@ -19,6 +19,31 @@ export const validateAndClean = (dataObject, groupings, language, uiSchema, draf
             }
             break
 
+          case 'multiCodeBlock':
+            const checks = [uiSchemaProp.input.option, uiSchemaProp.input.value, uiSchemaProp.input.title]
+
+            data[property] = data[property].filter(value =>
+              !(value[uiSchemaProp.input.option.handler] === '' &&
+                value[uiSchemaProp.input.value.handler] === '' &&
+                value[uiSchemaProp.input.title.handler] === '')
+            )
+
+            if (data[property].length === 0) {
+              required ? errors[property] = ERRORS.EMPTY_VALUES[language] : delete data[property]
+            } else {
+              data[property].forEach((value, index) => {
+                checks.forEach(check => {
+                  if (check.required && value[check.handler] === '') {
+                    errors[property] = ERRORS.EMPTY_VALUES[language]
+                  } else if (!check.required && value[check.handler] === '') {
+                    delete data[property][index]
+                  }
+                })
+              })
+            }
+
+            break
+
           case 'date':
           case 'dropdown':
             const noValue = type === 'dropdown' ? '' : null

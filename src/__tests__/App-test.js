@@ -7,6 +7,8 @@ import App from '../App'
 import { getData } from '../utilities/fetch/Fetch'
 import { API, ERRORS, MESSAGES, TEST_DOMAINS, TEST_URLS, UI } from '../enum'
 
+import AboutData from './test-data/AboutData'
+
 expect.extend({ toHaveClass })
 
 jest.mock('../utilities/fetch/Fetch', () => ({ getData: jest.fn() }))
@@ -34,7 +36,9 @@ const setup = () => {
 }
 
 test('App renders correctly when response good from LDS', async () => {
-  getData.mockImplementation(() => Promise.resolve([`/data/${TEST_DOMAINS.AGENT}${API.SCHEMA_QUERY}`]))
+  getData
+    .mockImplementationOnce(() => Promise.resolve([`/data/${TEST_DOMAINS.AGENT}${API.SCHEMA_QUERY}`]))
+    .mockImplementationOnce(() => Promise.resolve(AboutData))
 
   const { getByTestId, queryAllByText } = setup()
 
@@ -43,8 +47,9 @@ test('App renders correctly when response good from LDS', async () => {
     expect(queryAllByText(TEST_DOMAINS.AGENT)).toHaveLength(1)
   })
 
-  expect(getData).toHaveBeenCalledTimes(1)
+  expect(getData).toHaveBeenCalledTimes(2)
   expect(getData).toHaveBeenCalledWith(TEST_URLS.BASE_SCHEMAS_URL)
+  expect(getData).toHaveBeenCalledWith(TEST_URLS.ABOUT_SCHEMA_URL)
 })
 
 test('Changing language works correctly', async () => {
@@ -62,7 +67,11 @@ test('Changing language works correctly', async () => {
 })
 
 test('All navigation works', async () => {
-  getData.mockImplementation(() => Promise.resolve([]))
+  getData
+    .mockImplementationOnce(() => Promise.resolve([]))
+    .mockImplementationOnce(() => Promise.resolve(AboutData))
+    .mockImplementationOnce(() => Promise.resolve([]))
+    .mockImplementationOnce(() => Promise.resolve(AboutData))
 
   const { container, getByText, queryAllByText } = setup()
 
@@ -79,7 +88,11 @@ test('All navigation works', async () => {
 })
 
 test('Changing settings works correctly', async () => {
-  getData.mockImplementation(() => Promise.resolve([]))
+  getData
+    .mockImplementationOnce(() => Promise.resolve([]))
+    .mockImplementationOnce(() => Promise.resolve(AboutData))
+    .mockImplementationOnce(() => Promise.resolve([]))
+    .mockImplementationOnce(() => Promise.resolve(AboutData))
 
   const { getByPlaceholderText, getByText, queryAllByText } = setup()
 
@@ -89,8 +102,9 @@ test('Changing settings works correctly', async () => {
     fireEvent.click(getByText(UI.APPLY.nb))
   })
 
-  expect(getData).toHaveBeenCalledTimes(2)
+  expect(getData).toHaveBeenCalledTimes(4)
   expect(getData).toHaveBeenCalledWith(TEST_URLS.BASE_SCHEMAS_URL)
+  expect(getData).toHaveBeenCalledWith(TEST_URLS.ABOUT_SCHEMA_URL)
 })
 
 test('App renders correctly when bad response from LDS', async () => {
