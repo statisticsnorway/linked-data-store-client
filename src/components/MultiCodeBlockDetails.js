@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Accordion, Button, Form, Icon, Label, Modal, Popup } from 'semantic-ui-react'
+import { Accordion, Button, Divider, Form, Icon, Label, Modal, Popup } from 'semantic-ui-react'
 import AceEditor from 'react-ace'
 
 import 'brace/mode/python'
@@ -52,19 +52,15 @@ class MultiCodeBlockDetails extends Component {
                 <div key={element.codeBlockIndex}>
                   <Accordion.Title active={activeIndex === index} index={index} onClick={this.handleAccordionClick}>
                     <Icon name='dropdown' />
-                    {`${UI.ZEPPELIN_PARAGRAPH_INDEX[language]}: ${element.codeBlockIndex}`}
+                    {`${element.codeBlockTitle} - ${UI.ZEPPELIN_PARAGRAPH_INDEX[language]}: ${element.codeBlockIndex}`}
                   </Accordion.Title>
                   <Accordion.Content active={activeIndex === index}>
                     <Form>
-                      <Form.Field inline>
-                        <label>
-                          <Popup basic flowing trigger={<span>{`${inputOption.displayName} `}</span>}>
-                            <Icon color='blue' name='info circle' />
-                            {inputOption.description}
-                          </Popup>
-                        </label>
-                        <Label color='teal' tag content={element.codeBlockType} />
-                      </Form.Field>
+                      <Popup basic flowing trigger={<Label color='teal' tag content={element.codeBlockType} />}>
+                        <Icon color='blue' name='info circle' />
+                        {inputOption.description}
+                      </Popup>
+                      <Divider hidden style={{ marginBottom: 0 }} />
                       <Form.Field>
                         <label>
                           <Popup basic flowing trigger={<span>{`${inputValue.displayName} `}</span>}>

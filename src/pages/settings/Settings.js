@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Container, Divider, Form, Grid, Header, Icon, Message, Popup, Segment } from 'semantic-ui-react'
+import { Button, Container, Divider, Form, Grid, Header, Icon, Label, Message, Popup, Segment } from 'semantic-ui-react'
 
 import { LanguageContext } from '../../utilities/context/LanguageContext'
 import { API, ERRORS, MESSAGES, UI } from '../../enum'
@@ -26,7 +26,7 @@ class Settings extends Component {
 
   render () {
     const { ldsOptions } = this.state
-    const { error, fresh, lds, ready } = this.props
+    const { error, fresh, lds, ready, schemaModel } = this.props
     const { changeSettings, refreshSettings } = this.props
 
     let language = this.context.value
@@ -65,6 +65,19 @@ class Settings extends Component {
                 <Icon color='blue' name='info circle' />
                 {MESSAGES.PRODUCER[language]}
               </Popup>
+              {lds.producer === API.DEFAULT_PRODUCER &&
+              <Popup flowing size='large' position='left center' trigger={
+                <Form.Field inline disabled={!ready}>
+                  <label>{`${schemaModel.displayName}: `}</label>
+                  <Label color='teal' tag>
+                    {!ready ? <Icon loading name='spinner' /> : schemaModel.version}
+                  </Label>
+                </Form.Field>
+              }>
+                <Icon color='blue' name='info circle' />
+                {schemaModel.latestChange}
+              </Popup>
+              }
               <Popup flowing size='large' position='left center' trigger={
                 <Form.Input label={UI.USER[language]} placeholder={UI.USER[language]} name='user'
                             value={lds.user} onChange={changeSettings} disabled={!ready} />

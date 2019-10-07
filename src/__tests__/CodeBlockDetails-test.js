@@ -64,6 +64,6 @@ test('MultiCodeBlockDetails renders modal and correct amount of code blocks', as
   await wait(() => {
     fireEvent.click(getByText(UI.VIEW_CODE_BLOCK.nb))
 
-    expect(queryAllByText(new RegExp('^' + UI.ZEPPELIN_PARAGRAPH_INDEX.nb))).toHaveLength(11)
+    expect(queryAllByText(new RegExp(UI.ZEPPELIN_PARAGRAPH_INDEX.nb))).toHaveLength(11)
   })
 })

@@ -16,8 +16,8 @@ steps:
   - name: code-analysis
     image: aosapps/drone-sonar-plugin
     settings:
-      sonar_host: https://sonarqube.prod-bip-ci.ssb.no
-#        from_secret: sonar_host -- Not implemented yet
+      sonar_host:
+        from_secret: sonar_host
       sonar_token:
         from_secret: sonar_token
     when:
