@@ -24,6 +24,9 @@ afterEach(() => {
   cleanup()
 })
 
+const ADD_DATE_TEST_ID = 'add-date-item'
+const REMOVE_DATE_TEST_ID = 'remove-date-item'
+const PLACEHOLDER_TEXT_DATE = AssessmentSchema.definitions[TEST_DOMAINS.ASSESSMENT].properties.datesAssessed.displayName
 const ADD_ITEM_TEST_ID = 'add-input-item'
 const REMOVE_ITEM_TEST_ID = 'remove-input-item'
 const PLACEHOLDER_TEXT_ITEM = AssessmentSchema.definitions[TEST_DOMAINS.MULTILINGUAL_TEXT].properties.languageText.displayName
@@ -51,6 +54,26 @@ const setup = () => {
 
   return { getAllByTestId, getByTestId, queryAllByPlaceholderText }
 }
+
+test('Clicking the add-date-item link adds a date input field', async () => {
+  const { getByTestId, queryAllByPlaceholderText } = setup()
+
+  await wait(() => {
+    fireEvent.click(getByTestId(ADD_DATE_TEST_ID))
+
+    expect(queryAllByPlaceholderText(PLACEHOLDER_TEXT_DATE)).toHaveLength(2)
+  })
+})
+
+test('Clicking the remove-date-item link removes a date input field', async () => {
+  const { getByTestId, queryAllByPlaceholderText } = setup()
+
+  await wait(() => {
+    fireEvent.click(getByTestId(REMOVE_DATE_TEST_ID))
+
+    expect(queryAllByPlaceholderText(PLACEHOLDER_TEXT_DATE)).toHaveLength(0)
+  })
+})
 
 test('Clicking the add-input-item link adds a input field to the form field', async () => {
   const { getAllByTestId, queryAllByPlaceholderText } = setup()

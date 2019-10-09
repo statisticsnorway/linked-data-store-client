@@ -39,27 +39,41 @@ const setup = () => {
   return { container, getAllByPlaceholderText, queryAllByText }
 }
 
-test('DomainList renders correctly when good response from LDS', async () => {
-  getData
-    .mockImplementationOnce(() => Promise.resolve(AgentSchema))
-    .mockImplementationOnce(() => Promise.resolve(AgentData))
-
-  const { container, queryAllByText } = setup()
-  const AgentId = new RegExp('^' + AgentData.id + '$')
-
-  await wait(() => {
-    const link = container.querySelector(`a[href="/gsim/${TEST_DOMAINS.AGENT}/${AgentData.id}/view"]`)
-
-    expect(queryAllByText(`${UI.CREATE_NEW.nb} ${TEST_DOMAINS.AGENT}`)).toHaveLength(1)
-    expect(queryAllByText(AgentData.name[0].languageText)).toHaveLength(1)
-    expect(queryAllByText(AgentData.description[0].languageText)).toHaveLength(1)
-    expect(link).toBeVisible()
-    expect(link).toHaveTextContent(AgentId)
+describe('Correct behaviour when good respone with data', () => {
+  beforeEach(() => {
+    getData
+      .mockImplementationOnce(() => Promise.resolve(AgentSchema))
+      .mockImplementationOnce(() => Promise.resolve(AgentData))
   })
 
-  expect(getData).toHaveBeenCalledTimes(2)
-  expect(getData).toHaveBeenNthCalledWith(1, TEST_URLS.AGENT_SCHEMA_URL)
-  expect(getData).toHaveBeenNthCalledWith(2, TEST_URLS.AGENT_BASE_URL)
+  test('DomainList renders correctly when good response from LDS', async () => {
+    const { container, queryAllByText } = setup()
+    const AgentId = new RegExp('^' + AgentData.id + '$')
+
+    await wait(() => {
+      const link = container.querySelector(`a[href="/gsim/${TEST_DOMAINS.AGENT}/${AgentData.id}/view"]`)
+
+      expect(queryAllByText(`${UI.CREATE_NEW.nb} ${TEST_DOMAINS.AGENT}`)).toHaveLength(1)
+      expect(queryAllByText(AgentData.name[0].languageText)).toHaveLength(1)
+      expect(queryAllByText(AgentData.description[0].languageText)).toHaveLength(1)
+      expect(link).toBeVisible()
+      expect(link).toHaveTextContent(AgentId)
+    })
+
+    expect(getData).toHaveBeenCalledTimes(2)
+    expect(getData).toHaveBeenNthCalledWith(1, TEST_URLS.AGENT_SCHEMA_URL)
+    expect(getData).toHaveBeenNthCalledWith(2, TEST_URLS.AGENT_BASE_URL)
+  })
+
+  test('DomainList filters columns correctly', async () => {
+    const { getAllByPlaceholderText, queryAllByText } = setup()
+
+    await wait(() => {
+      fireEvent.change(getAllByPlaceholderText(UI.SEARCH.nb)[0], { target: { value: `Not an ${TEST_DOMAINS.AGENT}` } })
+      expect(queryAllByText(AgentData.name[0].languageText)).toHaveLength(0)
+      expect(queryAllByText(AgentData.description[0].languageText)).toHaveLength(0)
+    })
+  })
 })
 
 test('DomainList renders correctly when empty response from LDS', async () => {
@@ -89,18 +103,4 @@ test('DomainList renders correctly when bad response from LDS', async () => {
 
   expect(getData).toHaveBeenCalledTimes(1)
   expect(getData).toHaveBeenCalledWith(TEST_URLS.AGENT_SCHEMA_URL)
-})
-
-test('DomainList filters columns correctly', async () => {
-  getData
-    .mockImplementationOnce(() => Promise.resolve(AgentSchema))
-    .mockImplementationOnce(() => Promise.resolve(AgentData))
-
-  const { getAllByPlaceholderText, queryAllByText } = setup()
-
-  await wait(() => {
-    fireEvent.change(getAllByPlaceholderText(UI.SEARCH.nb)[0], { target: { value: `Not an ${TEST_DOMAINS.AGENT}` } })
-    expect(queryAllByText(AgentData.name[0].languageText)).toHaveLength(0)
-    expect(queryAllByText(AgentData.description[0].languageText)).toHaveLength(0)
-  })
 })
