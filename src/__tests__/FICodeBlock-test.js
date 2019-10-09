@@ -33,7 +33,8 @@ test('FIMultiCodeBlock renders modal and correct amount of code blocks', async (
 
   await wait(() => {
     fireEvent.click(getByText(UI.HANDLE_CODE_BLOCKS.nb))
+    fireEvent.click(getByText(`${UI.ZEPPELIN_PARAGRAPH_INDEX.nb}: ${ProcessStepData.codeBlocks[10].codeBlockIndex}`))
 
-    expect(queryAllByText(new RegExp('^' + UI.ZEPPELIN_PARAGRAPH_INDEX.nb))).toHaveLength(11)
+    expect(queryAllByText(UI.ZEPPELIN_PARAGRAPH_INDEX.nb, { exact: false })).toHaveLength(11)
   })
 })

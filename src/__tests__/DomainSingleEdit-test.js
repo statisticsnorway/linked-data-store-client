@@ -4,7 +4,7 @@ import { MemoryRouter } from 'react-router-dom'
 import { cleanup, fireEvent, render, wait } from '@testing-library/react'
 
 import { LanguageContext } from '../utilities/context/LanguageContext'
-import DomainSingle from '../pages/domain/single/DomainSingle'
+import { DomainSingle } from '../pages'
 import { deleteData, getData, putData } from '../utilities/fetch/Fetch'
 import { API, ERRORS, LDS_TEST_PROPERTIES, MESSAGES, TEST_DOMAINS, TEST_URLS, UI } from '../enum'
 
@@ -49,26 +49,47 @@ const setup = (domain, id) => {
   return { container, getByText, queryAllByPlaceholderText, queryAllByText }
 }
 
-test('DomainSingle renders edit correctly when good response from LDS', async () => {
-  getData
-    .mockImplementationOnce(() => Promise.resolve(AgentSchema))
-    .mockImplementationOnce(() => Promise.resolve(AgentData))
-    .mockImplementationOnce(() => Promise.resolve([])) // _link_property_agentInRoles resolve
-    .mockImplementationOnce(() => Promise.resolve([])) // _link_property_parentAgents resolve
-
-  const { queryAllByText } = setup(TEST_DOMAINS.AGENT, AgentData.id)
-
-  await wait(() => {
-    expect(queryAllByText(TEST_DOMAINS.AGENT)).toHaveLength(1)
-    expect(queryAllByText(AgentData.id)).toHaveLength(1)
-    expect(queryAllByText(UI.SAVE.nb)).toHaveLength(1)
-    expect(queryAllByText(UI.DOWNLOAD_JSON.nb)).toHaveLength(1)
-    expect(queryAllByText(UI.DELETE.nb)).toHaveLength(1)
+describe('Correct behaviour when good respone with data', () => {
+  beforeEach(() => {
+    getData
+      .mockImplementationOnce(() => Promise.resolve(AgentSchema))
+      .mockImplementationOnce(() => Promise.resolve(AgentData))
+      .mockImplementationOnce(() => Promise.resolve([])) // _link_property_agentInRoles resolve
+      .mockImplementationOnce(() => Promise.resolve([])) // _link_property_parentAgents resolve
   })
 
-  expect(getData).toHaveBeenCalledTimes(4)
-  expect(getData).toHaveBeenNthCalledWith(1, TEST_URLS.AGENT_SCHEMA_URL)
-  expect(getData).toHaveBeenNthCalledWith(2, `${TEST_URLS.AGENT_BASE_URL}/${AgentData.id}`)
+  test('DomainSingle renders edit correctly when good response from LDS', async () => {
+    const { queryAllByText } = setup(TEST_DOMAINS.AGENT, AgentData.id)
+
+    await wait(() => {
+      expect(queryAllByText(TEST_DOMAINS.AGENT)).toHaveLength(1)
+      expect(queryAllByText(AgentData.id)).toHaveLength(1)
+      expect(queryAllByText(UI.SAVE.nb)).toHaveLength(1)
+      expect(queryAllByText(UI.DOWNLOAD_JSON.nb)).toHaveLength(1)
+      expect(queryAllByText(UI.DELETE.nb)).toHaveLength(1)
+    })
+
+    expect(getData).toHaveBeenCalledTimes(4)
+    expect(getData).toHaveBeenNthCalledWith(1, TEST_URLS.AGENT_SCHEMA_URL)
+    expect(getData).toHaveBeenNthCalledWith(2, `${TEST_URLS.AGENT_BASE_URL}/${AgentData.id}`)
+  })
+
+  test('SaveData is triggeres correctly', async () => {
+    putData.mockImplementation(() => Promise.resolve())
+
+    const { getByText, queryAllByText } = setup(TEST_DOMAINS.AGENT, AgentData.id)
+
+    await wait(() => {
+      expect(queryAllByText(TEST_DOMAINS.AGENT)).toHaveLength(1)
+      expect(queryAllByText(AgentData.id)).toHaveLength(1)
+      expect(queryAllByText(UI.SAVE.nb)).toHaveLength(1)
+
+      fireEvent.click(queryAllByText('DRAFT')[0])
+      fireEvent.click(getByText(UI.SAVE.nb))
+    })
+
+    expect(putData).toHaveBeenCalledTimes(1)
+  })
 })
 
 test('DomainSingle renders code block input for single code block correctly', async () => {
@@ -170,27 +191,4 @@ test('DomainSingle renders edit correctly when bad data response from LDS', asyn
   expect(getData).toHaveBeenCalledTimes(2)
   expect(getData).toHaveBeenNthCalledWith(1, TEST_URLS.AGENT_SCHEMA_URL)
   expect(getData).toHaveBeenNthCalledWith(2, `${TEST_URLS.AGENT_BASE_URL}/${AgentData.id}`)
-})
-
-test('SaveData is triggeres correctly', async () => {
-  getData
-    .mockImplementationOnce(() => Promise.resolve(AgentSchema))
-    .mockImplementationOnce(() => Promise.resolve(AgentData))
-    .mockImplementationOnce(() => Promise.resolve([])) // _link_property_agentInRoles resolve
-    .mockImplementationOnce(() => Promise.resolve([])) // _link_property_parentAgents resolve
-
-  putData.mockImplementation(() => Promise.resolve())
-
-  const { getByText, queryAllByText } = setup(TEST_DOMAINS.AGENT, AgentData.id)
-
-  await wait(() => {
-    expect(queryAllByText(TEST_DOMAINS.AGENT)).toHaveLength(1)
-    expect(queryAllByText(AgentData.id)).toHaveLength(1)
-    expect(queryAllByText(UI.SAVE.nb)).toHaveLength(1)
-
-    fireEvent.click(queryAllByText('DRAFT')[0])
-    fireEvent.click(getByText(UI.SAVE.nb))
-  })
-
-  expect(putData).toHaveBeenCalledTimes(1)
 })

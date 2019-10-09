@@ -2,8 +2,7 @@ import React from 'react'
 import { fireEvent, render, wait } from '@testing-library/react'
 
 import { LanguageContext } from '../utilities/context/LanguageContext'
-import MultiCodeBlockDetails from '../components/MultiCodeBlockDetails'
-import CodeBlockDetails from '../components/CodeBlockDetails'
+import { CodeBlockDetails, MultiCodeBlockDetails } from '../components'
 import { API, LDS_TEST_PROPERTIES, TEST_DOMAINS, UI } from '../enum'
 import { createUiSchema } from '../utilities'
 
@@ -54,7 +53,8 @@ test('CodeBlockDetails renders modal correctly', async () => {
   await wait(() => {
     fireEvent.click(getByText(UI.VIEW_CODE_BLOCK.nb))
 
-    expect(queryAllByText(`Code block`)).toHaveLength(1)
+    expect(queryAllByText(ProcessStepInstanceSchema.definitions.ProcessStepInstance.properties.codeBlock.displayName))
+      .toHaveLength(1)
   })
 })
 
@@ -63,7 +63,8 @@ test('MultiCodeBlockDetails renders modal and correct amount of code blocks', as
 
   await wait(() => {
     fireEvent.click(getByText(UI.VIEW_CODE_BLOCK.nb))
+    fireEvent.click(getByText(`${ProcessStepData.codeBlocks[10].codeBlockTitle} - ${UI.ZEPPELIN_PARAGRAPH_INDEX.nb}: ${ProcessStepData.codeBlocks[10].codeBlockIndex}`))
 
-    expect(queryAllByText(new RegExp(UI.ZEPPELIN_PARAGRAPH_INDEX.nb))).toHaveLength(11)
+    expect(queryAllByText(UI.ZEPPELIN_PARAGRAPH_INDEX.nb, { exact: false })).toHaveLength(11)
   })
 })

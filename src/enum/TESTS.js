@@ -11,7 +11,10 @@ export const LDS_TEST_PROPERTIES = {
 
 export const TEST_DOMAINS = {
   ABOUT: 'About',
+  ADMINISTRATIVE_DETAILS: 'AdministrativeDetails',
   AGENT: 'Agent',
+  ASSESSMENT: 'Assessment',
+  MULTILINGUAL_TEXT: 'MultilingualText',
   PROCESS_STEP: 'ProcessStep',
   PROCESS_STEP_INSTANCE: 'ProcessStepInstance',
   STATISTICAL_PROGRAM: 'StatisticalProgram'
