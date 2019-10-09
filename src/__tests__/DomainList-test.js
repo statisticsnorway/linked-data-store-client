@@ -4,7 +4,7 @@ import { MemoryRouter } from 'react-router-dom'
 import { cleanup, fireEvent, render, wait } from '@testing-library/react'
 
 import { LanguageContext } from '../utilities/context/LanguageContext'
-import DomainList from '../pages/domain/list/DomainList'
+import { DomainList } from '../pages'
 import { getData } from '../utilities/fetch/Fetch'
 import { API, ERRORS, LDS_TEST_PROPERTIES, MESSAGES, TEST_DOMAINS, TEST_URLS, UI } from '../enum'
 

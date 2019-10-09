@@ -26,18 +26,20 @@ class FIMultiInputView extends Component {
             <Icon color='blue' name='info circle' />
             {uiSchema.description}
           </Popup>
-          <Popup basic flowing trigger={<Icon link name='copy outline' color='green' onClick={addItem} />}>
+          <Popup basic flowing trigger={
+            <Icon link name='copy outline' color='green' onClick={addItem} data-testid='add-input-item' />
+          }>
             <Icon color='blue' name='info circle' />
             {MESSAGES.ADD_ITEM[language]}
           </Popup>
         </label>
         {value.map((item, index) =>
           <Form.Group key={index} style={outline === index ? style : {}}>
-            {value.multiple &&
+            {inputValue.multiple &&
             <Popup basic flowing
                    trigger={<Icon link fitted name='copy outline' color='green' onMouseOut={hideOutlines}
                                   onMouseOver={showOutline.bind(this, index)}
-                                  onClick={addValue.bind(this, index)} />}>
+                                  onClick={addValue.bind(this, index)} data-testid='add-input-value' />}>
               <Icon color='blue' name='info circle' />
               {MESSAGES.ADD_VALUE[language]}
             </Popup>
@@ -55,7 +57,7 @@ class FIMultiInputView extends Component {
                            trigger={<List.Icon link name='close' color='red' onMouseOut={hideInnerOutlines}
                                                onClick={removeValue.bind(this, index, innerIndex)}
                                                onMouseOver={showInnerOutline.bind(this, index, innerIndex)}
-                                               style={{ paddingRight: 0 }} />}>
+                                               style={{ paddingRight: 0 }} data-testid='remove-input-value' />}>
                       <Icon color='blue' name='info circle' />
                       {MESSAGES.REMOVE_VALUE[language]}
                     </Popup>
@@ -76,7 +78,7 @@ class FIMultiInputView extends Component {
             <Popup basic flowing
                    trigger={<Icon link name='delete' color='red' fitted onClick={removeItem.bind(this, index)}
                                   onMouseOver={showOutline.bind(this, index)}
-                                  onMouseOut={hideOutlines} />}>
+                                  onMouseOut={hideOutlines} data-testid='remove-input-item' />}>
               <Icon color='blue' name='info circle' />
               {MESSAGES.REMOVE_ITEM[language]}
             </Popup>

@@ -25,6 +25,8 @@ afterEach(() => {
   cleanup()
 })
 
+const TEST_ID = 'health'
+
 const setup = () => {
   const { container, getByPlaceholderText, getByTestId, getByText, queryAllByText } = render(
     <MemoryRouter>
@@ -43,7 +45,7 @@ test('App renders correctly when response good from LDS', async () => {
   const { getByTestId, queryAllByText } = setup()
 
   await wait(() => {
-    expect(getByTestId('health')).toHaveClass('green')
+    expect(getByTestId(TEST_ID)).toHaveClass('green')
     expect(queryAllByText(TEST_DOMAINS.AGENT)).toHaveLength(1)
   })
 
@@ -113,7 +115,7 @@ test('App renders correctly when bad response from LDS', async () => {
   const { getByTestId, queryAllByText } = setup()
 
   await wait(() => {
-    expect(getByTestId('health')).toHaveClass('red')
+    expect(getByTestId(TEST_ID)).toHaveClass('red')
     expect(queryAllByText(ERRORS.ERROR.en)).toHaveLength(1)
   })
 

@@ -2,7 +2,7 @@ import React from 'react'
 import { cleanup, fireEvent, render } from '@testing-library/react'
 
 import { LanguageContext } from '../utilities/context/LanguageContext'
-import DownloadJSON from '../components/DownloadJSON'
+import { DownloadJSON } from '../components'
 import { createUiSchema } from '../utilities'
 import { API, LDS_TEST_PROPERTIES, TEST_DOMAINS, UI } from '../enum'
 
