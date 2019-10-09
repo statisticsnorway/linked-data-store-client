@@ -1,4 +1,6 @@
 # linked-data-store-client
+[![Build Status](https://drone.prod-bip-ci.ssb.no/api/badges/statisticsnorway/linked-data-store-client/status.svg?ref=refs/heads/develop)](https://drone.prod-bip-ci.ssb.no/statisticsnorway/linked-data-store-client)
+
 A React application that works as an interface against the object-models stored in 
 [LDS](https://github.com/statisticsnorway/linked-data-store-documentation).
 
