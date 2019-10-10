@@ -63,6 +63,10 @@ export const UI = {
     en: 'Successful imports',
     nb: 'Feilfrie importer'
   },
+  INFO: {
+    en: 'Information',
+    nb: 'Informasjon'
+  },
   INSTANCE_COUNT: {
     en: 'Instance count',
     nb: 'Antall instanser'
