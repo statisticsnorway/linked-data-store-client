@@ -7,7 +7,7 @@ import App from '../App'
 import { getData } from '../utilities/fetch/Fetch'
 import { API, ERRORS, MESSAGES, TEST_DOMAINS, TEST_URLS, UI } from '../enum'
 
-import AboutData from './test-data/AboutData'
+import AboutSchema from './test-data/AboutSchema'
 
 expect.extend({ toHaveClass })
 
@@ -40,7 +40,7 @@ const setup = () => {
 test('App renders correctly when response good from LDS', async () => {
   getData
     .mockImplementationOnce(() => Promise.resolve([`/data/${TEST_DOMAINS.AGENT}${API.SCHEMA_QUERY}`]))
-    .mockImplementationOnce(() => Promise.resolve(AboutData))
+    .mockImplementationOnce(() => Promise.resolve(AboutSchema))
 
   const { getByTestId, queryAllByText } = setup()
 
@@ -72,9 +72,9 @@ describe('Navigation', () => {
   beforeEach(() => {
     getData
       .mockImplementationOnce(() => Promise.resolve([]))
-      .mockImplementationOnce(() => Promise.resolve(AboutData))
+      .mockImplementationOnce(() => Promise.resolve(AboutSchema))
       .mockImplementationOnce(() => Promise.resolve([]))
-      .mockImplementationOnce(() => Promise.resolve(AboutData))
+      .mockImplementationOnce(() => Promise.resolve(AboutSchema))
   })
 
   test('All navigation works', async () => {

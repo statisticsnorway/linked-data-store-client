@@ -1,4 +1,5 @@
 import React from 'react'
+import { MemoryRouter } from 'react-router-dom'
 import { fireEvent, render, wait } from '@testing-library/react'
 
 import { LanguageContext } from '../utilities/context/LanguageContext'
@@ -17,8 +18,8 @@ const setupSingle = () => {
   const fullUiSchema = createUiSchema(ProcessStepInstanceSchema.definitions, LDS_TEST_PROPERTIES, TEST_DOMAINS.PROCESS_STEP_INSTANCE)
 
   const props = {
-    data: ProcessStepInstanceData.codeBlock,
-    uiSchema: fullUiSchema.unique.codeBlock
+    data: ProcessStepInstanceData.processExecutionCode,
+    uiSchema: fullUiSchema.unique.processExecutionCode
   }
 
   const { getByText, queryAllByText } = render(
@@ -39,9 +40,11 @@ const setupMulti = () => {
   }
 
   const { getByText, queryAllByText } = render(
-    <LanguageContext.Provider value={{ value: API.DEFAULT_LANGUAGE }}>
-      <MultiCodeBlockDetails {...props} />
-    </LanguageContext.Provider>
+    <MemoryRouter>
+      <LanguageContext.Provider value={{ value: API.DEFAULT_LANGUAGE }}>
+        <MultiCodeBlockDetails {...props} />
+      </LanguageContext.Provider>
+    </MemoryRouter>
   )
 
   return { getByText, queryAllByText }
@@ -53,7 +56,7 @@ test('CodeBlockDetails renders modal correctly', async () => {
   await wait(() => {
     fireEvent.click(getByText(UI.VIEW_CODE_BLOCK.nb))
 
-    expect(queryAllByText(ProcessStepInstanceSchema.definitions.ProcessStepInstance.properties.codeBlock.displayName))
+    expect(queryAllByText(ProcessStepInstanceSchema.definitions.ProcessStepInstance.properties.processExecutionCode.displayName))
       .toHaveLength(1)
   })
 })
@@ -63,8 +66,8 @@ test('MultiCodeBlockDetails renders modal and correct amount of code blocks', as
 
   await wait(() => {
     fireEvent.click(getByText(UI.VIEW_CODE_BLOCK.nb))
-    fireEvent.click(getByText(`${ProcessStepData.codeBlocks[10].codeBlockTitle} - ${UI.ZEPPELIN_PARAGRAPH_INDEX.nb}: ${ProcessStepData.codeBlocks[10].codeBlockIndex}`))
+    fireEvent.click(getByText(`${ProcessStepData.codeBlocks[3].codeBlockTitle} - ${UI.ZEPPELIN_PARAGRAPH_INDEX.nb}: ${ProcessStepData.codeBlocks[3].codeBlockIndex}`))
 
-    expect(queryAllByText(UI.ZEPPELIN_PARAGRAPH_INDEX.nb, { exact: false })).toHaveLength(11)
+    expect(queryAllByText(UI.ZEPPELIN_PARAGRAPH_INDEX.nb, { exact: false })).toHaveLength(4)
   })
 })

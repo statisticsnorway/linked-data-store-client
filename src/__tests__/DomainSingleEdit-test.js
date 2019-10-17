@@ -123,7 +123,7 @@ test('DomainSingle renders a button for multi code block input correctly', async
   const { queryAllByText } = setup(TEST_DOMAINS.PROCESS_STEP, ProcessStepData.id)
 
   await wait(() => {
-    expect(queryAllByText(UI.HANDLE_CODE_BLOCKS.nb)).toHaveLength(1)
+    expect(queryAllByText(UI.HANDLE_CODE_BLOCK.nb)).toHaveLength(1)
   })
 })
 

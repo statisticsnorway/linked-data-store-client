@@ -73,7 +73,7 @@
         "codeBlockTitle": {
           "type": "string",
           "description": "Title of code block",
-          "displayName": "Title"
+          "displayName": "Code block title"
         },
         "codeBlockValue": {
           "type": "string",
@@ -84,6 +84,18 @@
           "type": "number",
           "description": "Index of the code block",
           "displayName": "Index"
+        },
+        "processStepInstance": {
+          "type": "string",
+          "displayName": "Process step instance"
+        },
+        "_link_property_processStepInstance": {
+          "type": "object",
+          "properties": {
+            "ProcessStepInstance": {
+              "type": "null"
+            }
+          }
         }
       },
       "required": [
@@ -203,21 +215,6 @@
           "description": "Used to indicate whether this ProcessStep has sub-ProcessSteps.",
           "displayName": "Is comprehensive"
         },
-        "parentProcessStep": {
-          "type": "string",
-          "displayName": "Parent process step"
-        },
-        "processStepInstances": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "displayName": "Process step instances"
-        },
-        "processControl": {
-          "type": "string",
-          "displayName": "Process control"
-        },
         "codeBlocks": {
           "type": "array",
           "items": {
@@ -226,18 +223,23 @@
           "description": "Code blocks",
           "displayName": "Code block details"
         },
+        "technicalPackageID": {
+          "type": "string",
+          "description": "ID or URI of technical implementation",
+          "displayName": "Techical ID"
+        },
+        "parentProcessStep": {
+          "type": "string",
+          "displayName": "Parent process step"
+        },
+        "processControl": {
+          "type": "string",
+          "displayName": "Process control"
+        },
         "_link_property_agentInRoles": {
           "type": "object",
           "properties": {
             "AgentInRole": {
-              "type": "null"
-            }
-          }
-        },
-        "_link_property_processStepInstances": {
-          "type": "object",
-          "properties": {
-            "ProcessStepInstance": {
               "type": "null"
             }
           }

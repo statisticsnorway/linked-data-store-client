@@ -2,6 +2,10 @@ import React, { Component } from 'react'
 import { request } from 'graphql-request'
 import humanize from 'humanize-graphql-response'
 import { Divider, Message, Segment } from 'semantic-ui-react'
+import AceEditor from 'react-ace'
+
+import 'ace-builds/src-noconflict/mode-json'
+import 'ace-builds/src-noconflict/theme-github'
 
 import { LanguageContext } from '../../../utilities/context/LanguageContext'
 import { ERRORS, UI } from '../../../enum'
@@ -32,6 +36,22 @@ const query = /* GraphQL */ `
                             codeBlockTitle
                             codeBlockType
                             codeBlockValue
+                            processStepInstance {
+                              transformableInputs {
+                                edges {
+                                  node {
+                                    inputId {__typename}
+                                  }
+                                }
+                              }
+                              processExecutionCode
+                              processExecutionLog {logMessage}
+                              transformedOutputs {
+                                edges {
+                                  node {id}
+                                }
+                              }
+                            }
                           }
                         }
                       }
@@ -48,6 +68,22 @@ const query = /* GraphQL */ `
                           codeBlockTitle
                           codeBlockType
                           codeBlockValue
+                          processStepInstance {
+                            transformableInputs {
+                              edges {
+                                node {
+                                  inputId {__typename}
+                                }
+                              }
+                            }
+                            processExecutionCode
+                            processExecutionLog {logMessage}
+                            transformedOutputs {
+                              edges {
+                                node {id}
+                              }
+                            }
+                          }
                         }
                       }
                     }
@@ -107,7 +143,18 @@ class DomainLinks extends Component {
         {ready && info && info.map((info, index) =>
           <Message key={index} info icon='info' header={UI.INFO[language]} content={info.message} />
         )}
-        {ready && !error && <pre>{JSON.stringify(process, null, 2)}</pre>}
+        {ready && !error &&
+        <AceEditor
+          mode='json'
+          theme='github'
+          fontSize={16}
+          highlightActiveLine={true}
+          readOnly={true}
+          value={JSON.stringify(process, null, 2)}
+          width='100%'
+          editorProps={{ $blockScrolling: true }}
+        />
+        }
       </Segment>
     )
   }

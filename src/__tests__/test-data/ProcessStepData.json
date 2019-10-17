@@ -3,13 +3,7 @@
   "name": [
     {
       "languageCode": "en",
-      "languageText": "Test Process step"
-    }
-  ],
-  "description": [
-    {
-      "languageCode": "en",
-      "languageText": "A process step specifically designed for testing"
+      "languageText": "Process Step example"
     }
   ],
   "createdDate": "2019-09-23T12:50:15.456Z",
@@ -32,61 +26,22 @@
       "codeBlockIndex": 2,
       "codeBlockTitle": "First code",
       "codeBlockType": "CODE",
-      "codeBlockValue": "%pyspark # Oppgi hvilket språk du skriver i\n\n# Første paragraf skal inneholde de bibliotekene som skal benyttes i dette process steget\nfrom pyspark.sql import SparkSession \nfrom pyspark.sql.types import *\nimport pyspark.sql.functions as F\nfrom pyspark.sql import SQLContext\nfrom pyspark.sql.functions import broadcast"
+      "codeBlockValue": "%pyspark # Oppgi hvilket språk du skriver i\n\n# Første paragraf skal inneholde de bibliotekene som skal benyttes i dette process steget\nfrom pyspark.sql import SparkSession \nfrom pyspark.sql.types import *\nimport pyspark.sql.functions as F\nfrom pyspark.sql import SQLContext\nfrom pyspark.sql.functions import broadcast",
+      "processStepInstance": "/ProcessStepInstance/d7eb0706-f6c8-4fa5-8aae-702613ce9911"
     },
     {
       "codeBlockIndex": 3,
       "codeBlockTitle": "Second code",
       "codeBlockType": "CODE",
-      "codeBlockValue": "%pyspark\n#==== Initiate Spark Session ====#\nspark = (SparkSession.builder.appName(\"Test_case\")\\\n                    .config(\"spark.executor.memory\", \"12g\")\\\n                    .config(\"spark.executor.cores\", 6)\\\n                    .config('spark.dynamicAllocation.maxExecutors', '6')\\\n                    .getOrCreate())\n                    \na = 0.25"
+      "codeBlockValue": "%pyspark\n#==== Initiate Spark Session ====#\nspark = (SparkSession.builder.appName(\"Test_case\")\\\n                    .config(\"spark.executor.memory\", \"12g\")\\\n                    .config(\"spark.executor.cores\", 6)\\\n                    .config('spark.dynamicAllocation.maxExecutors', '6')\\\n                    .getOrCreate())\n                    \na = 0.25",
+      "processStepInstance": "/ProcessStepInstance/d7eb0706-f6c8-4fa5-8aae-702613ce9911"
     },
     {
       "codeBlockIndex": 4,
-      "codeBlockTitle": "Third code",
-      "codeBlockType": "CODE",
-      "codeBlockValue": "%pyspark\n#Importer alle datasett du skal bruke i dette process steget\ndf = spark.read.load('gs://somedata/data/auto.parquet')\ndf2 = spark.read.load('gsim-link')"
-    },
-    {
-      "codeBlockIndex": 5,
       "codeBlockTitle": "Second doc",
       "codeBlockType": "DOCUMENTATION",
       "codeBlockValue": "%md\n### Sub-steg titel\n\nEt process steg består av mange forskjellige underoppgaver.\nI dette avsnittet ønsker vi at du skriver inn en beskrivelse av det neste steget.\nDet skal være en tekst paragraph (%md) før hver kode blok som skrives."
-    },
-    {
-      "codeBlockIndex": 6,
-      "codeBlockTitle": "Third doc",
-      "codeBlockType": "DOCUMENTATION",
-      "codeBlockValue": "%pyspark # Skriv hvilket språk du bruker her\n# Skriv inn den ønskede koden her."
-    },
-    {
-      "codeBlockIndex": 7,
-      "codeBlockTitle": "Fourth doc",
-      "codeBlockType": "DOCUMENTATION",
-      "codeBlockValue": "%md\n### Sub-steg titel\n\nEt process steg består av mange forskjellige underoppgaver.\nI dette avsnittet ønsker vi at du skriver inn en beskrivelse av det neste steget.\nDet skal være en tekst paragraph (%md) før hver kode blok som skrives."
-    },
-    {
-      "codeBlockIndex": 8,
-      "codeBlockTitle": "Fifth doc",
-      "codeBlockType": "DOCUMENTATION",
-      "codeBlockValue": "%pyspark # Skriv hvilket språk du bruker her\n# Skriv inn den ønskede koden her."
-    },
-    {
-      "codeBlockIndex": 9,
-      "codeBlockTitle": "Sixth doc",
-      "codeBlockType": "DOCUMENTATION",
-      "codeBlockValue": "%md\n### Sub-steg titel\n\nEt process steg består av mange forskjellige underoppgaver.\nI dette avsnittet ønsker vi at du skriver inn en beskrivelse av det neste steget.\nDet skal være en tekst paragraph (%md) før hver kode blok som skrives."
-    },
-    {
-      "codeBlockIndex": 10,
-      "codeBlockTitle": "Seventh doc",
-      "codeBlockType": "DOCUMENTATION",
-      "codeBlockValue": "%pyspark # Skriv hvilket språk du bruker her\n# Skriv inn den ønskede koden her."
-    },
-    {
-      "codeBlockIndex": 11,
-      "codeBlockTitle": "Eigth doc",
-      "codeBlockType": "DOCUMENTATION",
-      "codeBlockValue": "%pyspark\n# Skriv ut utput"
     }
-  ]
+  ],
+  "technicalPackageID": "2ERNUDMGB"
 }
