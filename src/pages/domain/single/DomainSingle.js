@@ -6,6 +6,8 @@ import { LanguageContext } from '../../../utilities/context/LanguageContext'
 import { createDefaultData, createUiSchema, getData } from '../../../utilities'
 import { API, MESSAGES } from '../../../enum'
 
+const uuidv4 = require('uuid/v4')
+
 class DomainSingle extends Component {
   state = {
     error: false,
@@ -36,6 +38,8 @@ class DomainSingle extends Component {
       const defaultData = createDefaultData(schema.definitions[params.domain].properties, uiSchema)
 
       if (params.id === API.VIEWS.NEW) {
+        defaultData.id = uuidv4()
+
         this.setState({
           data: defaultData,
           error: false,
@@ -104,7 +108,7 @@ class DomainSingle extends Component {
 
     if (params.view === API.VIEWS.EDIT) {
       return <DomainSingleEdit {...this.state} domain={params.domain} handleChange={this.handleChange} lds={lds}
-                               setErrors={this.setErrors} />
+                               setErrors={this.setErrors} isNew={params.id === API.VIEWS.NEW} />
     }
 
     if (params.view === API.VIEWS.VIEW) {

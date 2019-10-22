@@ -50,15 +50,14 @@
       "!src/**/index.js",
       "!src/enum/**",
       "!src/utilities/fetch/Fetch.js",
-      "!src/__tests__/test-data/**",
-      "!src/pages/domain/single/DomainLinks.js"
+      "!src/__tests__/test-data/**"
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 63,
-        "functions": 71,
-        "lines": 77,
-        "statements": 76
+        "branches": 65,
+        "functions": 72,
+        "lines": 78,
+        "statements": 77
       }
     }
   }

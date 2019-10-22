@@ -8,7 +8,6 @@ import { ERRORS, MESSAGES, UI } from '../enum'
 class DeleteData extends Component {
   state = {
     deleted: false,
-    disabled: this.props.id === '',
     loading: false,
     message: false,
     showConfirm: false
@@ -49,8 +48,8 @@ class DeleteData extends Component {
   }
 
   render () {
-    const { deleted, disabled, loading, message, showConfirm } = this.state
-    const { id } = this.props
+    const { deleted, loading, message, showConfirm } = this.state
+    const { id, isNew } = this.props
 
     let language = this.context.value
 
@@ -59,7 +58,7 @@ class DeleteData extends Component {
                                     content={message} />}
                   trigger={
                     <>
-                      <Button floated='left' negative animated loading={loading} disabled={disabled}
+                      <Button floated='left' negative animated loading={loading} disabled={isNew}
                               onClick={this.showConfirm}>
                         <Button.Content visible>{UI.DELETE[language]}</Button.Content>
                         <Button.Content hidden><Icon fitted name='trash alternate outline' /></Button.Content>

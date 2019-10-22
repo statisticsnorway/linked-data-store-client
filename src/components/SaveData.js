@@ -16,7 +16,7 @@ class SaveData extends Component {
 
   saveData = () => {
     this.setState({ loading: true }, () => {
-      const { data, domain, lds, setErrors, uiSchema } = this.props
+      const { data, domain, isNew, lds, setErrors, uiSchema } = this.props
 
       let language = this.context.value
 
@@ -28,7 +28,7 @@ class SaveData extends Component {
 
         setErrors(returned.errors)
       } else {
-        if (returned.data.id !== '') {
+        if (!isNew) {
           Object.keys(uiSchema.autofilled).forEach(property => {
             returned.data[property] = updateAutofillData(returned.data[property], property, lds.producer, lds.user)
           })

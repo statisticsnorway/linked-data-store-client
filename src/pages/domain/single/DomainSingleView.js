@@ -6,7 +6,7 @@ import DomainLinks from './DomainLinks'
 import { LanguageContext } from '../../../utilities/context/LanguageContext'
 import { extractStringFromObject } from '../../../producers/Producers'
 import { convertDataToView } from '../../../utilities'
-import { API, ERRORS, UI } from '../../../enum'
+import { API, ERRORS, QUERIES, UI } from '../../../enum'
 
 class DomainSingleView extends Component {
   render () {
@@ -61,7 +61,8 @@ class DomainSingleView extends Component {
           </>
           }
         </Segment>
-        {ready && !error && domain === 'StatisticalProgram' && <DomainLinks domain={domain} lds={lds} id={data.id} />}
+        {ready && !error && QUERIES.hasOwnProperty(domain) &&
+        <DomainLinks domain={domain} id={data.id} url={lds.url} />}
       </>
     )
   }

@@ -103,6 +103,10 @@ export const UI = {
     en: 'Producer',
     nb: '"Producer"'
   },
+  QUERY_RESPONSE: {
+    en: 'Query response',
+    nb: 'Spørringssvar'
+  },
   REQUIRED: {
     en: 'required field',
     nb: 'obligatorisk felt'
