@@ -47,6 +47,10 @@ export const UI = {
     en: 'Explore',
     nb: 'Utforsk'
   },
+  GRAPHIQL: {
+    en: 'Go to LDS GraphiQL',
+    nb: 'Gå til LDS GraphiQL'
+  },
   HEADER: {
     en: 'LDS Client',
     nb: 'LDS Klient'

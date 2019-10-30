@@ -14,35 +14,55 @@ export const QUERIES = {
                     id
                     name {languageText}
                     description {languageText}
-                    previousBusinessProcess {
-                      id
-                      name {languageText}
-                      description {languageText}
-                      processSteps {
-                        edges {
-                          node {
-                            id
-                            name {languageText}
-                            technicalPackageID
-                            codeBlocks {
-                              codeBlockIndex
-                              codeBlockTitle
-                              codeBlockType
-                              codeBlockValue
-                              processStepInstance {
+                    parentBusinessProcess {id}
+                    reverseBusinessProcessParentBusinessProcess {
+                      edges {
+                        node {
+                          id
+                          name {languageText}
+                          description {languageText}
+                          previousBusinessProcess {id}
+                          processSteps {
+                            edges {
+                              node {
                                 id
-                                transformableInputs {
-                                  edges {
-                                    node {
-                                      inputId {__typename}
+                                name {languageText}
+                                technicalPackageID
+                                codeBlocks {
+                                  codeBlockIndex
+                                  codeBlockTitle
+                                  codeBlockType
+                                  codeBlockValue
+                                  processStepInstance {
+                                    id
+                                    transformableInputs {
+                                      edges {
+                                        node {
+                                          inputId {
+                                            ... on UnitDataSet {
+                                              id
+                                              name {languageText}
+                                              description {languageText}
+                                            }
+                                          }
+                                        }
+                                      }
                                     }
-                                  }
-                                }
-                                processExecutionCode
-                                processExecutionLog {logMessage}
-                                transformedOutputs {
-                                  edges {
-                                    node {id}
+                                    processExecutionCode
+                                    processExecutionLog {logMessage}
+                                    transformedOutputs {
+                                      edges {
+                                        node {
+                                          outputId {
+                                            ... on UnitDataSet {
+                                              id
+                                              name {languageText}
+                                              description {languageText} 
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
                                   }
                                 }
                               }
@@ -50,6 +70,11 @@ export const QUERIES = {
                           }
                         }
                       }
+                    }
+                    previousBusinessProcess {
+                      id
+                      name {languageText}
+                      description {languageText}
                     }
                     processSteps {
                       edges {
@@ -68,7 +93,13 @@ export const QUERIES = {
                               transformableInputs {
                                 edges {
                                   node {
-                                    inputId {__typename}
+                                    inputId {
+                                      ... on UnitDataSet {
+                                        id
+                                        name {languageText}
+                                        description {languageText}
+                                      }
+                                    }
                                   }
                                 }
                               }
@@ -76,7 +107,15 @@ export const QUERIES = {
                               processExecutionLog {logMessage}
                               transformedOutputs {
                                 edges {
-                                  node {id}
+                                  node {
+                                    outputId {
+                                      ... on UnitDataSet {
+                                        id
+                                        name {languageText}
+                                        description {languageText} 
+                                      }
+                                    }
+                                  }
                                 }
                               }
                             }

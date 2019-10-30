@@ -6,6 +6,7 @@ export const API = {
     NAME: 'About',
     PROPERTY: 'model_version'
   },
+  GRAPHIQL: 'graphiql',
   SCHEMA_QUERY: '?schema',
   SCHEMA_QUERY_EMBED: '?schema=embed',
   VIEWS: {

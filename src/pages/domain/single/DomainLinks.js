@@ -6,11 +6,11 @@ import 'ace-builds/src-noconflict/mode-json'
 import 'ace-builds/src-noconflict/theme-github'
 
 import { LanguageContext } from '../../../utilities/context/LanguageContext'
-import { ERRORS, UI } from '../../../enum'
+import { API, ERRORS, UI } from '../../../enum'
 import { GraphqlFetchById } from '../../../utilities/fetch/GraphQL'
 
 function DomainLinks ({ domain, id, url }) {
-  const language = useContext(LanguageContext)
+  const language = useContext(LanguageContext).value
   const [{ data, loading, info, error }, doFetch] = GraphqlFetchById(domain, id, url)
 
   useEffect(() => doFetch(true))
@@ -19,9 +19,6 @@ function DomainLinks ({ domain, id, url }) {
     <Segment basic loading={loading} data-testid='queryInfo'>
       <Divider />
       {!loading && error && <Message negative icon='warning' header={ERRORS.ERROR[language]} content={error} />}
-      {!loading && info && info.map((info, index) =>
-        <Message key={index} info icon='info' header={UI.INFO[language]} content={info.message} />
-      )}
       {!loading && !error &&
       <AceEditor
         mode='json'
@@ -35,6 +32,10 @@ function DomainLinks ({ domain, id, url }) {
         editorProps={{ $blockScrolling: true }}
       />
       }
+      <a href={`${url}/${API.GRAPHIQL}`}>{UI.GRAPHIQL[language]}</a>
+      {!loading && info && info.map((info, index) =>
+        <Message key={index} info icon='info' header={UI.INFO[language]} content={info.message} />
+      )}
     </Segment>
   )
 }
