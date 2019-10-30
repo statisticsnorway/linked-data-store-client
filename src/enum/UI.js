@@ -47,13 +47,17 @@ export const UI = {
     en: 'Explore',
     nb: 'Utforsk'
   },
+  GRAPHIQL: {
+    en: 'Go to LDS GraphiQL',
+    nb: 'Gå til LDS GraphiQL'
+  },
   HEADER: {
     en: 'LDS Client',
     nb: 'LDS Klient'
   },
-  HANDLE_CODE_BLOCKS: {
-    en: 'Handle code block(s) (Zeppelin paragraph(s))',
-    nb: 'Behandle kodeblokk(er) (Zeppelin paragraf(er))'
+  HANDLE_CODE_BLOCK: {
+    en: 'Handle code block(s)',
+    nb: 'Behandle kodeblokk(er)'
   },
   IMPORT: {
     en: 'Import',
@@ -62,6 +66,10 @@ export const UI = {
   IMPORTING_SUCCESS: {
     en: 'Successful imports',
     nb: 'Feilfrie importer'
+  },
+  INFO: {
+    en: 'Information',
+    nb: 'Informasjon'
   },
   INSTANCE_COUNT: {
     en: 'Instance count',
@@ -98,6 +106,10 @@ export const UI = {
   PRODUCER: {
     en: 'Producer',
     nb: '"Producer"'
+  },
+  QUERY_RESPONSE: {
+    en: 'Query response',
+    nb: 'Spørringssvar'
   },
   REQUIRED: {
     en: 'required field',
@@ -136,8 +148,8 @@ export const UI = {
     nb: 'Brukernavn'
   },
   VIEW_CODE_BLOCK: {
-    en: 'View code block(s) (Zeppelin paragraph(s))',
-    nb: 'Se kodeblokk(er) (Zeppelin paragraf(er))'
+    en: 'View code block(s)',
+    nb: 'Se kodeblokk(er)'
   },
   WARNING: {
     en: 'Warning',

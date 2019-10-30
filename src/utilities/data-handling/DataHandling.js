@@ -110,7 +110,7 @@ export const convertDataToView = (data, language, producer, uiSchema) => {
           return fixDropdown(data, producer)
 
         case 'multiCodeBlock':
-          return <MultiCodeBlockDetails data={data} uiSchema={uiSchema} />
+          return <MultiCodeBlockDetails data={data} producer={producer} uiSchema={uiSchema} />
 
         case 'multiInput':
           return fixMultiInput(data, uiSchema)

@@ -8,7 +8,7 @@ import { API, UI } from '../enum'
 
 class DownloadJSON extends Component {
   downloadJSON = () => {
-    const { data, lds, setErrors, uiSchema } = this.props
+    const { data, isNew, lds, setErrors, uiSchema } = this.props
 
     let language = this.context.value
 
@@ -18,7 +18,7 @@ class DownloadJSON extends Component {
     if (Object.keys(returned.errors).length > 0) {
       setErrors(returned.errors)
     } else {
-      if (returned.data.id === '') {
+      if (isNew) {
         Object.keys(uiSchema.autofilled).forEach(property => {
           returned.data[property] = createAutofillData(returned.data[property], property, lds.producer, lds.user)
         })

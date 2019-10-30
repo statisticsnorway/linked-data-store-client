@@ -1,5 +1,6 @@
 import React from 'react'
 import { MemoryRouter } from 'react-router-dom'
+import { request } from 'graphql-request'
 import { cleanup, render, wait } from '@testing-library/react'
 
 import { LanguageContext } from '../utilities/context/LanguageContext'
@@ -11,12 +12,17 @@ import AgentSchema from './test-data/AgentSchema'
 import AgentData from './test-data/AgentData'
 import ProcessStepSchema from './test-data/ProcessStepSchema'
 import ProcessStepData from './test-data/ProcessStepData'
+import StatisticalProgramSchema from './test-data/StatisticalProgramSchema'
+import StatisticalProgramData from './test-data/StatisticalProgramData'
+import StatisticalProgramQueryResponse from './test-data/StatisticalProgramQueryResponse'
 
 jest.mock('../utilities/fetch/Fetch', () => ({ getData: jest.fn() }))
+jest.mock('graphql-request', () => ({ request: jest.fn() }))
 jest.mock('react-ace')
 
 afterEach(() => {
   getData.mockReset()
+  request.mockReset()
   cleanup()
 })
 
@@ -30,7 +36,7 @@ const setup = (domain, id = null) => {
     }
   }
 
-  const { queryAllByText } = render(
+  const { queryAllByTestId, queryAllByText } = render(
     <MemoryRouter>
       <LanguageContext.Provider value={{ value: API.DEFAULT_LANGUAGE }}>
         <DomainSingle {...props} />
@@ -38,7 +44,7 @@ const setup = (domain, id = null) => {
     </MemoryRouter>
   )
 
-  return { queryAllByText }
+  return { queryAllByTestId, queryAllByText }
 }
 
 test('DomainSingle renders view correctly when good response from LDS', async () => {
@@ -99,4 +105,18 @@ test('DomainSingle renders view correctly when bad response from LDS', async () 
 
   expect(getData).toHaveBeenCalledTimes(1)
   expect(getData).toHaveBeenCalledWith(TEST_URLS.AGENT_SCHEMA_URL)
+})
+
+test('DomainSingle renders DomainLinks if query exists', async () => {
+  getData
+    .mockImplementationOnce(() => Promise.resolve(StatisticalProgramSchema))
+    .mockImplementationOnce(() => Promise.resolve(StatisticalProgramData))
+
+  request.mockImplementation(() => Promise.resolve(StatisticalProgramQueryResponse))
+
+  const { queryAllByTestId } = setup(TEST_DOMAINS.STATISTICAL_PROGRAM, StatisticalProgramData.id)
+
+  await wait(() => {
+    expect(queryAllByTestId('queryInfo')).toHaveLength(1)
+  })
 })

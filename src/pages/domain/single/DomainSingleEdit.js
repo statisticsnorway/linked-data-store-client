@@ -8,7 +8,7 @@ import { API, ERRORS, MESSAGES, UI } from '../../../enum'
 
 class DomainSingleEdit extends Component {
   render () {
-    const { data, domain, error, errors, fresh, lds, ready, schema, uiSchema } = this.props
+    const { data, domain, error, errors, fresh, lds, isNew, ready, schema, uiSchema } = this.props
     const { handleChange, setErrors } = this.props
 
     let language = this.context.value
@@ -83,9 +83,10 @@ class DomainSingleEdit extends Component {
             </Grid.Column>
           </Grid>
           <Divider hidden />
-          <DeleteData domain={domain} lds={lds} id={data.id} uiSchema={uiSchema} />
-          <DownloadJSON data={data} lds={lds} setErrors={setErrors} uiSchema={uiSchema} />
-          <SaveData data={data} domain={domain} fresh={fresh} lds={lds} setErrors={setErrors} uiSchema={uiSchema} />
+          <DeleteData domain={domain} lds={lds} isNew={isNew} uiSchema={uiSchema} />
+          <DownloadJSON data={data} lds={lds} setErrors={setErrors} uiSchema={uiSchema} isNew={isNew} />
+          <SaveData data={data} domain={domain} fresh={fresh} lds={lds} setErrors={setErrors} uiSchema={uiSchema}
+                    isNew={isNew} />
         </>
         }
       </Segment>

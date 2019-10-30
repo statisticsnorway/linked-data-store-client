@@ -28,7 +28,7 @@ const fixArray = (lds, properties, property) => {
 const fixString = (lds, properties, property) => {
   const input = { type: 'text', emptyValue: '', multiple: false }
 
-  if (property === 'codeBlock') {
+  if (property === 'codeBlock' || property === 'processExecutionCode') {
     input.type = 'codeBlock'
   } else {
     if (properties[property].hasOwnProperty('enum')) {
@@ -81,32 +81,38 @@ const setReferenceInput = (definitions, referenceProperties, reference, property
   const input = { name: property, type: 'multiInput', option: {}, value: {}, multiple: true, reference: reference }
 
   Object.keys(referenceProperties).forEach(property => {
-    let inputType = 'option'
+    if (!property.startsWith('_link_property_')) {
+      let inputType = 'option'
 
-    // Checking for 'enum' is not good enough too distinguish option from value, but how else to do it?
-    if (referenceProperties[property].hasOwnProperty('enum')) {
-      input[inputType].options = referenceProperties[property].enum.map(value => ({ value: value, text: value }))
-    } else if (property === 'codeBlockIndex') {
-      inputType = 'index'
-      input.index = {}
-    } else if (property === 'codeBlockTitle') {
-      inputType = 'title'
-      input.title = {}
-    } else {
-      inputType = 'value'
+      // Checking for 'enum' is not good enough too distinguish option from value, but how else to do it?
+      if (referenceProperties[property].hasOwnProperty('enum')) {
+        input[inputType].options = referenceProperties[property].enum.map(value => ({ value: value, text: value }))
+      } else if (property === 'codeBlockIndex') {
+        inputType = 'index'
+        input.index = {}
+      } else if (property === 'codeBlockTitle') {
+        inputType = 'title'
+        input.title = {}
+      } else if (property === 'processStepInstance') {
+        inputType = 'refLink'
+        input.refLink = {}
+      } else {
+        inputType = 'value'
+      }
+
+      input[inputType].handler = property
+      input[inputType].displayName = referenceProperties[property].displayName
+      input[inputType].description = referenceProperties[property].description
+      input[inputType].multiple = referenceProperties[property].type === 'array'
+      input[inputType].required = definitions[reference].hasOwnProperty('required') && definitions[reference].required.includes(property)
     }
-
-    input[inputType].handler = property
-    input[inputType].displayName = referenceProperties[property].displayName
-    input[inputType].description = referenceProperties[property].description
-    input[inputType].multiple = referenceProperties[property].type === 'array'
-    input[inputType].required = definitions[reference].hasOwnProperty('required') && definitions[reference].required.includes(property)
   })
 
   if (codeBlocks) {
     input.emptyValue = [{
       [input.index.handler]: 1,
       [input.title.handler]: '',
+      [input.refLink.handler]: '',
       [input.option.handler]: input.option.multiple ? [''] : '',
       [input.value.handler]: input.value.multiple ? [''] : ''
     }]

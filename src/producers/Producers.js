@@ -36,9 +36,6 @@ export const createAutofillData = (data, property, producer, user) => {
   switch (producer) {
     case API.DEFAULT_PRODUCER:
       switch (property) {
-        case 'id':
-          return uuidv4()
-
         case 'createdDate':
         case 'lastUpdatedDate':
         case 'versionValidFrom':

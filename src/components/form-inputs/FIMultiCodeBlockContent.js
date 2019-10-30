@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { Accordion, Dropdown, Form, Icon, Popup, TextArea } from 'semantic-ui-react'
 import AceEditor from 'react-ace'
 
-import 'brace/mode/python'
-import 'brace/theme/github'
+import 'ace-builds/src-noconflict/mode-python'
+import 'ace-builds/src-noconflict/theme-github'
 
 import { LanguageContext } from '../../utilities/context/LanguageContext'
 import { truncateString } from '../../utilities'
@@ -38,15 +38,16 @@ class FIMultiCodeBlockContent extends Component {
     const inputOption = uiSchema.input.option
     const inputValue = uiSchema.input.value
     const inputTitle = uiSchema.input.title
+    const inputIndex = uiSchema.input.index
 
     return (
       <Accordion fluid>
         {/* We may want to sort this by element.codeBlockIndex */}
         {value.map((element, index) =>
-          <div key={element.codeBlockIndex}>
+          <div key={element[inputIndex.handler]}>
             <Accordion.Title active={activeIndex === index} index={index} onClick={this.handleAccordionClick}>
               <Icon name='dropdown' />
-              {`${UI.ZEPPELIN_PARAGRAPH_INDEX[language]}: ${element.codeBlockIndex}`}
+              {`${UI.ZEPPELIN_PARAGRAPH_INDEX[language]}: ${element[inputIndex.handler]}`}
             </Accordion.Title>
             <Accordion.Content active={activeIndex === index}>
               <Form>
@@ -58,7 +59,7 @@ class FIMultiCodeBlockContent extends Component {
                     </Popup>
                   </label>
                   <TextArea rows={2} name={inputTitle.handler} placeholder={truncateString(inputTitle.displayName)}
-                            value={element.codeBlockTitle}
+                            value={element[inputTitle.handler]}
                             onChange={(event, data) => this.mergeDeepChange(index, inputTitle.handler, data.value)} />
                 </Form.Field>
                 <Form.Field required={inputOption.required}>
@@ -70,7 +71,7 @@ class FIMultiCodeBlockContent extends Component {
                   </label>
                   <Dropdown fluid selection placeholder={truncateString(inputOption.displayName)}
                             multiple={inputOption.multiple} options={inputOption.options} clearable
-                            value={element.codeBlockType}
+                            value={element[inputOption.handler]}
                             onChange={(event, data) => this.mergeDeepChange(index, inputOption.handler, data.value)} />
                 </Form.Field>
 
@@ -89,7 +90,7 @@ class FIMultiCodeBlockContent extends Component {
                     placeholder={truncateString(inputValue.displayName)}
                     onChange={(data, event) => this.mergeDeepChange(index, inputValue.handler, data)}
                     name={inputValue.handler}
-                    value={element.codeBlockValue}
+                    value={element[inputValue.handler]}
                     width='100%'
                     height='20em'
                     editorProps={{ $blockScrolling: true }}

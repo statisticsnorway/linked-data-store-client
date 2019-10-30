@@ -26,7 +26,7 @@ class FIMultiCodeBlock extends Component {
           </Popup>
         </label>
         <Button animated primary size='large' onClick={this.showModal}>
-          <Button.Content visible>{UI.HANDLE_CODE_BLOCKS[language]}</Button.Content>
+          <Button.Content visible>{UI.HANDLE_CODE_BLOCK[language]}</Button.Content>
           <Button.Content hidden>
             <Icon fitted name='file code outline' />
           </Button.Content>

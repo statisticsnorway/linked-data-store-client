@@ -7,8 +7,8 @@
         "model_version": {
           "type": "string",
           "default": "1.0",
-          "description": "A schema model for testing",
-          "displayName": "Test model version"
+          "description": "This version made changes to ProcessStep by adding array of code blocks",
+          "displayName": "Current model version"
         }
       },
       "required": [

@@ -9,8 +9,10 @@
   "dependencies": {
     "chart.js": "^2.7.3",
     "date-fns": "^2.0.0-alpha.27",
+    "graphql-request": "^1.8.2",
+    "humanize-graphql-response": "^1.0.0",
     "react": "^16.7.0",
-    "react-ace": "^7.0.4",
+    "react-ace": "^8.0.0",
     "react-chartjs-2": "^2.7.4",
     "react-datepicker": "^2.1.0",
     "react-dom": "^16.7.0",
@@ -52,10 +54,10 @@
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 63,
-        "functions": 71,
-        "lines": 77,
-        "statements": 76
+        "branches": 65,
+        "functions": 72,
+        "lines": 78,
+        "statements": 77
       }
     }
   }

@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { Button, Icon, Modal } from 'semantic-ui-react'
 import AceEditor from 'react-ace'
 
-import 'brace/mode/python'
-import 'brace/theme/github'
+import 'ace-builds/src-noconflict/mode-python'
+import 'ace-builds/src-noconflict/theme-github'
 
 import { LanguageContext } from '../utilities/context/LanguageContext'
 import { truncateString } from '../utilities'

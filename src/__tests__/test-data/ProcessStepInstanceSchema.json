@@ -162,20 +162,10 @@
           "displayName": "Agent in roles",
           "description": "Agent(s) acting in the Role(s) for this information object."
         },
-        "codeBlockTitle": {
+        "processExecutionCode": {
           "type": "string",
-          "description": "Title of code block",
-          "displayName": "Title"
-        },
-        "codeBlock": {
-          "type": "string",
-          "displayName": "Code block",
-          "description": "The action to take place as executable code"
-        },
-        "codeType": {
-          "type": "string",
-          "displayName": "Type of code",
-          "description": "Type of code (language, system executed in, etc)"
+          "displayName": "Process execution code",
+          "description": "The action that took place as executable code"
         },
         "parameterInputs": {
           "type": "array",
@@ -224,18 +214,18 @@
             }
           }
         },
-        "_link_property_parameterInputs": {
-          "type": "object",
-          "properties": {
-            "ParameterInput": {
-              "type": "null"
-            }
-          }
-        },
         "_link_property_processExecutionLog": {
           "type": "object",
           "properties": {
             "ProcessExecutionLog": {
+              "type": "null"
+            }
+          }
+        },
+        "_link_property_parameterInputs": {
+          "type": "object",
+          "properties": {
+            "ParameterInput": {
               "type": "null"
             }
           }
@@ -280,9 +270,8 @@
         "createdBy",
         "versionValidFrom",
         "validFrom",
-        "codeBlockTitle",
-        "codeBlock",
-        "codeType"
+        "processExecutionCode",
+        "processExecutionLog"
       ],
       "description": "An executed step in a Business Process. A Process Step Instance specifies the actual inputs to and outputs from for an occurrence of a Process Step.",
       "displayName": "Process step instance",
