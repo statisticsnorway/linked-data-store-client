@@ -83,7 +83,7 @@ class DomainSingleEdit extends Component {
             </Grid.Column>
           </Grid>
           <Divider hidden />
-          <DeleteData domain={domain} lds={lds} isNew={isNew} uiSchema={uiSchema} />
+          <DeleteData domain={domain} lds={lds} id={data.id} isNew={isNew} uiSchema={uiSchema} />
           <DownloadJSON data={data} lds={lds} setErrors={setErrors} uiSchema={uiSchema} isNew={isNew} />
           <SaveData data={data} domain={domain} fresh={fresh} lds={lds} setErrors={setErrors} uiSchema={uiSchema}
                     isNew={isNew} />
