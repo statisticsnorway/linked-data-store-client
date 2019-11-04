@@ -2,16 +2,70 @@ kind: pipeline
 name: linked-data-store-client
 
 steps:
-  - name: install-test-and-build
+  - name: restore-cache
+    image: homerovalle/drone-gcs-cache
+    settings:
+      pull: true
+      bucket: bip-drone-dependency-cache
+      path: bip-drone-dependency-cache/statisticsnorway/linked-data-store-client
+      json_key:
+        from_secret: gcr_credentials
+      restore: true
+    when:
+      event:
+        - pull_request
+        - push
+
+  - name: install
     image: node:current-alpine
     commands:
       - yarn install
+    when:
+      event:
+        - pull_request
+        - push
+    depends_on:
+      - restore-cache
+
+  - name: rebuild-cache
+    image: homerovalle/drone-gcs-cache
+    settings:
+      pull: true
+      bucket: bip-drone-dependency-cache
+      path: bip-drone-dependency-cache/statisticsnorway/linked-data-store-client
+      json_key:
+        from_secret: gcr_credentials
+      rebuild: true
+      mount:
+        - node_modules
+    when:
+      event:
+        - pull_request
+        - push
+    depends_on:
+      - install
+
+  - name: test
+    image: node:current-alpine
+    commands:
       - CI=true yarn coverage
+    when:
+      event:
+        - pull_request
+        - push
+    depends_on:
+      - install
+
+  - name: build
+    image: node:current-alpine
+    commands:
       - CI=true yarn build
     when:
       event:
-      - pull_request
-      - push
+        - pull_request
+        - push
+    depends_on:
+      - install
 
   - name: code-analysis
     image: aosapps/drone-sonar-plugin
@@ -24,6 +78,25 @@ steps:
       event:
       - pull_request
       - push
+    depends_on:
+      - test
+
+  - name: flush-cache
+    image: homerovalle/drone-gcs-cache
+    settings:
+      pull: true
+      bucket: bip-drone-dependency-cache
+      path: bip-drone-dependency-cache/statisticsnorway/linked-data-store-client
+      json_key:
+        from_secret: gcr_credentials
+      flush: true
+      flush_age: 14
+    when:
+      event:
+        - pull_request
+        - push
+    depends_on:
+      - rebuild-cache
 
   - name: publish-docker
     image: plugins/gcr
@@ -38,6 +111,9 @@ steps:
       - develop
       event:
       - push
+    depends_on:
+      - test
+      - build
 
   - name: slack
     image: plugins/slack
@@ -53,6 +129,9 @@ steps:
         {{/success}}
     when:
       status: [ success, failure ]
+    depends_on:
+      - test
+      - build
 
 trigger:
   ref:
