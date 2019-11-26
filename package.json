@@ -1,6 +1,6 @@
 {
   "name": "linked-data-store-client",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "private": true,
   "repository": {
     "type": "git",
@@ -33,12 +33,18 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ],
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
   "devDependencies": {
     "@testing-library/jest-dom": "^4.0.0",
     "@testing-library/react": "^9.1.4"
@@ -47,8 +53,6 @@
     "collectCoverageFrom": [
       "src/**",
       "!src/index.js",
-      "!src/**/index.js",
-      "!src/enum/**",
       "!src/utilities/fetch/Fetch.js",
       "!src/__tests__/test-data/**"
     ],

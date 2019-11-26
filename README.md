@@ -4,7 +4,8 @@
 A React application that works as an interface against the object-models stored in 
 [LDS](https://github.com/statisticsnorway/linked-data-store-documentation).
 
-Follows React application setup from [react-reference-app](https://github.com/statisticsnorway/fe-react-reference-app).
+Follows React application setup from [react-reference-app](https://github.com/statisticsnorway/fe-react-reference-app) 
+although it has not been converted to only use React Hooks yet.
 
 ### Try it
 The first time you clone the repository remember to run `yarn install`.
