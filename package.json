@@ -53,15 +53,17 @@
     "collectCoverageFrom": [
       "src/**",
       "!src/index.js",
+      "!src/**/index.js",
+      "!src/enum/**",
       "!src/utilities/fetch/Fetch.js",
       "!src/__tests__/test-data/**"
     ],
     "coverageThreshold": {
       "global": {
         "branches": 65,
-        "functions": 72,
-        "lines": 78,
-        "statements": 77
+        "functions": 70,
+        "lines": 75,
+        "statements": 75
       }
     }
   }
