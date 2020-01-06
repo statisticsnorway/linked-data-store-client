@@ -57,7 +57,7 @@ export const QUERIES = {
                                             ... on UnitDataSet {
                                               id
                                               name {languageText}
-                                              description {languageText} 
+                                              description {languageText}
                                             }
                                           }
                                         }
@@ -112,7 +112,7 @@ export const QUERIES = {
                                       ... on UnitDataSet {
                                         id
                                         name {languageText}
-                                        description {languageText} 
+                                        description {languageText}
                                       }
                                     }
                                   }

@@ -124,7 +124,11 @@ export const extractFromVersionObject = (object, producer) => {
         version: object.definitions[API.DEFAULT_VERSION_OBJECT.NAME].properties[API.DEFAULT_VERSION_OBJECT.PROPERTY].default
       }
     } else {
-      return object.toString()
+      return {
+        displayName: 'UNKOWN',
+        latestChange: 'UNKOWN',
+        version: 'UNKOWN'
+      }
     }
   } else {
     return object

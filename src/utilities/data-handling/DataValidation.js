@@ -29,7 +29,11 @@ export const validateAndClean = (dataObject, groupings, language, uiSchema, draf
             )
 
             if (data[property].length === 0) {
-              required ? errors[property] = ERRORS.EMPTY_VALUES[language] : delete data[property]
+              if (required) {
+                errors[property] = ERRORS.EMPTY_VALUES[language]
+              } else {
+                delete data[property]
+              }
             } else {
               data[property].forEach((value, index) => {
                 checks.forEach(check => {
@@ -52,11 +56,19 @@ export const validateAndClean = (dataObject, groupings, language, uiSchema, draf
               data[property] = data[property].filter(value => value !== noValue)
 
               if (data[property].length === 0) {
-                required ? errors[property] = ERRORS.EMPTY_VALUES[language] : delete data[property]
+                if (required) {
+                  errors[property] = ERRORS.EMPTY_VALUES[language]
+                } else {
+                  delete data[property]
+                }
               }
             } else {
               if (data[property] === noValue) {
-                required ? errors[property] = ERRORS.EMPTY_VALUE[language] : delete data[property]
+                if (required) {
+                  errors[property] = ERRORS.EMPTY_VALUE[language]
+                } else {
+                  delete data[property]
+                }
               }
             }
             break
@@ -73,7 +85,11 @@ export const validateAndClean = (dataObject, groupings, language, uiSchema, draf
                 )
 
                 if (data[property].length === 0) {
-                  required ? errors[property] = ERRORS.EMPTY_VALUES[language] : delete data[property]
+                  if (required) {
+                    errors[property] = ERRORS.EMPTY_VALUES[language]
+                  } else {
+                    delete data[property]
+                  }
                 }
               } else {
                 data[property] = data[property].filter(value =>
@@ -81,7 +97,11 @@ export const validateAndClean = (dataObject, groupings, language, uiSchema, draf
                 )
 
                 if (data[property].length === 0) {
-                  required ? errors[property] = ERRORS.EMPTY_VALUES[language] : delete data[property]
+                  if (required) {
+                    errors[property] = ERRORS.EMPTY_VALUES[language]
+                  } else {
+                    delete data[property]
+                  }
                 }
               }
             } else {
@@ -91,13 +111,21 @@ export const validateAndClean = (dataObject, groupings, language, uiSchema, draf
 
           case 'radio':
             if (data[property] === '') {
-              required ? errors[property] = ERRORS.EMPTY_CHOICE[language] : delete data[property]
+              if (required) {
+                errors[property] = ERRORS.EMPTY_CHOICE[language]
+              } else {
+                delete data[property]
+              }
             }
             break
 
           default:
             if (data[property] === '') {
-              required ? errors[property] = ERRORS.EMPTY_VALUE[language] : delete data[property]
+              if (required) {
+                errors[property] = ERRORS.EMPTY_VALUE[language]
+              } else {
+                delete data[property]
+              }
             }
         }
       }
