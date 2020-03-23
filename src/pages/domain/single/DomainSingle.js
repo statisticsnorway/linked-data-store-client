@@ -4,7 +4,9 @@ import DomainSingleEdit from './DomainSingleEdit'
 import DomainSingleView from './DomainSingleView'
 import { LanguageContext } from '../../../utilities/context/LanguageContext'
 import { createDefaultData, createUiSchema, getData } from '../../../utilities'
-import { MESSAGES } from '../../../enum'
+import { API, MESSAGES } from '../../../enum'
+
+const uuidv4 = require('uuid/v4')
 
 class DomainSingle extends Component {
   state = {
@@ -27,24 +29,26 @@ class DomainSingle extends Component {
   }
 
   load = () => {
-    const { domain, lds, params } = this.props
+    const { lds, params } = this.props
 
     let language = this.context.value
 
-    getData(`${lds.url}${domain.path}`).then(schema => {
-      const uiSchema = createUiSchema(schema.definitions, lds, domain.name)
-      const defaultData = createDefaultData(schema.definitions[domain.name].properties, uiSchema)
+    getData(`${lds.url}/${lds.namespace}/${params.domain}${API.SCHEMA_QUERY}`).then(schema => {
+      const uiSchema = createUiSchema(schema.definitions, lds, params.domain)
+      const defaultData = createDefaultData(schema.definitions[params.domain].properties, uiSchema)
 
-      if (params.id === 'new') {
+      if (params.id === API.VIEWS.NEW) {
+        defaultData.id = uuidv4()
+
         this.setState({
           data: defaultData,
           error: false,
-          schema: schema.definitions[domain.name],
+          schema: schema.definitions[params.domain],
           ready: true,
           uiSchema: uiSchema
         })
       } else {
-        getData(`${lds.url}/${lds.namespace}/${domain.name}/${params.id}`).then(data => {
+        getData(`${lds.url}/${lds.namespace}/${params.domain}/${params.id}`).then(data => {
           if (Array.isArray(data) && data.length < 1) {
             this.setState({
               error: MESSAGES.NOTHING_FOUND[language],
@@ -54,21 +58,21 @@ class DomainSingle extends Component {
             this.setState({
               data: { ...defaultData, ...data },
               error: false,
-              schema: schema.definitions[domain.name],
+              schema: schema.definitions[params.domain],
               ready: true,
               uiSchema: uiSchema
             })
           }
         }).catch(error => {
           this.setState({
-            error: error,
+            error: error.toString(),
             ready: true
           })
         })
       }
     }).catch(error => {
       this.setState({
-        error: error,
+        error: error.toString(),
         ready: true
       })
     })
@@ -76,6 +80,7 @@ class DomainSingle extends Component {
 
   reload = () => {
     this.setState({
+      error: false,
       errors: {},
       fresh: true,
       ready: false
@@ -99,15 +104,15 @@ class DomainSingle extends Component {
   }
 
   render () {
-    const { domain, lds, params } = this.props
+    const { lds, params } = this.props
 
-    if (params.view === 'edit') {
-      return <DomainSingleEdit {...this.state} domain={domain} handleChange={this.handleChange} lds={lds}
-                               setErrors={this.setErrors} />
+    if (params.view === API.VIEWS.EDIT) {
+      return <DomainSingleEdit {...this.state} domain={params.domain} handleChange={this.handleChange} lds={lds}
+                               setErrors={this.setErrors} isNew={params.id === API.VIEWS.NEW} />
     }
 
-    if (params.view === 'view') {
-      return <DomainSingleView {...this.state} domain={domain} lds={lds} />
+    if (params.view === API.VIEWS.VIEW) {
+      return <DomainSingleView {...this.state} domain={params.domain} lds={lds} />
     }
 
     return null

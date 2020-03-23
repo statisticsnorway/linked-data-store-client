@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import DatePicker from 'react-datepicker'
 import { Divider, Form, Icon, Input, Popup } from 'semantic-ui-react'
 
@@ -23,7 +23,8 @@ class FIDateView extends Component {
             {uiSchema.description}
           </Popup>
           {uiSchema.input.multiple &&
-          <Popup basic flowing trigger={<Icon link name='copy outline' color='green' onClick={addItem} />}>
+          <Popup basic flowing trigger={<Icon link name='copy outline' color='green'
+                                              onClick={addItem} data-testid='add-date-item' />}>
             <Icon color='blue' name='info circle' />
             {MESSAGES.ADD_ITEM[language]}
           </Popup>
@@ -34,17 +35,18 @@ class FIDateView extends Component {
                           value={value} />
         }
         {uiSchema.input.multiple && value.map((entry, index) =>
-          <div key={index}>
+          <Fragment key={index}>
             <CustomDatePicker displayName={uiSchema.displayName} index={index} merge={mergeDeepChange} outline={outline}
                               value={entry} />
             <Popup basic flowing
                    trigger={<Icon link name='delete' color='red' onClick={removeItem.bind(this, index)}
-                                  onMouseOut={hideOutlines} onMouseOver={showOutline.bind(this, index)} />}>
+                                  onMouseOut={hideOutlines} onMouseOver={showOutline.bind(this, index)}
+                                  data-testid='remove-date-item' />}>
               <Icon color='blue' name='info circle' />
               {MESSAGES.REMOVE_ITEM[language]}
             </Popup>
             <Divider hidden style={{ marginBottom: 0 }} />
-          </div>
+          </Fragment>
         )}
       </Form.Field>
     )
@@ -67,18 +69,19 @@ class CustomDatePicker extends Component {
 
     return <DatePicker todayButton={UI.TODAY[language]} dateFormat={UI.DATE_FORMAT[language]} showWeekNumbers
                        peekNextMonth showMonthDropdown showYearDropdown dropdownMode='select' locale={language}
-                       customInput={<CustomDateInput index={index} outline={outline} />}
-                       placeholderText={truncateString(displayName)} selected={this.convertDate(value)}
+                       customInput={<CustomDateInput index={index} outline={outline}
+                                                     placeholderText={truncateString(displayName)} />}
+                       selected={this.convertDate(value)}
                        onChange={date => merge(index, date)} />
   }
 }
 
 class CustomDateInput extends Component {
   render () {
-    const { index, onClick, outline, value } = this.props
+    const { index, onClick, outline, placeholderText, value } = this.props
 
     return <Input style={outline === index ? style : {}} icon={{ name: 'calendar alternate outline', color: 'teal' }}
-                  iconPosition='left' value={value} onClick={onClick} />
+                  iconPosition='left' value={value} onClick={onClick} placeholder={placeholderText} />
   }
 }
 

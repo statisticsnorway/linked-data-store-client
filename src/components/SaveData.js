@@ -5,7 +5,7 @@ import { Button, Icon, Message, Popup } from 'semantic-ui-react'
 import { LanguageContext } from '../utilities/context/LanguageContext'
 import { createAutofillData, updateAutofillData } from '../producers/Producers'
 import { putData, validateAndClean } from '../utilities'
-import { ERRORS, UI } from '../enum'
+import { API, ERRORS, UI } from '../enum'
 
 class SaveData extends Component {
   state = {
@@ -16,20 +16,19 @@ class SaveData extends Component {
 
   saveData = () => {
     this.setState({ loading: true }, () => {
-      const { data, domain, lds, setErrors, uiSchema } = this.props
+      const { data, domain, isNew, lds, setErrors, uiSchema } = this.props
 
       let language = this.context.value
 
-      // TODO: For GSIM objects with administrativeStatus set to DRAFT this validateAndClean might want to be skipped
-      // const draft = lds.producer === 'gsim' ? data.administrativeStatus === 'DRAFT' : false
-      const returned = validateAndClean(data, false, ['unique', 'common'], language, uiSchema)
+      const draft = lds.producer === API.DEFAULT_PRODUCER ? data.administrativeStatus === 'DRAFT' : false
+      const returned = validateAndClean(data, ['unique', 'common'], language, uiSchema, draft)
 
       if (Object.keys(returned.errors).length > 0) {
         this.setState({ loading: false })
 
         setErrors(returned.errors)
       } else {
-        if (returned.data.id !== '') {
+        if (!isNew) {
           Object.keys(uiSchema.autofilled).forEach(property => {
             returned.data[property] = updateAutofillData(returned.data[property], property, lds.producer, lds.user)
           })
@@ -39,9 +38,9 @@ class SaveData extends Component {
           })
         }
 
-        const url = `${lds.url}/${lds.namespace}/${domain.name}/${returned.data.id}`
+        const url = `${lds.url}/${lds.namespace}/${domain}/${returned.data.id}`
 
-        // TODO: If the putData fails, a new id is created on each try, should that be the case?
+        // If the putData fails, a new id is created on each try, should that be the case?
         putData(url, returned.data).then(() => {
           this.setState({
             loading: false,
@@ -50,7 +49,7 @@ class SaveData extends Component {
           })
         }).catch(error => {
           this.setState({
-            error: error,
+            error: error.toString(),
             loading: false
           })
         })
@@ -60,12 +59,12 @@ class SaveData extends Component {
 
   render () {
     const { error, loading, redirect, redirectId } = this.state
-    const { domain, fresh } = this.props
+    const { domain, fresh, lds } = this.props
 
     let language = this.context.value
 
     if (redirect) {
-      return <Redirect exact to={{ pathname: `${domain.route}`, state: { wasSaved: redirectId } }} />
+      return <Redirect exact to={{ pathname: `/${lds.producer}/${domain}`, state: { wasSaved: redirectId } }} />
     } else {
       return (
         <Popup header={ERRORS.NOT_SAVED[language]} content={<Message negative icon='warning' content={error} />}

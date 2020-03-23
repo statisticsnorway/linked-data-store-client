@@ -1,9 +1,10 @@
 import { setVersion } from '../utilities/schema-handling/AutofillHandling'
+import { API } from '../enum'
 
 const uuidv4 = require('uuid/v4')
 
 export const producers = {
-  gsim: {
+  [API.DEFAULT_PRODUCER]: {
     grouping: {
       autofilled: ['id', 'createdDate', 'createdBy', 'version', 'versionValidFrom', 'lastUpdatedDate', 'lastUpdatedBy', 'validFrom', 'validUntil'],
       common: ['name', 'description', 'administrativeStatus', 'versionRationale', 'administrativeDetails', 'agentInRoles']
@@ -11,9 +12,13 @@ export const producers = {
     autofillTypes: {
       user: ['createdBy', 'lastUpdatedBy']
     },
-    tableHeaders: ['name', 'description', 'id']
+    tableHeaders: {
+      default: ['name', 'description', 'id'],
+      DimensionalDataSet: ['name', 'description', 'dataSetState', 'dimensionalDataStructure', 'metadataSourcePath', 'dataSourcePath', 'agentInRoles', 'version', 'id'],
+      UnitDataSet: ['name', 'description', 'dataSetState', 'unitDataStructure', 'metadataSourcePath', 'dataSourcePath', 'agentInRoles', 'version', 'id']
+    }
   },
-  default: {
+  basic: {
     grouping: {
       autofilled: ['id'],
       common: []
@@ -21,17 +26,16 @@ export const producers = {
     autofillTypes: {
       user: []
     },
-    tableHeaders: ['id']
+    tableHeaders: {
+      default: ['id']
+    }
   }
 }
 
 export const createAutofillData = (data, property, producer, user) => {
   switch (producer) {
-    case 'gsim':
+    case API.DEFAULT_PRODUCER:
       switch (property) {
-        case 'id':
-          return uuidv4()
-
         case 'createdDate':
         case 'lastUpdatedDate':
         case 'versionValidFrom':
@@ -56,14 +60,8 @@ export const createAutofillData = (data, property, producer, user) => {
           return data
       }
 
-    case 'default':
-      switch (property) {
-        case 'id':
-          return uuidv4()
-
-        default:
-          return data
-      }
+    case 'basic':
+      return property === 'id' ? uuidv4() : data
 
     default:
       return data
@@ -72,7 +70,7 @@ export const createAutofillData = (data, property, producer, user) => {
 
 export const updateAutofillData = (data, property, producer, user) => {
   switch (producer) {
-    case 'gsim':
+    case API.DEFAULT_PRODUCER:
       switch (property) {
         case 'lastUpdatedDate':
         case 'versionValidFrom':
@@ -95,7 +93,7 @@ export const updateAutofillData = (data, property, producer, user) => {
           return data
       }
 
-    case 'default':
+    case 'basic':
       return data
 
     default:
@@ -105,10 +103,26 @@ export const updateAutofillData = (data, property, producer, user) => {
 
 export const extractStringFromObject = (object, producer, language) => {
   if (typeof object === 'object' && object !== null) {
-    if (producer === 'gsim') {
+    if (producer === API.DEFAULT_PRODUCER) {
       const nameObject = object.find(object => object.languageCode === language)
 
       return `${nameObject === undefined ? object[0].languageText : nameObject.languageText}`
+    } else {
+      return object.toString()
+    }
+  } else {
+    return object
+  }
+}
+
+export const extractFromVersionObject = (object, producer) => {
+  if (typeof object === 'object' && object !== null) {
+    if (producer === API.DEFAULT_PRODUCER) {
+      return {
+        displayName: object.definitions[API.DEFAULT_VERSION_OBJECT.NAME].properties[API.DEFAULT_VERSION_OBJECT.PROPERTY].displayName,
+        latestChange: object.definitions[API.DEFAULT_VERSION_OBJECT.NAME].properties[API.DEFAULT_VERSION_OBJECT.PROPERTY].description,
+        version: object.definitions[API.DEFAULT_VERSION_OBJECT.NAME].properties[API.DEFAULT_VERSION_OBJECT.PROPERTY].default
+      }
     } else {
       return object.toString()
     }

@@ -8,7 +8,6 @@ import { ERRORS, MESSAGES, UI } from '../enum'
 class DeleteData extends Component {
   state = {
     deleted: false,
-    disabled: this.props.id === '',
     loading: false,
     message: false,
     showConfirm: false
@@ -28,7 +27,7 @@ class DeleteData extends Component {
       showConfirm: false
     }, () => {
       const { domain, id, lds } = this.props
-      const url = `${lds.url}/${lds.namespace}/${domain.name}/${id}`
+      const url = `${lds.url}/${lds.namespace}/${domain}/${id}`
 
       let language = this.context.value
 
@@ -42,15 +41,15 @@ class DeleteData extends Component {
       }).catch(error => {
         this.setState({
           loading: false,
-          message: `${ERRORS.NOT_DELETED[language]} (${error})`
+          message: `${ERRORS.NOT_DELETED[language]} (${error.toString()})`
         })
       })
     })
   }
 
   render () {
-    const { deleted, disabled, loading, message, showConfirm } = this.state
-    const { id } = this.props
+    const { deleted, loading, message, showConfirm } = this.state
+    const { id, isNew } = this.props
 
     let language = this.context.value
 
@@ -58,8 +57,8 @@ class DeleteData extends Component {
                   content={<Message positive={deleted} negative={!deleted} icon={deleted ? 'check' : 'warning'}
                                     content={message} />}
                   trigger={
-                    <div>
-                      <Button floated='left' negative animated loading={loading} disabled={disabled}
+                    <>
+                      <Button floated='left' negative animated loading={loading} disabled={isNew}
                               onClick={this.showConfirm}>
                         <Button.Content visible>{UI.DELETE[language]}</Button.Content>
                         <Button.Content hidden><Icon fitted name='trash alternate outline' /></Button.Content>
@@ -74,7 +73,7 @@ class DeleteData extends Component {
                                  floated: 'left'
                                }}
                                confirmButton={{ content: UI.CONFIRM[language], icon: 'check' }} />
-                    </div>} />
+                    </>} />
   }
 }
 

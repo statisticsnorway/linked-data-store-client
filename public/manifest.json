@@ -1,6 +1,6 @@
 {
   "short_name": "Linked Data Store Client",
-  "name": "A client to interact with data stored in Linked Data Store",
+  "name": "Linked Data Store Client",
   "icons": [
     {
       "src": "favicon.ico",

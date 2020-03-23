@@ -1,0 +1,167 @@
+kind: pipeline
+name: linked-data-store-client
+
+steps:
+  - name: restore-cache
+    image: homerovalle/drone-gcs-cache
+    settings:
+      pull: true
+      bucket: bip-drone-dependency-cache
+      path: bip-drone-dependency-cache/statisticsnorway/linked-data-store-client
+      json_key:
+        from_secret: gcr_credentials
+      restore: true
+    when:
+      event:
+        - pull_request
+        - push
+
+  - name: install
+    image: node:current-alpine
+    commands:
+      - yarn install
+    when:
+      event:
+        - pull_request
+        - push
+    depends_on:
+      - restore-cache
+
+  - name: rebuild-cache
+    image: homerovalle/drone-gcs-cache
+    settings:
+      pull: true
+      bucket: bip-drone-dependency-cache
+      path: bip-drone-dependency-cache/statisticsnorway/linked-data-store-client
+      json_key:
+        from_secret: gcr_credentials
+      rebuild: true
+      mount:
+        - node_modules
+    when:
+      event:
+        - pull_request
+        - push
+    depends_on:
+      - install
+
+  - name: test
+    image: node:current-alpine
+    commands:
+      - CI=true yarn coverage
+    when:
+      event:
+        - pull_request
+        - push
+    depends_on:
+      - install
+
+  - name: build
+    image: node:current-alpine
+    commands:
+      - CI=true yarn build
+    when:
+      event:
+        - pull_request
+        - push
+    depends_on:
+      - install
+
+  - name: code-analysis
+    image: aosapps/drone-sonar-plugin
+    settings:
+      sonar_host:
+        from_secret: sonar_host
+      sonar_token:
+        from_secret: sonar_token
+    when:
+      event:
+      - pull_request
+      - push
+    depends_on:
+      - test
+
+  - name: flush-cache
+    image: homerovalle/drone-gcs-cache
+    settings:
+      pull: true
+      bucket: bip-drone-dependency-cache
+      path: bip-drone-dependency-cache/statisticsnorway/linked-data-store-client
+      json_key:
+        from_secret: gcr_credentials
+      flush: true
+      flush_age: 14
+    when:
+      event:
+        - pull_request
+        - push
+    depends_on:
+      - rebuild-cache
+
+  - name: publish-docker
+    image: plugins/gcr
+    settings:
+      repo: prod-bip/linked-data-store-client
+      registry: eu.gcr.io
+      tags: "${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:8}"
+      json_key:
+        from_secret: gcr_credentials
+    when:
+      branch:
+      - develop
+      event:
+      - push
+    depends_on:
+      - test
+      - build
+
+  - name: slack
+    image: plugins/slack
+    settings:
+      webhook:
+        from_secret: slack_webhook_url
+#      channel: bip-ci-test -- Choosing channel is not enabled yet
+      template: >
+        {{#success build.status}}
+          *Success*! {{uppercasefirst build.event}} - {{build.link}}. Good job *{{build.author}}*!
+        {{else}}
+          *Failure*! {{uppercasefirst build.event}} - {{build.link}}. Your fault *{{build.author}}*!
+        {{/success}}
+    when:
+      status: [ success, failure ]
+    depends_on:
+      - test
+      - build
+
+trigger:
+  ref:
+  - refs/heads/develop
+  - refs/pull/*/head
+
+---
+kind: secret
+name: sonar_host
+get:
+  path: drone-sonarqube-configuration
+  name: url
+
+---
+kind: secret
+name: sonar_token
+get:
+  path: drone-sonarqube-configuration
+  name: token
+
+---
+kind: secret
+name: gcr_credentials
+get:
+  path: drone-gcr-credentials
+  name: gcr-credentials
+
+---
+kind: secret
+name: slack_webhook_url
+get:
+  path: drone-slack-webhook-url
+  name: slack-webhook-url

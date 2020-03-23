@@ -26,7 +26,7 @@ class ImportView extends Component {
                    onChange={handleUpload} data-testid='fileUploader' />
             <Divider hidden />
             {ready && progress === total &&
-            <div>
+            <>
               <Statistic.Group size='large' widths='one'>
                 <Statistic color={successful === total ? 'green' : 'red'}>
                   <Statistic.Value>{successful} / {total}</Statistic.Value>
@@ -39,7 +39,7 @@ class ImportView extends Component {
                 <Icon color='blue' name='info circle' />
                 {MESSAGES.RESTART[language]}
               </Popup>
-            </div>
+            </>
             }
           </Segment>
           <List relaxed>
@@ -47,8 +47,8 @@ class ImportView extends Component {
               <List.Item key={response.name}>
                 <List.Icon size='large' name='warning' color='red' verticalAlign='middle' />
                 <List.Content>
-                  <List.Header>{`${response.name}`}</List.Header>
-                  <List.Description>{`${response.text}`}</List.Description>
+                  <List.Header>{response.name}</List.Header>
+                  <List.Description>{response.text}</List.Description>
                 </List.Content>
               </List.Item>
             )}

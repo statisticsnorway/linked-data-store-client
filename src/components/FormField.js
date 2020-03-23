@@ -1,12 +1,24 @@
 import React, { Component } from 'react'
 import { Divider } from 'semantic-ui-react'
 
-import { FIBoolean, FIDate, FIDropdown, FIMultiInput, FINumber, FIRadio, FIText } from './form-inputs'
+import {
+  FIBoolean,
+  FICodeBlock,
+  FIDate,
+  FIDropdown,
+  FIMultiCodeBlock,
+  FIMultiInput,
+  FINumber,
+  FIRadio,
+  FIText
+} from './form-inputs'
 
 const formComponents = {
   boolean: FIBoolean,
+  codeBlock: FICodeBlock,
   dropdown: FIDropdown,
   date: FIDate,
+  multiCodeBlock: FIMultiCodeBlock,
   multiInput: FIMultiInput,
   number: FINumber,
   radio: FIRadio,
@@ -18,10 +30,10 @@ class FormField extends Component {
     const FormComponent = formComponents[this.props.uiSchema.input.type]
 
     return (
-      <div>
+      <>
         <FormComponent {...this.props} />
         <Divider hidden />
-      </div>
+      </>
     )
   }
 }

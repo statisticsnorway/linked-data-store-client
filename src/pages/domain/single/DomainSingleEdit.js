@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
-import { Divider, Form, Grid, Header, Icon, Label, List, Message, Popup, Segment } from 'semantic-ui-react'
+import { Container, Divider, Form, Grid, Header, Icon, Label, List, Message, Popup, Segment } from 'semantic-ui-react'
 
 import { DeleteData, DownloadJSON, FormField, SaveData } from '../../../components'
 import { LanguageContext } from '../../../utilities/context/LanguageContext'
 import { convertDataToView } from '../../../utilities'
-import { ERRORS, MESSAGES, UI } from '../../../enum'
+import { API, ERRORS, MESSAGES, UI } from '../../../enum'
 
 class DomainSingleEdit extends Component {
   render () {
-    const { data, domain, error, errors, fresh, lds, ready, schema, uiSchema } = this.props
+    const { data, domain, error, errors, fresh, lds, isNew, ready, schema, uiSchema } = this.props
     const { handleChange, setErrors } = this.props
 
     let language = this.context.value
@@ -17,10 +17,10 @@ class DomainSingleEdit extends Component {
       <Segment basic loading={!ready}>
         {ready && error && <Message negative icon='warning' header={ERRORS.ERROR[language]} content={error} />}
         {ready && !error &&
-        <div>
+        <>
           <Header as='h1' dividing icon={{ name: 'edit outline', color: fresh ? 'teal' : 'orange' }}
                   content={schema.displayName} subheader={schema.description} />
-          {lds.producer === 'gsim' && data.administrativeStatus === 'DRAFT' &&
+          {lds.producer === API.DEFAULT_PRODUCER && data.administrativeStatus === 'DRAFT' &&
           <Message warning icon='warning' header={UI.WARNING[language]}
                    content={`${uiSchema.common.administrativeStatus.displayName} ${MESSAGES.GSIM_DRAFT[language]}`}
           />
@@ -56,6 +56,9 @@ class DomainSingleEdit extends Component {
                 <Icon color='blue' name='info circle' />
                 {fresh ? MESSAGES.NOT_EDITED[language] : MESSAGES.EDITED[language]}
               </Popup>
+              <Container textAlign='right'>
+                <span style={{ color: '#db2828' }}>*</span>{` = ${UI.REQUIRED[language]}`}
+              </Container>
               <List relaxed>
                 {Object.keys(uiSchema.autofilled).map(property =>
                   <List.Item key={property}>
@@ -80,10 +83,11 @@ class DomainSingleEdit extends Component {
             </Grid.Column>
           </Grid>
           <Divider hidden />
-          <DeleteData domain={domain} lds={lds} id={data.id} uiSchema={uiSchema} />
-          <DownloadJSON data={data} lds={lds} setErrors={setErrors} uiSchema={uiSchema} />
-          <SaveData data={data} domain={domain} fresh={fresh} lds={lds} setErrors={setErrors} uiSchema={uiSchema} />
-        </div>
+          <DeleteData domain={domain} lds={lds} id={data.id} isNew={isNew} uiSchema={uiSchema} />
+          <DownloadJSON data={data} lds={lds} setErrors={setErrors} uiSchema={uiSchema} isNew={isNew} />
+          <SaveData data={data} domain={domain} fresh={fresh} lds={lds} setErrors={setErrors} uiSchema={uiSchema}
+                    isNew={isNew} />
+        </>
         }
       </Segment>
     )
