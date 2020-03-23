@@ -101,21 +101,19 @@ const setInputFromReference = (definitions, reference, property) => {
   const referenceProperties = definitions[reference].properties
   const input = { name: property, type: 'multiInput', option: {}, value: {}, multiple: true, reference: reference }
 
-  Object.keys(referenceProperties).forEach(property => {
-    // TODO: Checking for 'enum' is not good enough too distinguish option from value, but how else to do it?
-    if (referenceProperties[property].hasOwnProperty('enum')) {
-      input.option.handler = property
-      input.option.displayName = referenceProperties[property].displayName
-      input.option.description = referenceProperties[property].description
-      input.option.multiple = referenceProperties[property].type === 'array'
-      input.option.options = referenceProperties[property].enum.map(value => ({ value: value, text: value }))
-      input.option.required = definitions[reference].hasOwnProperty('required') && definitions[reference].required.includes(property)
-    } else {
-      input.value.handler = property
-      input.value.displayName = referenceProperties[property].displayName
-      input.value.description = referenceProperties[property].description
-      input.value.multiple = referenceProperties[property].type === 'array'
-      input.value.required = definitions[reference].hasOwnProperty('required') && definitions[reference].required.includes(property)
+  Object.keys(referenceProperties).forEach((key, index) => {
+    // Assert exactly two properties / keys
+    // TODO: add flexibility in number of properties / keys to be handled
+    input[index > 0 ? 'value' : 'option'] = {
+      handler: key,
+      displayName: referenceProperties[key].displayName,
+      description: referenceProperties[key].description,
+      options: referenceProperties[key].hasOwnProperty('enum')
+          ? referenceProperties[key].enum.map(value => ({ value: value, text: value }))
+          : {},
+      multiple: referenceProperties[key].type === 'array',
+      required: definitions[reference].hasOwnProperty('required')
+             && definitions[reference].required.includes(key)
     }
   })
 

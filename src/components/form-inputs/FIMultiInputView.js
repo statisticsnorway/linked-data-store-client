@@ -43,9 +43,14 @@ class FIMultiInputView extends Component {
                   {MESSAGES.ADD_VALUE[language]}
                 </Popup>
                 }
-                <Form.Select fluid placeholder={truncateString(option.displayName, 17)} width={6}
-                             multiple={option.multiple} options={options} clearable value={item[option.handler]}
-                             onChange={mergeShallowChange.bind(this, index, option.handler, value.handler)} />
+                {options && options.length > 0
+                  ? <Form.Select fluid placeholder={truncateString(option.displayName, 17)} width={6}
+                    multiple={option.multiple} options={options} clearable value={item[option.handler]}
+                    onChange={mergeShallowChange.bind(this, index, option.handler, value.handler)} />
+                  : <Form.Input placeholder={truncateString(option.displayName, 17)} width={10}
+                                value={item[option.handler]} style={{ marginRight: '0.5em' }}
+                                onChange={mergeShallowChange.bind(this, index, option.handler, value.handler)} />
+                }
                 {value.multiple &&
                 <Form.Field width={10}>
                   <List>
