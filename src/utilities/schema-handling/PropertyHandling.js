@@ -80,31 +80,31 @@ const setInput = (properties, lds, domain, property) => {
 const setReferenceInput = (definitions, referenceProperties, reference, property, codeBlocks) => {
   const input = { name: property, type: 'multiInput', option: {}, value: {}, multiple: true, reference: reference }
 
-  Object.keys(referenceProperties).forEach(property => {
-    if (!property.startsWith('_link_property_')) {
-      let inputType = 'option'
+  Object.keys(referenceProperties).forEach(key => {
+    if (!key.startsWith('_link_property_')) {
+      let inputType = 'value'
 
       // Checking for 'enum' is not good enough too distinguish option from value, but how else to do it?
-      if (referenceProperties[property].hasOwnProperty('enum')) {
-        input[inputType].options = referenceProperties[property].enum.map(value => ({ value: value, text: value }))
-      } else if (property === 'codeBlockIndex') {
+      if (referenceProperties[key].hasOwnProperty('enum')) {
+        input[inputType = 'option'].options = referenceProperties[key].enum.map(value => ({ value, text: value }))
+      } else if (key === 'rank') {
+        inputType = 'option'
+      } else if (key === 'codeBlockIndex') {
         inputType = 'index'
         input.index = {}
-      } else if (property === 'codeBlockTitle') {
+      } else if (key === 'codeBlockTitle') {
         inputType = 'title'
         input.title = {}
-      } else if (property === 'processStepInstance') {
+      } else if (key === 'processStepInstance') {
         inputType = 'refLink'
         input.refLink = {}
-      } else {
-        inputType = 'value'
       }
 
-      input[inputType].handler = property
-      input[inputType].displayName = referenceProperties[property].displayName
-      input[inputType].description = referenceProperties[property].description
-      input[inputType].multiple = referenceProperties[property].type === 'array'
-      input[inputType].required = definitions[reference].hasOwnProperty('required') && definitions[reference].required.includes(property)
+      input[inputType].handler = key
+      input[inputType].displayName = referenceProperties[key].displayName
+      input[inputType].description = referenceProperties[key].description
+      input[inputType].multiple = referenceProperties[key].type === 'array'
+      input[inputType].required = definitions[reference].hasOwnProperty('required') && definitions[reference].required.includes(key)
     }
   })
 
@@ -132,7 +132,7 @@ const setInputFromReference = (definitions, reference, property) => {
   const referenceProperties = definitions[reference].properties
 
   if (Object.keys(referenceProperties).length > 2) {
-    // If this is ever the case without it beeing related to GSIM and ProcessStepCodeBlockDetails it will have to be handled differently
+    // If this is ever the case without it being related to GSIM and ProcessStepCodeBlockDetails it will have to be handled differently
     return setReferenceInput(definitions, referenceProperties, reference, property, true)
   } else {
     return setReferenceInput(definitions, referenceProperties, reference, property, false)
