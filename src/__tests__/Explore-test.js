@@ -1,15 +1,17 @@
 import React from 'react'
-import 'jest-dom/extend-expect'
+import { toBeVisible } from '@testing-library/jest-dom'
 import { MemoryRouter } from 'react-router-dom'
-import { cleanup, fireEvent, render, wait } from 'react-testing-library'
+import { cleanup, fireEvent, render, wait } from '@testing-library/react'
 
 import { LanguageContext } from '../utilities/context/LanguageContext'
-import Explore from '../pages/explore/Explore'
+import { Explore } from '../pages'
 import { getData } from '../utilities/fetch/Fetch'
-import { TABLE, UI } from '../enum'
+import { API, BASE_TEST_URL, ERRORS, LDS_TEST_PROPERTIES, TABLE, TEST_DOMAINS, TEST_URLS, UI } from '../enum'
 
 import AgentSchema from './test-data/AgentSchema'
 import AgentData from './test-data/AgentData'
+
+expect.extend({ toBeVisible })
 
 jest.mock('../utilities/fetch/Fetch', () => ({ getData: jest.fn() }))
 
@@ -25,24 +27,20 @@ afterEach(() => {
   cleanup()
 })
 
+const TEST_ID = 'exploreShowAll'
+
 const setup = () => {
   const props = {
     domains: [{
-      name: 'Agent',
-      path: '/ns/Agent?schema',
-      route: '/gsim/Agent'
+      name: TEST_DOMAINS.AGENT,
+      route: `/${API.DEFAULT_PRODUCER}/${TEST_DOMAINS.AGENT}`
     }],
-    lds: {
-      namespace: 'ns',
-      producer: 'gsim',
-      url: 'http://localhost:9090',
-      user: 'Test user'
-    }
+    lds: LDS_TEST_PROPERTIES
   }
 
   const { getByTestId, getByText, queryAllByText } = render(
     <MemoryRouter>
-      <LanguageContext.Provider value={{ value: 'nb' }}>
+      <LanguageContext.Provider value={{ value: API.DEFAULT_LANGUAGE }}>
         <Explore {...props} />
       </LanguageContext.Provider>
     </MemoryRouter>
@@ -59,18 +57,18 @@ test('Explore renders correctly when good response from LDS', async () => {
   const { queryAllByText } = setup()
 
   await wait(() => {
-    expect(queryAllByText(`${UI.EXPLORE.nb}`)).toHaveLength(1)
+    expect(queryAllByText(UI.EXPLORE.nb)).toHaveLength(1)
     TABLE.EXPLORE_HEADERS.nb.forEach(header => {
       expect(queryAllByText(header)).toHaveLength(1)
     })
-    expect(queryAllByText('Agent')).toHaveLength(1)
-    expect(queryAllByText(`${UI.INSTANCE_COUNT.nb}`)).toHaveLength(1)
-    expect(queryAllByText(`${UI.UNUSED_COUNT.nb}`)).toHaveLength(1)
+    expect(queryAllByText(TEST_DOMAINS.AGENT)).toHaveLength(1)
+    expect(queryAllByText(UI.INSTANCE_COUNT.nb)).toHaveLength(1)
+    expect(queryAllByText(UI.UNUSED_COUNT.nb)).toHaveLength(1)
   })
 
   expect(getData).toHaveBeenCalledTimes(2)
-  expect(getData).toHaveBeenNthCalledWith(1, 'http://localhost:9090/ns?schema=embed')
-  expect(getData).toHaveBeenNthCalledWith(2, 'http://localhost:9090/ns/Agent')
+  expect(getData).toHaveBeenNthCalledWith(1, `${BASE_TEST_URL}/${LDS_TEST_PROPERTIES.namespace}${API.SCHEMA_QUERY_EMBED}`)
+  expect(getData).toHaveBeenNthCalledWith(2, TEST_URLS.AGENT_BASE_URL)
 })
 
 test('Toggle show all button works', async () => {
@@ -81,23 +79,23 @@ test('Toggle show all button works', async () => {
   const { getByTestId, getByText } = setup()
 
   await wait(() => {
-    expect(getByText('Agent')).not.toBeVisible()
+    expect(getByText(TEST_DOMAINS.AGENT)).not.toBeVisible()
 
-    fireEvent.click(getByTestId('exploreShowAll').firstChild)
+    fireEvent.click(getByTestId(TEST_ID).firstChild)
 
-    expect(getByText('Agent')).toBeVisible()
+    expect(getByText(TEST_DOMAINS.AGENT)).toBeVisible()
   })
 })
 
 test('Explore renders correctly when bad response from LDS', async () => {
-  getData.mockImplementation(() => Promise.reject('Error'))
+  getData.mockImplementation(() => Promise.reject(ERRORS.ERROR.en))
 
   const { queryAllByText } = setup()
 
   await wait(() => {
-    expect(queryAllByText('Error')).toHaveLength(1)
+    expect(queryAllByText(ERRORS.ERROR.en)).toHaveLength(1)
   })
 
   expect(getData).toHaveBeenCalledTimes(1)
-  expect(getData).toHaveBeenCalledWith('http://localhost:9090/ns?schema=embed')
+  expect(getData).toHaveBeenCalledWith(`${BASE_TEST_URL}/${LDS_TEST_PROPERTIES.namespace}${API.SCHEMA_QUERY_EMBED}`)
 })

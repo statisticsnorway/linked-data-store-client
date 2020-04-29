@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import ReactTable from 'react-table'
+import ReactTable from 'react-table-6'
 
 import { LanguageContext } from '../../../utilities/context/LanguageContext'
 import { MESSAGES, TABLE } from '../../../enum'
@@ -8,7 +8,7 @@ class DomainListTable extends Component {
   filterMethod = (filter, row) => {
     const id = filter.pivotId || filter.id
 
-    return row[id] !== undefined ? String(row[id].toLowerCase()).includes(filter.value.toLowerCase()) : true
+    return row[id] !== undefined && typeof row[id] === 'string' ? String(row[id].toLowerCase()).includes(filter.value.toLowerCase()) : true
   }
 
   render () {
@@ -25,7 +25,7 @@ class DomainListTable extends Component {
         resizable={false}
         data={data}
         columns={columns}
-        defaultPageSize={15}
+        defaultPageSize={20}
         noDataText={MESSAGES.NOTHING_FOUND[language]}
         previousText={TABLE.PREVIOUS[language]}
         nextText={TABLE.NEXT[language]}

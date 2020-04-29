@@ -78,7 +78,7 @@ class ExploreView extends Component {
       <Segment basic loading={!ready}>
         {ready && error && <Message negative icon='warning' header={ERRORS.ERROR[language]} content={error} />}
         {ready && !error &&
-        <div>
+        <>
           <Header as='h1' content={UI.EXPLORE[language]} dividing />
           <Grid columns='equal'>
             <Grid.Column>
@@ -99,7 +99,7 @@ class ExploreView extends Component {
                   {Object.keys(data).map((domain, index) =>
                     <Table.Row key={index} warning={data[domain].storage.length < 1}
                                style={{ display: !showEmpty && data[domain].storage.length < 1 ? 'none' : '' }}>
-                      <Table.Cell><Link to={`${producer}/${domain}`}>{domain}</Link></Table.Cell>
+                      <Table.Cell><Link to={`/${producer}/${domain}`}>{domain}</Link></Table.Cell>
                       <Table.Cell textAlign='center'>{data[domain].storage.length}</Table.Cell>
                       <Table.Cell textAlign='center'>
                         {data[domain].unused.length > 0 ?
@@ -115,7 +115,7 @@ class ExploreView extends Component {
                           {data[domain].connectsTo.map((connection, index) =>
                             <List.Item key={index}>
                               {data[domain].storage.length > 0 && <b>{`${connection.count} `}</b>}
-                              {`${connection.name}`}
+                              {connection.name}
                               {connection.types.length > 1 && <i>{` (${connection.types.join(', ')})`}</i>}
                             </List.Item>
                           )}
@@ -133,7 +133,7 @@ class ExploreView extends Component {
               {this.chartTab(unusedData)}
             </Grid.Column>
           </Grid>
-        </div>
+        </>
         }
       </Segment>
     )

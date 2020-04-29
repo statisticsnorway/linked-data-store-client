@@ -1,6 +1,6 @@
 {
   "name": "linked-data-store-client",
-  "version": "0.1.0",
+  "version": "0.7.0",
   "private": true,
   "repository": {
     "type": "git",
@@ -9,52 +9,59 @@
   "dependencies": {
     "chart.js": "^2.7.3",
     "date-fns": "^2.0.0-alpha.27",
+    "graphql-request": "^1.8.2",
+    "humanize-graphql-response": "^1.0.0",
     "react": "^16.7.0",
+    "react-ace": "^8.0.0",
     "react-chartjs-2": "^2.7.4",
     "react-datepicker": "^2.1.0",
     "react-dom": "^16.7.0",
     "react-router-dom": "^5.0.0",
-    "react-scripts": "^3.0.0",
-    "react-table": "^6.9.2",
+    "react-scripts": "3.3.0",
+    "react-table-6": "^6.11.0",
     "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^0.86.0",
+    "semantic-ui-react": "^0.88.0",
     "uuid": "^3.3.2"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --verbose=false",
-    "coverage": "react-scripts test --coverage",
+    "build": "node ./node_modules/react-scripts/bin/react-scripts.js build",
+    "test": "react-scripts test --verbose=false --watchAll=true",
+    "coverage": "node ./node_modules/react-scripts/bin/react-scripts.js test --coverage --watchAll=false",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ],
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
   "devDependencies": {
-    "jest-dom": "^3.1.2",
-    "react-testing-library": "^6.0.0"
+    "@testing-library/jest-dom": "^4.0.0",
+    "@testing-library/react": "^9.1.4"
   },
   "jest": {
     "collectCoverageFrom": [
       "src/**",
       "!src/index.js",
-      "!src/**/index.js",
-      "!src/enum/**",
       "!src/utilities/fetch/Fetch.js",
       "!src/__tests__/test-data/**"
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 25,
-        "functions": 25,
-        "lines": 25,
-        "statements": 25
+        "branches": 65,
+        "functions": 72,
+        "lines": 78,
+        "statements": 77
       }
     }
   }

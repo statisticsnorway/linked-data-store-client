@@ -1,0 +1,23 @@
+{
+  "$ref": "#/definitions/About",
+  "definitions": {
+    "About": {
+      "type": "object",
+      "properties": {
+        "model_version": {
+          "type": "string",
+          "default": "1.0",
+          "description": "This version made changes to ProcessStep by adding array of code blocks",
+          "displayName": "Current model version"
+        }
+      },
+      "required": [
+        "model_version"
+      ],
+      "description": "Information about the model",
+      "displayName": "About",
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-04/schema#"
+}

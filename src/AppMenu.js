@@ -43,7 +43,7 @@ class AppMenu extends Component {
             <Dropdown.Divider />
             {ready && error === false && domains.filter(domain =>
               domain.name.toUpperCase().startsWith(search.toUpperCase()))
-              .map(domain => <Dropdown.Item key={domain.name} as={Link} to={`${domain.route}`} content={domain.name}
+              .map(domain => <Dropdown.Item key={domain.name} as={Link} to={domain.route} content={domain.name}
                                             onClick={this.clearSearch} />)
             }
           </Dropdown.Menu>

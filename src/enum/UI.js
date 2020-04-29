@@ -1,4 +1,8 @@
 export const UI = {
+  APP_VERSION: {
+    en: 'App version',
+    nb: 'App versjon'
+  },
   APPLY: {
     en: 'Apply',
     nb: 'Angi'
@@ -43,9 +47,17 @@ export const UI = {
     en: 'Explore',
     nb: 'Utforsk'
   },
+  GRAPHIQL: {
+    en: 'Go to LDS GraphiQL',
+    nb: 'Gå til LDS GraphiQL'
+  },
   HEADER: {
     en: 'LDS Client',
     nb: 'LDS Klient'
+  },
+  HANDLE_CODE_BLOCK: {
+    en: 'Handle code block(s)',
+    nb: 'Behandle kodeblokk(er)'
   },
   IMPORT: {
     en: 'Import',
@@ -54,6 +66,10 @@ export const UI = {
   IMPORTING_SUCCESS: {
     en: 'Successful imports',
     nb: 'Feilfrie importer'
+  },
+  INFO: {
+    en: 'Information',
+    nb: 'Informasjon'
   },
   INSTANCE_COUNT: {
     en: 'Instance count',
@@ -83,9 +99,21 @@ export const UI = {
     en: 'Norwegian',
     nb: 'Norsk'
   },
+  ZEPPELIN_PARAGRAPH_INDEX: {
+    en: 'Paragraph index',
+    nb: 'Paragraf index'
+  },
   PRODUCER: {
     en: 'Producer',
     nb: '"Producer"'
+  },
+  QUERY_RESPONSE: {
+    en: 'Query response',
+    nb: 'Spørringssvar'
+  },
+  REQUIRED: {
+    en: 'required field',
+    nb: 'obligatorisk felt'
   },
   SAVE: {
     en: 'Save',
@@ -118,6 +146,10 @@ export const UI = {
   USER: {
     en: 'Username',
     nb: 'Brukernavn'
+  },
+  VIEW_CODE_BLOCK: {
+    en: 'View code block(s)',
+    nb: 'Se kodeblokk(er)'
   },
   WARNING: {
     en: 'Warning',

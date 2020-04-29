@@ -1,4 +1,6 @@
+export { default as CodeBlockDetails } from './CodeBlockDetails'
 export { default as DeleteData } from './DeleteData'
 export { default as DownloadJSON } from './DownloadJSON'
 export { default as FormField } from './FormField'
+export { default as MultiCodeBlockDetails } from './MultiCodeBlockDetails'
 export { default as SaveData } from './SaveData'
