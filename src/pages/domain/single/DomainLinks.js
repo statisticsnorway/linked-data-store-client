@@ -26,7 +26,6 @@ function DomainLinks ({ domain, id, url }) {
         fontSize={16}
         highlightActiveLine={true}
         readOnly={true}
-        placeholder={UI.QUERY_RESPONSE[language]}
         value={JSON.stringify(data, null, 2)}
         width='100%'
         editorProps={{ $blockScrolling: true }}
