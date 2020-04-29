@@ -108,7 +108,7 @@ steps:
         from_secret: gcr_credentials
     when:
       branch:
-      - develop
+      - master
       event:
       - push
     depends_on:
@@ -135,7 +135,7 @@ steps:
 
 trigger:
   ref:
-  - refs/heads/develop
+  - refs/heads/master
   - refs/pull/*/head
 
 ---
