@@ -53,6 +53,8 @@
     "collectCoverageFrom": [
       "src/**",
       "!src/index.js",
+      "!src/**/index.js",
+      "!src/enum/**",
       "!src/utilities/fetch/Fetch.js",
       "!src/__tests__/test-data/**"
     ],
