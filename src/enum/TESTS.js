@@ -1,6 +1,6 @@
 import { API } from './API'
 
-export const BASE_TEST_URL = 'http://localhost:9090'
+export const BASE_TEST_URL = 'http://localhost:29091'
 
 export const LDS_TEST_PROPERTIES = {
   namespace: API.DEFAULT_NAMESPACE,
