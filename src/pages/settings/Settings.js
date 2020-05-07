@@ -10,22 +10,7 @@ const producers = [
 ]
 
 class Settings extends Component {
-  state = {
-    ldsOptions: [
-      { key: 'a', text: 'LDS A', value: process.env.REACT_APP_LDS },
-      { key: 'b', text: 'LDS B (Team Innsamling)', value: `${process.env.REACT_APP_LDS}-b` },
-      { key: 'c', text: 'LDS C (Team Rammeverk)', value: `${process.env.REACT_APP_LDS}-c` }
-    ]
-  }
-
-  addLdsOption = (event, data) => {
-    this.setState(prevState => ({
-      ldsOptions: [{ key: data.value, text: data.value, value: data.value }, ...prevState.ldsOptions]
-    }))
-  }
-
   render () {
-    const { ldsOptions } = this.state
     const { error, fresh, lds, ready, schemaModel } = this.props
     const { changeSettings, refreshSettings } = this.props
 
@@ -40,13 +25,8 @@ class Settings extends Component {
             <Divider hidden />
             <Form size='large'>
               <Popup flowing size='large' position='left center' trigger={
-                process.env.NODE_ENV === 'production' ?
-                  <Form.Select label={UI.LOCATION[language]} placeholder={UI.LOCATION[language]} name='url'
-                               value={lds.url} onChange={changeSettings} options={ldsOptions} allowAdditions
-                               onAddItem={this.addLdsOption} search disabled={!ready} />
-                  :
-                  <Form.Input label={UI.LOCATION[language]} placeholder={UI.LOCATION[language]} name='url'
-                              value={lds.url} onChange={changeSettings} disabled={!ready} />
+                <Form.Input label={UI.LOCATION[language]} placeholder={UI.LOCATION[language]} name='url'
+                            value={lds.url} onChange={changeSettings} disabled={!ready} />
               }>
                 <Icon color='blue' name='info circle' />
                 {MESSAGES.LOCATION[language]}
