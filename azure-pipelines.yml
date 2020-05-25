@@ -1,0 +1,50 @@
+name: $(Build.SourceBranch)-$(date:yyyyMMdd)$(rev:.r)
+
+trigger:
+  branches:
+    include:
+      - master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  - group: Hemmeligheter
+
+jobs:
+  - job: pullRequest
+    displayName: 'Build application and run tests'
+    condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
+    steps:
+      - script: |
+          yarn
+          CI=true yarn coverage
+  - job: mergeToMaster
+    displayName: 'Analyze code and build and push Docker image'
+    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+    steps:
+      - script: |
+          yarn
+          CI=true yarn coverage
+          CI=true yarn build
+      - task: SonarQubePrepare@4
+        inputs:
+          SonarQube: 'bipSonarQube'
+          scannerMode: 'CLI'
+          configMode: 'manual'
+          cliProjectKey: '$(SONAR_TOKEN)'
+          cliProjectName: '$(Build.Repository.Name)'
+          cliSources: '.'
+      - task: SonarQubeAnalyze@4
+      - task: Docker@2
+        displayName: 'Login to GCR'
+        inputs:
+          command: login
+          containerRegistry: gcrServiceConnection
+      - task: Docker@2
+        inputs:
+          containerRegistry: 'gcrServiceConnection'
+          repository: 'prod-bip/ssb/dapla/linked-data-store-client'
+          command: 'buildAndPush'
+          Dockerfile: 'Dockerfile'
+          tags: '$(Build.SourceBranchName)-imagescan-$(Build.SourceVersion)'
