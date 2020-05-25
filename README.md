@@ -8,9 +8,9 @@ Follows React application setup from [react-reference-app](https://github.com/st
 although it has not been converted to only use React Hooks yet.
 
 ### Try it
-The first time you clone the repository remember to run `yarn install`.
+The first time you clone the repository, remember to run `yarn` or `yarn install`.
 
-Run `yarn start` and navigate to `http://localhost:3000`.
+Run `yarn start` and navigate to `http://localhost:3000/`.
 
 ### Run tests
 `yarn test` runs all tests and `yarn coverage` calculates (rather unreliably) test coverage.
