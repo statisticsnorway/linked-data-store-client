@@ -32,7 +32,7 @@ jobs:
           SonarQube: 'bipSonarQube'
           scannerMode: 'CLI'
           configMode: 'manual'
-          cliProjectKey: '$(SONAR_TOKEN)'
+          cliProjectKey: '$(Build.DefinitionName)'
           cliProjectName: '$(Build.Repository.Name)'
           cliSources: '.'
       - task: SonarQubeAnalyze@4
