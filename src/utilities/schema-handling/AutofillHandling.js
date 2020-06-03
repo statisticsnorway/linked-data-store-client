@@ -3,7 +3,8 @@ import { producers } from '../../producers/Producers'
 export const setAutofillProperties = (domainProperties, property, producer) => {
   const properties = {
     name: property,
-    displayName: domainProperties[property].displayName,
+    displayName:
+      domainProperties[property].displayName !== '' ? domainProperties[property].displayName : property,
     description: domainProperties[property].description
   }
 

@@ -143,7 +143,7 @@ export const setProperties = (definitions, lds, domain, property) => {
   const domainProperty = definitions[domain].properties[property]
   const properties = {
     name: property,
-    displayName: domainProperty.displayName,
+    displayName: domainProperty.displayName !== '' ? domainProperty.displayName : property,
     description: domainProperty.description
   }
 

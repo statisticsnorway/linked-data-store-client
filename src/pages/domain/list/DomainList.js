@@ -38,7 +38,7 @@ class DomainList extends Component {
         this.setState({
           columns: this.mapColumns(params.domain, lds.producer, schema.definitions[params.domain].properties),
           data: this.mapData(Array.isArray(data) ? data : [data], params.domain, language, lds.producer),
-          displayName: schema.definitions[params.domain].displayName,
+          displayName: schema.definitions[params.domain].displayName !== '' ? schema.definitions[params.domain].displayName : params.domain,
           description: schema.definitions[params.domain].description,
           error: false,
           ready: true
