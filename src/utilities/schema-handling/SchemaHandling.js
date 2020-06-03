@@ -8,7 +8,7 @@ export const createUiSchema = (definitions, lds, domain) => {
     autofilled: {},
     common: {},
     unique: {},
-    displayName: definitions[domain].displayName,
+    displayName: definitions[domain].displayName !== '' ? definitions[domain].displayName : domain,
     description: definitions[domain].description
   }
 

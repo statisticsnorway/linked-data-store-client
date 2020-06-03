@@ -19,7 +19,7 @@ class DomainSingleEdit extends Component {
         {ready && !error &&
         <>
           <Header as='h1' dividing icon={{ name: 'edit outline', color: fresh ? 'teal' : 'orange' }}
-                  content={schema.displayName} subheader={schema.description} />
+                  content={uiSchema.displayName} subheader={uiSchema.description} />
           {lds.producer === API.DEFAULT_PRODUCER && data.administrativeStatus === 'DRAFT' &&
           <Message warning icon='warning' header={UI.WARNING[language]}
                    content={`${uiSchema.common.administrativeStatus.displayName} ${MESSAGES.GSIM_DRAFT[language]}`}
