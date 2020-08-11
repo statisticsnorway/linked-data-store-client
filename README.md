@@ -12,7 +12,6 @@ The first time you clone the repository, remember to run `yarn` or `yarn install
 
 Run `yarn start` and navigate to `http://localhost:3000/`.
 
-### Run tests
 `yarn test` runs all tests and `yarn coverage` calculates (rather unreliably) test coverage.
 
 ### Docker locally
