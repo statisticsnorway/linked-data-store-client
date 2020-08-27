@@ -14,13 +14,12 @@ class App extends Component {
   state = {
     error: false,
     fresh: true,
-    languageCode: localStorage.hasOwnProperty('languageCode') ?
-      localStorage.getItem('languageCode') : API.DEFAULT_LANGUAGE,
+    languageCode: API.DEFAULT_LANGUAGE,
     lds: {
-      namespace: localStorage.hasOwnProperty('namespace') ? localStorage.getItem('namespace') : API.DEFAULT_NAMESPACE,
-      producer: localStorage.hasOwnProperty('producer') ? localStorage.getItem('producer') : API.DEFAULT_PRODUCER,
-      url: localStorage.hasOwnProperty('url') ? localStorage.getItem('url') : process.env.REACT_APP_LDS,
-      user: localStorage.hasOwnProperty('user') ? localStorage.getItem('user') : 'Test user'
+      namespace: API.DEFAULT_NAMESPACE,
+      producer: API.DEFAULT_PRODUCER,
+      url: process.env.REACT_APP_LDS,
+      user: 'Test user'
     },
     ready: false,
     schemaModel: {}
@@ -53,11 +52,20 @@ class App extends Component {
             schemaModel: extractFromVersionObject(response, lds.producer)
           })
         }).catch(error => {
-          this.setState({
-            error: error.toString(),
-            fresh: true,
-            ready: true
-          })
+          if (error !== 'Not a managed resource name: "About"') {
+            this.setState({
+              error: error.toString(),
+              fresh: true,
+              ready: true
+            })
+          } else {
+            this.setState({
+              domains: domains,
+              error: false,
+              fresh: true,
+              ready: true
+            })
+          }
         })
       } else {
         this.setState({
@@ -86,13 +94,7 @@ class App extends Component {
   }
 
   refreshSettings = () => {
-    const { lds } = this.state
-
     this.setState({ ready: false }, () => {
-      Object.keys(lds).forEach(item => {
-        localStorage.setItem(item, lds[item])
-      })
-
       this.loadDomains()
     })
   }
@@ -100,9 +102,7 @@ class App extends Component {
   setLanguage = (languageCode) => {
     setDefaultLocale(languageCode)
 
-    this.setState({ languageCode: languageCode }, () => {
-      localStorage.setItem('languageCode', languageCode)
-    })
+    this.setState({ languageCode: languageCode })
   }
 
   render () {

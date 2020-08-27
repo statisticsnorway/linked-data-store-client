@@ -1,22 +1,18 @@
 import React from 'react'
-import { toBeVisible } from '@testing-library/jest-dom'
 import { MemoryRouter } from 'react-router-dom'
-import { cleanup, fireEvent, render, waitForElement } from '@testing-library/react'
+import { fireEvent, render, waitFor } from '@testing-library/react'
 
 import { LanguageContext } from '../utilities/context/LanguageContext'
 import { Import } from '../pages'
-import { putData } from '../utilities/fetch/Fetch'
+import { putData } from '../utilities'
 import { API, ERRORS, LDS_TEST_PROPERTIES, UI } from '../enum'
 
 import AgentData from './test-data/AgentData'
-
-expect.extend({ toBeVisible })
 
 jest.mock('../utilities/fetch/Fetch', () => ({ putData: jest.fn() }))
 
 afterEach(() => {
   putData.mockReset()
-  cleanup()
 })
 
 const FILE = 'AgentExample.json'
@@ -25,7 +21,7 @@ const TEST_ID = 'fileUploader'
 
 const setup = () => {
   const { getByTestId, getByText, queryAllByText } = render(
-    <MemoryRouter>
+    <MemoryRouter initialEntries={['/']}>
       <LanguageContext.Provider value={{ value: API.DEFAULT_LANGUAGE }}>
         <Import lds={LDS_TEST_PROPERTIES} />
       </LanguageContext.Provider>
@@ -51,7 +47,7 @@ test('Import renders correctly when response from LDS', async () => {
     }
   })
 
-  await waitForElement(() => getByText(UI.IMPORTING_SUCCESS.nb))
+  await waitFor(() => getByText(UI.IMPORTING_SUCCESS.nb))
 
   expect(queryAllByText('1 / 1')).toHaveLength(1)
 })
@@ -72,7 +68,7 @@ test('Import renders correctly when bad response from LDS', async () => {
     }
   })
 
-  await waitForElement(() => getByText(UI.IMPORTING_SUCCESS.nb))
+  await waitFor(() => getByText(UI.IMPORTING_SUCCESS.nb))
 
   expect(queryAllByText('0 / 1')).toHaveLength(1)
   expect(queryAllByText(FILE)).toHaveLength(1)

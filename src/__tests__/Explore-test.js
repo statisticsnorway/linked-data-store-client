@@ -1,30 +1,20 @@
 import React from 'react'
-import { toBeVisible } from '@testing-library/jest-dom'
+import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
-import { cleanup, fireEvent, render, wait } from '@testing-library/react'
+import { render, waitFor } from '@testing-library/react'
 
 import { LanguageContext } from '../utilities/context/LanguageContext'
 import { Explore } from '../pages'
-import { getData } from '../utilities/fetch/Fetch'
+import { getData } from '../utilities'
 import { API, BASE_TEST_URL, ERRORS, LDS_TEST_PROPERTIES, TABLE, TEST_DOMAINS, TEST_URLS, UI } from '../enum'
 
 import AgentSchema from './test-data/AgentSchema'
 import AgentData from './test-data/AgentData'
 
-expect.extend({ toBeVisible })
-
 jest.mock('../utilities/fetch/Fetch', () => ({ getData: jest.fn() }))
-
-// Removes HTMLCanvasElement errors in console while running tests - https://github.com/jerairrest/react-chartjs-2/issues/155
-jest.mock('react-chartjs-2', () => ({
-  Bar: () => null,
-  Doughnut: () => null,
-  Pie: () => null
-}))
 
 afterEach(() => {
   getData.mockReset()
-  cleanup()
 })
 
 const TEST_ID = 'exploreShowAll'
@@ -39,7 +29,7 @@ const setup = () => {
   }
 
   const { getByTestId, getByText, queryAllByText } = render(
-    <MemoryRouter>
+    <MemoryRouter initialEntries={['/']}>
       <LanguageContext.Provider value={{ value: API.DEFAULT_LANGUAGE }}>
         <Explore {...props} />
       </LanguageContext.Provider>
@@ -56,7 +46,7 @@ test('Explore renders correctly when good response from LDS', async () => {
 
   const { queryAllByText } = setup()
 
-  await wait(() => {
+  await waitFor(() => {
     expect(queryAllByText(UI.EXPLORE.nb)).toHaveLength(1)
     TABLE.EXPLORE_HEADERS.nb.forEach(header => {
       expect(queryAllByText(header)).toHaveLength(1)
@@ -78,10 +68,10 @@ test('Toggle show all button works', async () => {
 
   const { getByTestId, getByText } = setup()
 
-  await wait(() => {
+  await waitFor(() => {
     expect(getByText(TEST_DOMAINS.AGENT)).not.toBeVisible()
 
-    fireEvent.click(getByTestId(TEST_ID).firstChild)
+    userEvent.click(getByTestId(TEST_ID))
 
     expect(getByText(TEST_DOMAINS.AGENT)).toBeVisible()
   })
@@ -92,7 +82,7 @@ test('Explore renders correctly when bad response from LDS', async () => {
 
   const { queryAllByText } = setup()
 
-  await wait(() => {
+  await waitFor(() => {
     expect(queryAllByText(ERRORS.ERROR.en)).toHaveLength(1)
   })
 

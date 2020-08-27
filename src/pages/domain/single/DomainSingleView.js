@@ -44,7 +44,7 @@ class DomainSingleView extends Component {
                           </Popup>
                         </Grid.Column>
                         <Grid.Column width={11}>
-                          {convertDataToView(data[property], language, lds.producer, uiSchema[grouping][property])}
+                          <>{convertDataToView(data[property], language, lds.producer, uiSchema[grouping][property])}</>
                         </Grid.Column>
                       </Grid.Row>
                     )}

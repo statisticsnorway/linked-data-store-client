@@ -119,7 +119,7 @@ export const convertDataToView = (data, language, producer, uiSchema) => {
           return <CodeBlockDetails data={data} uiSchema={uiSchema} />
 
         default:
-          return data
+          return data.toString()
       }
     } else {
       return uiSchema.type === 'date-time' ? convertDate(data, language) : data

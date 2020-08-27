@@ -1,5 +1,6 @@
 import React from 'react'
-import { fireEvent, render, wait } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { render, waitFor } from '@testing-library/react'
 
 import { LanguageContext } from '../utilities/context/LanguageContext'
 import FIMultiCodeBlock from '../components/form-inputs/FIMultiCodeBlock'
@@ -8,8 +9,6 @@ import { createUiSchema } from '../utilities'
 
 import ProcessStepSchema from './test-data/ProcessStepSchema'
 import ProcessStepData from './test-data/ProcessStepData'
-
-jest.mock('react-ace')
 
 const setup = () => {
   const fullUiSchema = createUiSchema(ProcessStepSchema.definitions, LDS_TEST_PROPERTIES, TEST_DOMAINS.PROCESS_STEP)
@@ -31,10 +30,10 @@ const setup = () => {
 test('FIMultiCodeBlock renders modal and correct amount of code blocks', async () => {
   const { getByText, queryAllByText } = setup()
 
-  await wait(() => {
-    fireEvent.click(getByText(UI.HANDLE_CODE_BLOCK.nb))
-    fireEvent.click(getByText(`${UI.ZEPPELIN_PARAGRAPH_INDEX.nb}: ${ProcessStepData.codeBlocks[3].codeBlockIndex}`))
+  userEvent.click(getByText(UI.HANDLE_CODE_BLOCK.nb))
+  userEvent.click(getByText(`${UI.ZEPPELIN_PARAGRAPH_INDEX.nb}: ${ProcessStepData.codeBlocks[3].codeBlockIndex}`))
 
+  await waitFor(() => {
     expect(queryAllByText(UI.ZEPPELIN_PARAGRAPH_INDEX.nb, { exact: false })).toHaveLength(4)
   })
 })

@@ -6,7 +6,7 @@ import { LanguageContext } from '../../../utilities/context/LanguageContext'
 import { createDefaultData, createUiSchema, getData } from '../../../utilities'
 import { API, MESSAGES } from '../../../enum'
 
-const uuidv4 = require('uuid/v4')
+const { v4: uuidv4 } = require('uuid')
 
 class DomainSingle extends Component {
   state = {
