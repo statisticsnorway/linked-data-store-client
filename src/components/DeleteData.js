@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Confirm, Icon, Message, Popup } from 'semantic-ui-react'
+import { Button, Confirm, Container, Icon, Message, Popup } from 'semantic-ui-react'
 
 import { LanguageContext } from '../utilities/context/LanguageContext'
 import { deleteData } from '../utilities'
@@ -57,7 +57,7 @@ class DeleteData extends Component {
                   content={<Message positive={deleted} negative={!deleted} icon={deleted ? 'check' : 'warning'}
                                     content={message} />}
                   trigger={
-                    <>
+                    <Container>
                       <Button floated='left' negative animated loading={loading} disabled={isNew}
                               onClick={this.showConfirm}>
                         <Button.Content visible>{UI.DELETE[language]}</Button.Content>
@@ -73,7 +73,7 @@ class DeleteData extends Component {
                                  floated: 'left'
                                }}
                                confirmButton={{ content: UI.CONFIRM[language], icon: 'check' }} />
-                    </>} />
+                    </Container>} />
   }
 }
 

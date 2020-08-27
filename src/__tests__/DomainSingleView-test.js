@@ -1,11 +1,11 @@
 import React from 'react'
 import { MemoryRouter } from 'react-router-dom'
 import { request } from 'graphql-request'
-import { cleanup, render, wait } from '@testing-library/react'
+import { render, waitFor } from '@testing-library/react'
 
 import { LanguageContext } from '../utilities/context/LanguageContext'
 import { DomainSingle } from '../pages'
-import { getData } from '../utilities/fetch/Fetch'
+import { getData } from '../utilities'
 import { API, ERRORS, LDS_TEST_PROPERTIES, MESSAGES, TEST_DOMAINS, TEST_URLS, UI } from '../enum'
 
 import AgentSchema from './test-data/AgentSchema'
@@ -17,13 +17,10 @@ import StatisticalProgramData from './test-data/StatisticalProgramData'
 import StatisticalProgramQueryResponse from './test-data/StatisticalProgramQueryResponse'
 
 jest.mock('../utilities/fetch/Fetch', () => ({ getData: jest.fn() }))
-jest.mock('graphql-request', () => ({ request: jest.fn() }))
-jest.mock('react-ace')
 
 afterEach(() => {
   getData.mockReset()
   request.mockReset()
-  cleanup()
 })
 
 const setup = (domain, id = null) => {
@@ -37,7 +34,7 @@ const setup = (domain, id = null) => {
   }
 
   const { queryAllByTestId, queryAllByText } = render(
-    <MemoryRouter>
+    <MemoryRouter initialEntries={['/']}>
       <LanguageContext.Provider value={{ value: API.DEFAULT_LANGUAGE }}>
         <DomainSingle {...props} />
       </LanguageContext.Provider>
@@ -54,7 +51,7 @@ test('DomainSingle renders view correctly when good response from LDS', async ()
 
   const { queryAllByText } = setup(TEST_DOMAINS.AGENT, AgentData.id)
 
-  await wait(() => {
+  await waitFor(() => {
     expect(queryAllByText(AgentData.id)).toHaveLength(1)
     expect(queryAllByText(UI.EDIT.nb)).toHaveLength(1)
   })
@@ -71,7 +68,7 @@ test('DomainSingle renders code block button in view correctly', async () => {
 
   const { queryAllByText } = setup(TEST_DOMAINS.PROCESS_STEP, ProcessStepData.id)
 
-  await wait(() => {
+  await waitFor(() => {
     expect(queryAllByText(ProcessStepData.id)).toHaveLength(1)
     expect(queryAllByText(UI.VIEW_CODE_BLOCK.nb)).toHaveLength(1)
   })
@@ -84,7 +81,7 @@ test('DomainSingle renders view correctly when empty response from LDS', async (
 
   const { queryAllByText } = setup(TEST_DOMAINS.AGENT, AgentData.id)
 
-  await wait(() => {
+  await waitFor(() => {
     expect(queryAllByText(MESSAGES.NOTHING_FOUND.nb)).toHaveLength(1)
   })
 
@@ -98,7 +95,7 @@ test('DomainSingle renders view correctly when bad response from LDS', async () 
 
   const { queryAllByText } = setup(TEST_DOMAINS.AGENT)
 
-  await wait(() => {
+  await waitFor(() => {
     expect(queryAllByText(ERRORS.ERROR.nb)).toHaveLength(1)
     expect(queryAllByText(ERRORS.ERROR.en)).toHaveLength(1)
   })
@@ -116,7 +113,7 @@ test('DomainSingle renders DomainLinks if query exists', async () => {
 
   const { queryAllByTestId } = setup(TEST_DOMAINS.STATISTICAL_PROGRAM, StatisticalProgramData.id)
 
-  await wait(() => {
+  await waitFor(() => {
     expect(queryAllByTestId('queryInfo')).toHaveLength(1)
   })
 })

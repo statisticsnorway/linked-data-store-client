@@ -1,5 +1,6 @@
 import React from 'react'
-import { cleanup, fireEvent, render } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { render } from '@testing-library/react'
 
 import { LanguageContext } from '../utilities/context/LanguageContext'
 import { DownloadJSON } from '../components'
@@ -8,10 +9,6 @@ import { API, LDS_TEST_PROPERTIES, TEST_DOMAINS, UI } from '../enum'
 
 import AgentSchema from './test-data/AgentSchema'
 import AgentData from './test-data/AgentData'
-
-afterEach(() => {
-  cleanup()
-})
 
 const setup = () => {
   const props = {
@@ -36,7 +33,7 @@ test('DownloadJSON works on existing object', () => {
 
   const { getByText } = setup()
 
-  fireEvent.click(getByText(UI.DOWNLOAD_JSON.nb))
+  userEvent.click(getByText(UI.DOWNLOAD_JSON.nb))
 
   expect(document.body.appendChild).toBeCalledWith(
     expect.any(HTMLElement)

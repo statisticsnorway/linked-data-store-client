@@ -1,7 +1,7 @@
 import { setVersion } from '../utilities/schema-handling/AutofillHandling'
 import { API } from '../enum'
 
-const uuidv4 = require('uuid/v4')
+const { v4: uuidv4 } = require('uuid')
 
 export const producers = {
   [API.DEFAULT_PRODUCER]: {
