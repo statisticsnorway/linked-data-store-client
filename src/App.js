@@ -16,10 +16,10 @@ class App extends Component {
     fresh: true,
     languageCode: API.DEFAULT_LANGUAGE,
     lds: {
-      namespace: API.DEFAULT_NAMESPACE,
-      producer: API.DEFAULT_PRODUCER,
-      url: process.env.REACT_APP_LDS,
-      user: 'Test user'
+      namespace: localStorage.hasOwnProperty('namespace') ? localStorage.getItem('namespace') : API.DEFAULT_NAMESPACE,
+      producer: localStorage.hasOwnProperty('producer') ? localStorage.getItem('producer') : API.DEFAULT_PRODUCER,
+      url: localStorage.hasOwnProperty('url') ? localStorage.getItem('url') : process.env.REACT_APP_LDS,
+      user: localStorage.hasOwnProperty('user') ? localStorage.getItem('user') : 'Test user'
     },
     ready: false,
     schemaModel: {}
@@ -94,7 +94,13 @@ class App extends Component {
   }
 
   refreshSettings = () => {
+    const { lds } = this.state
+
     this.setState({ ready: false }, () => {
+      Object.keys(lds).forEach(item => {
+        localStorage.setItem(item, lds[item])
+      })
+
       this.loadDomains()
     })
   }
