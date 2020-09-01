@@ -5,52 +5,35 @@ trigger:
     include:
       - master
 
+resources:
+  repositories:
+    - repository: templates
+      type: github
+      name: statisticsnorway/azure-pipelines-templates
+      endpoint: statisticsnorway (6)
+
 pool:
   vmImage: 'ubuntu-latest'
 
 variables:
   - group: Hemmeligheter
+  - name: 'appName'
+    value: 'linked-data-store-client'
+  - name: 'imageName'
+    value: 'eu.gcr.io/prod-bip/ssb/dapla/$(appName)'
+  - name: 'imageTag'
+    value: '$(Build.SourceBranchName)-$(Build.SourceVersion)'
+  - name: 'imageTagBeforeVulnerabilityScan'
+    value: 'imagescan-$(imageTag)'
+  - name: 'dockerTagBeforeImageScan'
+    value: '$(imageName):$(imageTagBeforeVulnerabilityScan)'
+  - name: 'dockerTagAfterImageScan'
+    value: '$(imageName):$(imageTag)'
 
 jobs:
-  - job: pullRequest
-    displayName: 'Run tests'
-    condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
-    steps:
-      - script: |
-          yarn
-          CI=true yarn coverage
-  - job: mergeToMaster
-    displayName: 'Analyze code and build and push Docker image'
-    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
-    steps:
-      - script: |
-          yarn
-          CI=true yarn coverage
-          CI=true yarn build
-      - task: PublishCodeCoverageResults@1
-        inputs:
-          codeCoverageTool: Cobertura
-          summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/*coverage.xml'
-          reportDirectory: '$(System.DefaultWorkingDirectory)/**/coverage'
-      - task: SonarQubePrepare@4
-        inputs:
-          SonarQube: 'bipSonarQube'
-          scannerMode: 'CLI'
-          configMode: 'manual'
-          cliProjectKey: '$(Build.DefinitionName)'
-          cliProjectName: '$(Build.Repository.Name)'
-          cliSources: '.'
-      - task: SonarQubeAnalyze@4
-      - task: SonarQubePublish@4
-      - task: Docker@2
-        displayName: 'Login to GCR'
-        inputs:
-          command: login
-          containerRegistry: gcrServiceConnection
-      - task: Docker@2
-        inputs:
-          containerRegistry: 'gcrServiceConnection'
-          repository: 'prod-bip/ssb/dapla/linked-data-store-client'
-          command: 'buildAndPush'
-          Dockerfile: 'Dockerfile'
-          tags: '$(Build.SourceBranchName)-imagescan-$(Build.SourceVersion)'
+  - template: javascript/react-complete-build.yml@templates
+    parameters:
+      appName: $(appName)
+      dockerTagBeforeImageScan: $(dockerTagBeforeImageScan)
+      dockerTagAfterImageScan: $(dockerTagAfterImageScan)
+      imageTagBeforeVulnerabilityScan: $(imageTagBeforeVulnerabilityScan)
