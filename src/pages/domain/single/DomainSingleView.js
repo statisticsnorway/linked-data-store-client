@@ -2,11 +2,10 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { Button, Divider, Grid, Header, Icon, Message, Popup, Segment } from 'semantic-ui-react'
 
-import DomainLinks from './DomainLinks'
 import { LanguageContext } from '../../../utilities/context/LanguageContext'
 import { extractStringFromObject } from '../../../producers/Producers'
 import { convertDataToView } from '../../../utilities'
-import { API, ERRORS, QUERIES, UI } from '../../../enum'
+import { API, ERRORS, UI } from '../../../enum'
 
 class DomainSingleView extends Component {
   render () {
@@ -61,8 +60,6 @@ class DomainSingleView extends Component {
           </>
           }
         </Segment>
-        {ready && !error && QUERIES.hasOwnProperty(domain) &&
-        <DomainLinks domain={domain} id={data.id} url={lds.url} />}
       </>
     )
   }

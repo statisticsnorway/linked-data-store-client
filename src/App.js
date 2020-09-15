@@ -18,7 +18,7 @@ class App extends Component {
     lds: {
       namespace: localStorage.hasOwnProperty('namespace') ? localStorage.getItem('namespace') : API.DEFAULT_NAMESPACE,
       producer: localStorage.hasOwnProperty('producer') ? localStorage.getItem('producer') : API.DEFAULT_PRODUCER,
-      url: localStorage.hasOwnProperty('url') ? localStorage.getItem('url') : process.env.REACT_APP_LDS,
+      url: localStorage.hasOwnProperty('url') ? localStorage.getItem('url') : window._env.REACT_APP_API,
       user: localStorage.hasOwnProperty('user') ? localStorage.getItem('user') : 'Test user'
     },
     ready: false,

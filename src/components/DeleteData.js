@@ -57,7 +57,7 @@ class DeleteData extends Component {
                   content={<Message positive={deleted} negative={!deleted} icon={deleted ? 'check' : 'warning'}
                                     content={message} />}
                   trigger={
-                    <Container>
+                    <Container textAlign='left'>
                       <Button floated='left' negative animated loading={loading} disabled={isNew}
                               onClick={this.showConfirm}>
                         <Button.Content visible>{UI.DELETE[language]}</Button.Content>

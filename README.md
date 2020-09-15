@@ -18,4 +18,5 @@ Run `yarn start` and navigate to `http://localhost:3000/`.
 * `yarn build`
 * `docker build -t linked-data-store-client .`
 * `docker run -p 8000:80 linked-data-store-client:latest`
+  * Alternatively with custom environment variables: `docker run -p 8000:80 -e REACT_APP_API=http://localhost:29090 linked-data-store-client:latest`
 * Navigate to `http://localhost:8000/`
