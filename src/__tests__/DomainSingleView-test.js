@@ -1,6 +1,5 @@
 import React from 'react'
 import { MemoryRouter } from 'react-router-dom'
-import { request } from 'graphql-request'
 import { render, waitFor } from '@testing-library/react'
 
 import { LanguageContext } from '../utilities/context/LanguageContext'
@@ -12,15 +11,11 @@ import AgentSchema from './test-data/AgentSchema'
 import AgentData from './test-data/AgentData'
 import ProcessStepSchema from './test-data/ProcessStepSchema'
 import ProcessStepData from './test-data/ProcessStepData'
-import StatisticalProgramSchema from './test-data/StatisticalProgramSchema'
-import StatisticalProgramData from './test-data/StatisticalProgramData'
-import StatisticalProgramQueryResponse from './test-data/StatisticalProgramQueryResponse'
 
 jest.mock('../utilities/fetch/Fetch', () => ({ getData: jest.fn() }))
 
 afterEach(() => {
   getData.mockReset()
-  request.mockReset()
 })
 
 const setup = (domain, id = null) => {
@@ -102,18 +97,4 @@ test('DomainSingle renders view correctly when bad response from LDS', async () 
 
   expect(getData).toHaveBeenCalledTimes(1)
   expect(getData).toHaveBeenCalledWith(TEST_URLS.AGENT_SCHEMA_URL)
-})
-
-test('DomainSingle renders DomainLinks if query exists', async () => {
-  getData
-    .mockImplementationOnce(() => Promise.resolve(StatisticalProgramSchema))
-    .mockImplementationOnce(() => Promise.resolve(StatisticalProgramData))
-
-  request.mockImplementation(() => Promise.resolve(StatisticalProgramQueryResponse))
-
-  const { queryAllByTestId } = setup(TEST_DOMAINS.STATISTICAL_PROGRAM, StatisticalProgramData.id)
-
-  await waitFor(() => {
-    expect(queryAllByTestId('queryInfo')).toHaveLength(1)
-  })
 })
