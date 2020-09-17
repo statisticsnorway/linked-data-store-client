@@ -19,21 +19,11 @@ variables:
   - group: Hemmeligheter
   - name: 'appName'
     value: 'linked-data-store-client'
-  - name: 'imageName'
-    value: 'eu.gcr.io/prod-bip/ssb/dapla/$(appName)'
   - name: 'imageTag'
     value: '$(Build.SourceBranchName)-$(Build.SourceVersion)'
-  - name: 'imageTagBeforeVulnerabilityScan'
-    value: 'imagescan-$(imageTag)'
-  - name: 'dockerTagBeforeImageScan'
-    value: '$(imageName):$(imageTagBeforeVulnerabilityScan)'
-  - name: 'dockerTagAfterImageScan'
-    value: '$(imageName):$(imageTag)'
 
 jobs:
   - template: javascript/react-complete-build.yml@templates
     parameters:
       appName: $(appName)
-      dockerTagBeforeImageScan: $(dockerTagBeforeImageScan)
-      dockerTagAfterImageScan: $(dockerTagAfterImageScan)
-      imageTagBeforeVulnerabilityScan: $(imageTagBeforeVulnerabilityScan)
+      imageTag: $(imageTag)
