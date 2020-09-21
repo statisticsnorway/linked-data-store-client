@@ -101,7 +101,9 @@ const setReferenceInput = (definitions, referenceProperties, reference, property
       }
 
       input[inputType].handler = key
-      input[inputType].displayName = referenceProperties[key].displayName
+      input[inputType].displayName =
+        referenceProperties[key].displayName !== undefined && referenceProperties[key].displayName !== '' ?
+          referenceProperties[key].displayName : key
       input[inputType].description = referenceProperties[key].description
       input[inputType].multiple = referenceProperties[key].type === 'array'
       input[inputType].required = definitions[reference].hasOwnProperty('required') && definitions[reference].required.includes(key)
@@ -143,7 +145,8 @@ export const setProperties = (definitions, lds, domain, property) => {
   const domainProperty = definitions[domain].properties[property]
   const properties = {
     name: property,
-    displayName: domainProperty.displayName !== '' ? domainProperty.displayName : property,
+    displayName: domainProperty.displayName !== undefined && domainProperty.displayName !== '' ?
+      domainProperty.displayName : property,
     description: domainProperty.description
   }
 

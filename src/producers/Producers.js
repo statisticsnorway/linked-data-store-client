@@ -118,8 +118,10 @@ export const extractStringFromObject = (object, producer, language) => {
 export const extractFromVersionObject = (object, producer) => {
   if (typeof object === 'object' && object !== null) {
     if (producer === API.DEFAULT_PRODUCER) {
+      const displayName = object.definitions[API.DEFAULT_VERSION_OBJECT.NAME].properties[API.DEFAULT_VERSION_OBJECT.PROPERTY].displayName
+
       return {
-        displayName: object.definitions[API.DEFAULT_VERSION_OBJECT.NAME].properties[API.DEFAULT_VERSION_OBJECT.PROPERTY].displayName,
+        displayName: displayName !== undefined && displayName !== '' ? displayName : API.DEFAULT_VERSION_OBJECT.PROPERTY,
         latestChange: object.definitions[API.DEFAULT_VERSION_OBJECT.NAME].properties[API.DEFAULT_VERSION_OBJECT.PROPERTY].description,
         version: object.definitions[API.DEFAULT_VERSION_OBJECT.NAME].properties[API.DEFAULT_VERSION_OBJECT.PROPERTY].default
       }
