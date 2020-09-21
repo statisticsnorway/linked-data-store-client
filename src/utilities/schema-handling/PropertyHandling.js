@@ -100,6 +100,14 @@ const setReferenceInput = (definitions, referenceProperties, reference, property
         input.refLink = {}
       }
 
+      if (referenceProperties[key].hasOwnProperty('$ref')) {
+        const ref = definitions[extractReferenceFromString(referenceProperties[key].$ref)]
+
+        if (ref.hasOwnProperty('enum')) {
+          input[inputType = 'option'].options = ref.enum.map(value => ({ value, text: value }))
+        }
+      }
+
       input[inputType].handler = key
       input[inputType].displayName =
         referenceProperties[key].displayName !== undefined && referenceProperties[key].displayName !== '' ?

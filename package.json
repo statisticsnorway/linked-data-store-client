@@ -1,6 +1,6 @@
 {
   "name": "linked-data-store-client",
-  "version": "0.9.1",
+  "version": "0.9.2",
   "repository": {
     "type": "git",
     "url": "https://github.com/statisticsnorway/linked-data-store-client"
