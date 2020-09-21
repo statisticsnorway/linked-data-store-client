@@ -4,7 +4,8 @@ export const setAutofillProperties = (domainProperties, property, producer) => {
   const properties = {
     name: property,
     displayName:
-      domainProperties[property].displayName !== '' ? domainProperties[property].displayName : property,
+      domainProperties[property].displayName !== undefined && domainProperties[property].displayName !== '' ?
+        domainProperties[property].displayName : property,
     description: domainProperties[property].description
   }
 
